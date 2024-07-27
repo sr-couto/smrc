@@ -6,3 +6,5 @@ db.version(1).stores({
   projects: '++id, date'
 })
 
+
+

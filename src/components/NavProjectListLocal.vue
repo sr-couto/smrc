@@ -1,11 +1,14 @@
 <script setup>
 import { useCounterStore } from '@/stores/counter'
+import { ArrowRight } from 'lucide-vue-next';
+import { storeToRefs } from 'pinia';
+import { computed, ref, watch } from 'vue'
+import { useFocus, useMagicKeys } from '@vueuse/core'
+
+const inputSearch = ref()
+const { focused } = useFocus(inputSearch)
 const counter = useCounterStore()
 const { items, loaded_id } = storeToRefs(counter)
-import { ArrowRight, CircleX } from 'lucide-vue-next';
-import { storeToRefs } from 'pinia';
-import { computed, ref } from 'vue'
-
 const searchTerm = ref('')
 
 const filteredOptions = computed(() =>
@@ -15,6 +18,18 @@ const filteredOptions = computed(() =>
       return item.project_data?.name.toLowerCase().includes(searchTerm.value.toLowerCase())
     })
 )
+
+const keys = useMagicKeys()
+const CtrlM = keys['Ctrl+M']
+
+function handleOpenChange() {
+  focused.value = true
+}
+
+watch(CtrlM, (v) => {
+  if (v)
+    handleOpenChange()
+})
 
 </script>
 
@@ -30,33 +45,23 @@ const filteredOptions = computed(() =>
       <span class="text-xs bg-secondary size-5 flex justify-center items-center rounded">
         {{ items?.length }}
       </span>
-      <button
-        @click="counter.new_project()"
-        class="text-sm font-medium ml-auto shrink-0 underline underline-offset-2 text-primary"
-      >
-        Crear
-      </button>
     </div>
-    <div class="w-full my-1 relative bg-secondary flex text-xs p-1 ring-secondary/60 focus-within:ring-primary">
+    <div class="w-full my-1 relative bg-secondary flex text-xs p-1 ring-secondary/60 focus-within:ring-secondary">
       <input
+        ref="inputSearch"
         v-model="searchTerm"
-        placeholder="Filtrar"
-        class=" outline-none w-full bg-secondary"
+        placeholder="Filtrar [Ctrl+M]"
+        class=" outline-none w-full bg-secondary h-6 placeholder:text-xs"
       >
-      <button
+      <!-- <button
+        v-if="searchTerm"
         class="size-6 flex justify-center items-center"
         @click="searchTerm = ''"
       >
-        <CircleX
-          v-if="searchTerm"
-          class="shrink-0 size-4"
-        />
-      </button>
+        <CircleX class="shrink-0 size-4" />
+      </button> -->
     </div>
-    <div
-      class="mt-3"
-      v-auto-animate
-    >
+    <div class="mt-3">
       <div
         v-for="item in filteredOptions"
         :key="item.id"
@@ -66,7 +71,7 @@ const filteredOptions = computed(() =>
           <button
             class="flex items-center focus-within:ring-1 duration-100 ring-primary justify-start text-left text-sm gap-2"
             :class="loaded_id === item.id ? 'text-primary' : ''"
-            @click="counter.setProject(item.id)"
+            @click="counter.set_project(item.id)"
           >
             <ArrowRight class="size-4" />
             <p class="truncate w-56">
