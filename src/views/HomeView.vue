@@ -25,12 +25,8 @@ const { focused } = useFocus(inputTitleFocus)
 const Ctrle = keys['Ctrl+e']
 const Ctrli = keys['Ctrl+i']
 
-function create_project() {
-  counter.save()
-}
-
-function new_project() {
-  counter.new_project()
+function clear_editor() {
+  counter.clear_editor()
   focused.value = true
 }
 
@@ -47,19 +43,18 @@ function onDrop(files) {
       type: file.type,
       lastModified: file.lastModified,
     }))
-    counter.importDatabase(files[0])
+    counter.import_database(files[0])
+    showProjects.value = true
     useTimeoutFn(() => {
       filesData.value = []
     }, 3000)
-
   }
 }
 
 onChange((files) => {
-  counter.importDatabase(files[0])
+  counter.import_database(files[0])
   showImport.value = false
 })
-
 
 whenever(Ctrle, () => {
   showProjects.value = !showProjects.value
@@ -68,7 +63,6 @@ whenever(Ctrle, () => {
 whenever(Ctrli, () => {
   showImport.value = !showImport.value
 })
-
 
 watch(project_name, (v) => {
   if (v)
@@ -88,42 +82,8 @@ onMounted(() => {
 
 <template>
   <div class="flex w-full min-h-screen">
-    <div
-      v-if="showImport"
-      class="bg-secondary relative min-w-96"
-    >
-      <div
-        ref="dropZoneRef"
-        class="flex flex-col w-full absolute inset-0 duration-100  justify-center items-center border-2 border-dashed border-secondary-foreground/20 rounded"
-        :class="isOverDropZone ? '!border-primary bg-primary/10' : ''"
-      >
-        <div
-          v-if="filesData.length === 0"
-          class="grid text-center gap-2"
-        >
-          <h2>Importar proyectos</h2>
-          <button
-            type="button"
-            @click="open()"
-            class="underline text-sm text-primary underline-offset-2"
-          >
-            Seleccionar archivo JSON
-          </button>
-        </div>
-        <div v-else>
-          Se cargaron los proyectos
-          <template
-            v-for="(file, index) in filesData"
-            :key="index"
-          >
-            <p class="text-xs">
-              desde {{ file.name }}
-            </p>
-          </template>
-        </div>
-      </div>
-    </div>
     <header
+      ref="dropZoneRef"
       class="flex justify-start h-screen sticky top-0 z-10 flex-col bg-background border-secondary border-r"
       :class="showProjects ? 'min-w-64' : ' '"
     >
@@ -169,13 +129,53 @@ onMounted(() => {
         <ToggleTheme />
       </div>
       <NavProjectListLocal v-if="showProjects" />
+      <div
+      
+        :class="isOverDropZone ? '' : 'pointer-events-none opacity-0'"
+        class="bg-secondary/80 fixed left-0 top-0 bottom-0 w-64 z-[999] duration-100"
+      >
+        <div
+          class="flex flex-col w-full  duration-100 h-screen min-w-64 justify-center items-center border border-dashed border-secondary-foreground/20"
+          :class="isOverDropZone ? '!border-primary bg-primary/10' : ''"
+          v-auto-animate
+        >
+          <div
+            v-if="filesData.length === 0"
+            class="grid text-center gap-2 px-3 text-pretty"
+          >
+            <h2>Importar proyectos</h2>
+            <button
+              type="button"
+              @click="open()"
+              class="underline text-sm text-primary underline-offset-2"
+            >
+              Seleccionar archivo JSON
+            </button>
+          </div>
+          <div
+            v-else
+            class="grid text-center gap-2 px-3 text-pretty"
+          >
+            <h2>Importado OK</h2>
+            <template
+              v-for="(file, index) in filesData"
+              :key="index"
+            >
+              <p class="text-xs">
+                desde {{ file.name }}
+              </p>
+            </template>
+          </div>
+        </div>
+      </div>
     </header>
+
     <div class="w-full min-h-screen bg-background group">
       <SplitterGroup
         direction="horizontal"
         auto-save-id="splitter"
       >
-        <SplitterPanel :min-size="counter.loaded_id !== null ? 0 : 50">
+        <SplitterPanel>
           <div class="ring-1 min-w-96 h-full mx-auto ring-secondary">
             <div
               :key="counter.loaded_id"
@@ -215,45 +215,17 @@ onMounted(() => {
         class="flex fixed bottom-0 right-0 left-0 h-12 justify-between items-center z-20 text-sm bg-background border-t border-secondary gap-8"
       >
         <div class="flex items-center">
-          <TooltipProvider>
-            <TooltipRoot :delay-duration="0">
-              <TooltipTrigger as-child>
-                <button
-                  @click="showImport = !showImport"
-                  class="px-5 h-12"
-                  :class="showImport ? 'bg-primary text-white ' : ''"
-                >
-                  Importar
-                </button>
-              </TooltipTrigger>
-              <TooltipContent
-                :side="'top'"
-                class="data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade text-secondary-foreground select-none rounded-[4px] bg-secondary px-2 py-1 text-xs leading-none shadow will-change-[transform,opacity]"
-                :side-offset="5"
-              >
-                <kbd
-                  class="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded bg-muted px-1.5 font-mono text-[10px] font-medium text-foreground opacity-100"
-                >
-                  <span class="">Ctrl</span>I
-                </kbd>
-                <TooltipArrow
-                  class="fill-secondary"
-                  :width="8"
-                />
-              </TooltipContent>
-            </TooltipRoot>
-          </TooltipProvider>
-          <!-- <button
+          <button
+            @click="open()"
             class="px-5 h-12"
-            @click="counter.exportDatabase()"
           >
-            Exportar
-          </button> -->
+            Importar
+          </button>
           <ExportPopover />
           <button
             v-if="counter.loaded_id !== null"
-            @click="new_project()"
-            class="px-5 h-12 text-sm font-medium ml-auto shrink-0 underline underline-offset-2 text-primary"
+            @click="clear_editor()"
+            class="px-5 ml-10 h-12 text-sm font-medium shrink-0 underline underline-offset-2 text-primary"
           >
             Crear nuevo documento
           </button>
@@ -261,7 +233,7 @@ onMounted(() => {
         <div class="">
           <button
             v-if="counter.loaded_id === null"
-            @click="create_project()"
+            @click="counter.create_project()"
             :disabled="counter.project_name === ''"
             :class="counter.project_name ? 'bg-primary text-white h-12 px-5' : 'opacity-50 h-12 px-5 pointer-events-none'"
           >

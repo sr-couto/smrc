@@ -3,26 +3,24 @@ import { defineStore } from 'pinia'
 import { db } from '@/db'
 import { liveQuery } from 'dexie'
 import { useObservable } from '@vueuse/rxjs'
-import { project_data } from '@/data'
+// import { project_data } from '@/data'
 import { exportDB, importInto } from "dexie-export-import";
 
 export const useCounterStore = defineStore('counter', () => {
   const status = ref('LOADING')
   const loaded_id = ref(null)
+  const file_name = ref('Proyectos')
   const project_name = ref('')
   const project_body = ref('')
-  const form_data = ref(structuredClone(project_data));
+  const searchTerm = ref('')
 
-  function new_project() {
+  function clear_editor() {
     loaded_id.value = null
-    form_data.value = [
-      project_data
-    ]
     project_name.value = ''
     project_body.value = ''
   }
 
-  async function save() {
+  async function create_project() {
     try {
       status.value = 'CHANGING';
       const new_project_id = await db.projects.add({
@@ -41,12 +39,6 @@ export const useCounterStore = defineStore('counter', () => {
     }
   }
 
-  function auto_save() {
-    if (project_name.value === '') return;
-    if (status.value !== 'READY') return;
-    update_project()
-  }
-
   async function update_project() {
     try {
       await db.projects.update(loaded_id.value, {
@@ -62,55 +54,28 @@ export const useCounterStore = defineStore('counter', () => {
     }
   }
 
-  // async function set_project(id) {
-  //   const selectedId = id ? parseInt(id, 10) : null;
-  //   if (selectedId !== loaded_id.value) {
-  //     status.value = 'CHANGING';
-  //     if (selectedId === null) {
-  //       form_data.value = structuredClone(project_data);
-  //     } else {
-  //       const selectedState = await db.projects.get(selectedId);
-  //       if (selectedState) {
-  //         form_data.value = selectedState.formState
-  //         project_body.value = selectedState.project_data.body
-  //         project_name.value = selectedState.project_data.name
-  //       } else {
-  //         console.error('Selected invoice not found');
-  //         form_data.value = structuredClone(project_data);
-  //       }
-  //     }
-  //     loaded_id.value = selectedId;
-  //     status.value = 'READY';
-  //   }
-  // }
-
   async function set_project(id) {
     const selectedId = id ? parseInt(id, 10) : null;
-
     if (selectedId === loaded_id.value) {
       return;
     }
-
     status.value = 'CHANGING';
-
     if (selectedId === null) {
-      form_data.value = structuredClone(project_data);
+      project_body.value = "";
+      project_name.value = "";
       loaded_id.value = selectedId;
       status.value = 'READY';
       return;
     }
-
     const selectedState = await db.projects.get(selectedId);
-
     if (selectedState) {
-      form_data.value = selectedState.formState;
       project_body.value = selectedState.project_data.body;
       project_name.value = selectedState.project_data.name;
     } else {
       console.error('Selected invoice not found');
-      form_data.value = structuredClone(project_data);
+      project_body.value = "";
+      project_name.value = "";
     }
-
     loaded_id.value = selectedId;
     status.value = 'READY';
   }
@@ -119,22 +84,30 @@ export const useCounterStore = defineStore('counter', () => {
     const confirm = window.confirm('¿Eliminar proyecto?');
     if (confirm) {
       await db.projects.delete(loaded_id.value)
-      new_project()
+      clear_editor()
     }
   }
 
-  async function exportDatabase(filename) {
-    console.log(filename)
+  function auto_save() {
+    if (project_name.value === '') return;
+    if (status.value !== 'READY') return;
+    update_project()
+  }
+
+  async function export_database(filename) {
     await db.open();
     const blob = await exportDB(db);
     try {
+      const date = new Date();
+      const isoString = `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, '0')}${String(date.getDate()).padStart(2, '0')}-${String(date.getHours()).padStart(2, '0')}${String(date.getMinutes()).padStart(2, '0')}${String(date.getSeconds()).padStart(2, '0')}`;
+      console.log(isoString);
       const url = URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
       if (filename) {
-        link.download = `${filename}.json`
+        link.download = `${filename}-${isoString}.json`
       } else {
-        link.download = `backup-${new Date().toISOString()}.json`
+        link.download = `${file_name.value}-${isoString}.json`
       }
       console.log(link.download)
       document.body.appendChild(link)
@@ -147,31 +120,38 @@ export const useCounterStore = defineStore('counter', () => {
     return blob;
   }
 
-
-  async function importDatabase(file) {
+  async function import_database(file) {
     const confirm = window.confirm('¿Desea reemplazar la base?');
+    console.log(file.name)
+    const replace_file_name = file.name.replace('.json', '');
+    console.log(replace_file_name)
     if (confirm) {
       await db.projects.clear()
       await importInto(db, file, {});
-      return db.backendDB();
+      searchTerm.value = ""
+      file_name.value = replace_file_name
+      clear_editor()
     }
+    return
   }
 
-  const items = useObservable(liveQuery(() => db.projects.toArray()))
+  const allItems = useObservable(liveQuery(() => db.projects.toArray()))
 
   return {
     auto_save,
+    clear_editor,
+    set_project,
+    create_project,
+    update_project,
     delete_project,
-    exportDatabase,
-    importDatabase,
-    items,
+    export_database,
+    import_database,
+    allItems,
     loaded_id,
-    new_project,
+    file_name,
     project_body,
     project_name,
-    save,
-    set_project,
+    searchTerm,
     status,
-    update_project
   }
 })

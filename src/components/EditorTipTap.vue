@@ -9,6 +9,20 @@
       <div class="flex gap-2">
         <button
           class="size-11 focus-visible:border-primary outline-none flex justify-center items-center border rounded border-secondary"
+          @click="editor.chain().focus().undo().run()"
+          :disabled="!editor.can().chain().focus().undo().run()"
+        >
+          <Undo2 class="size-5" />
+        </button>
+        <button
+          class="size-11 focus-visible:border-primary outline-none flex justify-center items-center border rounded border-secondary"
+          @click="editor.chain().focus().redo().run()"
+          :disabled="!editor.can().chain().focus().redo().run()"
+        >
+          <Redo2 class="size-5" />
+        </button>
+        <button
+          class="size-11 focus-visible:border-primary outline-none flex justify-center items-center border rounded border-secondary"
           @click="editorToolbar = !editorToolbar"
         >
           <SquarePilcrow class="size-5" />
@@ -132,18 +146,7 @@
       <!-- <button @click="editor.chain().focus().setHardBreak().run()">
         Hard break
       </button> -->
-      <button
-        @click="editor.chain().focus().undo().run()"
-        :disabled="!editor.can().chain().focus().undo().run()"
-      >
-        <Undo2 />
-      </button>
-      <button
-        @click="editor.chain().focus().redo().run()"
-        :disabled="!editor.can().chain().focus().redo().run()"
-      >
-        <Redo2 />
-      </button>
+
       <!-- <button
         @click="editor.chain().focus().setColor('#958DF1').run()"
         :class="{ 'is-active': editor.isActive('textStyle', { color: '#958DF1' }) }"
@@ -187,7 +190,7 @@ export default {
   data() {
     return {
       editor: null,
-      editorToolbar: false,
+      editorToolbar: true,
     }
   },
 
@@ -237,7 +240,12 @@ export default {
 
 <style>
 .button-group button {
-  @apply border border-secondary focus-within:border-primary min-w-8 max-w-12 flex-1 outline-none w-8 h-8 text-sm focus-visible:border-primary flex justify-center items-center duration-100
+  @apply border border-secondary focus-within:border-primary min-w-9 max-w-10 flex-1 outline-none h-9 text-sm focus-visible:border-primary flex justify-center items-center duration-100;
+
+}
+
+.control-group button {
+  @apply disabled:opacity-50
 }
 
 .button-group button.is-active {

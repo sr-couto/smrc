@@ -1,10 +1,11 @@
 <script setup>
-import { PopoverArrow, PopoverClose, PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from 'radix-vue'
-import { ref } from 'vue';
+import { PopoverClose, PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from 'radix-vue'
+import { useStorage } from '@vueuse/core'
 import { useCounterStore } from '@/stores/counter'
 import { X } from 'lucide-vue-next';
+import { storeToRefs } from 'pinia';
 const counter = useCounterStore()
-const fileName = ref('')
+const { file_name } = storeToRefs(counter)
 </script>
 
 <template>
@@ -18,9 +19,9 @@ const fileName = ref('')
     <PopoverPortal>
       <PopoverContent
         side="top"
-        :align="'start'"
+        :align="'end'"
         :side-offset="5"
-        class="rounded font-mono p-5 w-[260px] text-foreground border border-secondary bg-background shadow-lg focus:shadow will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade z-10"
+        class="rounded translate-x-1 font-mono p-5 w-[246px] text-foreground border border-secondary bg-background shadow-lg focus:shadow will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade z-10"
       >
         <div class="flex flex-col gap-2">
           <p class="text-sm">
@@ -29,13 +30,13 @@ const fileName = ref('')
           <input
             type="text"
             class="h-8 bg-background border border-secondary"
-            v-model="fileName"
+            v-model="file_name"
           >
           <button
             class="text-primary ml-auto text-sm underline underline-offset-2 font-medium"
-            @click="counter.exportDatabase(fileName)"
+            @click="counter.export_database(file_name)"
           >
-            Exportar
+            Exportar JSON
           </button>
         </div>
         <PopoverClose
@@ -44,7 +45,6 @@ const fileName = ref('')
         >
           <X class="size-4" />
         </PopoverClose>
-        <PopoverArrow class="fill-background" />
       </PopoverContent>
     </PopoverPortal>
   </PopoverRoot>
