@@ -42,24 +42,30 @@ watch(CtrlM, (v) => {
       >
         {{ file_name }}
       </RouterLink>
-      <span class="text-xs bg-secondary size-5 flex justify-center items-center rounded">
-        {{ allItems?.length }}
-      </span>
     </div>
-    <div class="w-full my-1 relative bg-secondary flex text-xs p-1 ring-secondary/60 focus-within:ring-secondary">
+    <div class="w-full my-1 relative bg-secondary  items-center flex text-xs justify-between p-1 ring-secondary/60 focus-within:ring-secondary">
       <input
         ref="focusSearch"
         v-model="searchTerm"
         placeholder="Filtrar [Ctrl+M]"
         class=" outline-none w-full bg-secondary h-6 placeholder:text-xs"
       >
-      <button
-        v-if="searchTerm"
-        class="size-6 flex justify-center items-center"
-        @click="searchTerm = ''"
-      >
-        <CircleX class="shrink-0 size-4" />
-      </button>
+      <div class="shrink-0">
+        <span
+          v-if="!searchTerm"
+          class="text-xs bg-background size-5 flex justify-center items-center rounded"
+        >
+          {{ allItems?.length }}
+        </span>
+        <button
+          v-else
+          class="text-xs bg-background px-1 h-5 gap-2 flex justify-center items-center rounded"
+          @click="searchTerm = ''"
+        > 
+          <CircleX class="shrink-0 size-3" />
+          <span>{{ filteredOptions.length }}</span>
+        </button>
+      </div>
     </div>
     <div
       class="mt-3"
