@@ -1,20 +1,29 @@
 <script setup>
 import { PopoverClose, PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from 'radix-vue'
-import { useStorage } from '@vueuse/core'
 import { useCounterStore } from '@/stores/counter'
-import { X } from 'lucide-vue-next';
+import { X, Download } from 'lucide-vue-next';
+
 import { storeToRefs } from 'pinia';
+import { ref, watch } from 'vue';
 const counter = useCounterStore()
 const { file_name } = storeToRefs(counter)
-</script>
 
+const input = ref(file_name)
+
+watch(input, (v) => {
+  if (v)
+    counter.update_database(input.value)
+    counter.auto_save()
+})
+</script>
 <template>
   <PopoverRoot>
     <PopoverTrigger
-      class="px-5 h-12"
+      class="h-12  items-center justify-center gap-2 text-xs flex bg-background hover:bg-background/50 focus-visible:bg-background/50 outline-none"
       aria-label="Update dimensions"
     >
-      Exportar
+      <Download class="size-4" />
+      ExportarDB
     </PopoverTrigger>
     <PopoverPortal>
       <PopoverContent
@@ -29,12 +38,12 @@ const { file_name } = storeToRefs(counter)
           </p>
           <input
             type="text"
-            class="h-8 bg-background border border-secondary"
-            v-model="file_name"
+            class="h-8 border bg-background border-secondary"
+            v-model="input"
           >
           <button
-            class="text-primary ml-auto text-sm underline underline-offset-2 font-medium"
-            @click="counter.export_database(file_name)"
+            class="ml-auto text-sm font-medium underline text-primary underline-offset-2"
+            @click="counter.export_database(input.value)"
           >
             Exportar JSON
           </button>

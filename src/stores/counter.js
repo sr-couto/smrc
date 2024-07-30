@@ -3,16 +3,16 @@ import { defineStore } from 'pinia'
 import { db } from '@/db'
 import { liveQuery } from 'dexie'
 import { useObservable } from '@vueuse/rxjs'
-// import { project_data } from '@/data'
 import { exportDB, importInto } from "dexie-export-import";
 
 export const useCounterStore = defineStore('counter', () => {
   const status = ref('LOADING')
   const loaded_id = ref(null)
-  const file_name = ref('Proyectos')
+  const file_name = ref('')
   const project_name = ref('')
   const project_body = ref('')
   const searchTerm = ref('')
+  const showProjects = ref(true)
 
   function clear_editor() {
     loaded_id.value = null
@@ -98,16 +98,13 @@ export const useCounterStore = defineStore('counter', () => {
     await db.open();
     const blob = await exportDB(db);
     try {
-      const date = new Date();
-      const isoString = `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, '0')}${String(date.getDate()).padStart(2, '0')}-${String(date.getHours()).padStart(2, '0')}${String(date.getMinutes()).padStart(2, '0')}${String(date.getSeconds()).padStart(2, '0')}`;
-      console.log(isoString);
       const url = URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
       if (filename) {
-        link.download = `${filename}-${isoString}.json`
+        link.download = `${filename}.json`
       } else {
-        link.download = `${file_name.value}-${isoString}.json`
+        link.download = `${file_name.value}.json`
       }
       console.log(link.download)
       document.body.appendChild(link)
@@ -121,37 +118,80 @@ export const useCounterStore = defineStore('counter', () => {
   }
 
   async function import_database(file) {
-    const confirm = window.confirm('¿Desea reemplazar la base?');
-    console.log(file.name)
     const replace_file_name = file.name.replace('.json', '');
-    console.log(replace_file_name)
-    if (confirm) {
-      await db.projects.clear()
-      await importInto(db, file, {});
-      searchTerm.value = ""
-      file_name.value = replace_file_name
-      clear_editor()
+    if (file_name.value) {
+      const confirm = window.confirm('¿Desea reemplazar la DB ' + file_name.value + ' con la información de ' + replace_file_name + '?');
+      if (confirm) {
+        await db.projects.clear()
+        await db.file.clear()
+        await importInto(db, file, {});
+        searchTerm.value = ""
+        update_database(replace_file_name)
+        clear_editor()
+      }
+    } else {
+      const confirm = window.confirm('¿Desea reemplazar la DB con la información de ' + replace_file_name + '?');
+      if (confirm) {
+        await db.projects.clear()
+        await db.file.clear()
+        await importInto(db, file, {});
+        searchTerm.value = ""
+        update_database(replace_file_name)
+        clear_editor()
+      }
     }
+
+    return
+  }
+
+  async function set_database() {
+    const count = await db.file.count()
+    if (count === 0) {
+      await db.file.add({
+        date: new Date().toISOString(),
+        name: file_name.value
+      })
+      return
+    }
+    if (count === 1) {
+      const selectedState = await db.file.get(1);
+      if (selectedState) {
+        file_name.value = selectedState.name
+        return
+      }
+    }
+  }
+
+  async function update_database(name) {
+    file_name.value = name
+    await db.file.update(1, {
+      date: new Date().toISOString(),
+      name: name
+    });
     return
   }
 
   const allItems = useObservable(liveQuery(() => db.projects.toArray()))
 
   return {
-    auto_save,
-    clear_editor,
-    set_project,
-    create_project,
-    update_project,
-    delete_project,
-    export_database,
-    import_database,
-    allItems,
     loaded_id,
     file_name,
     project_body,
     project_name,
     searchTerm,
     status,
+    allItems,
+    showProjects,
+    set_database,
+    update_database,
+    export_database,
+    import_database,
+    set_project,
+    create_project,
+    update_project,
+    delete_project,
+    auto_save,
+    clear_editor,
+    
   }
 })

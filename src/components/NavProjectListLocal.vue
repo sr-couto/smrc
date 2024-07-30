@@ -1,18 +1,21 @@
 <script setup>
 import { useCounterStore } from '@/stores/counter'
-import { ArrowRight, CircleX } from 'lucide-vue-next';
+import { ArrowRight, CircleX, CirclePlus } from 'lucide-vue-next';
 import { storeToRefs } from 'pinia';
 import { computed, ref, watch } from 'vue'
 import { useFocus, useMagicKeys, refDebounced } from '@vueuse/core'
 
 const focusSearch = ref()
 const { focused } = useFocus(focusSearch)
-
 const keys = useMagicKeys()
 const counter = useCounterStore()
+const CtrlM = keys['Ctrl+M']
 const { allItems, loaded_id, searchTerm, file_name } = storeToRefs(counter)
 const debounced = refDebounced(searchTerm, 300)
-const CtrlM = keys['Ctrl+M']
+
+function new_document() {
+  counter.clear_editor()
+}
 
 const filteredOptions = computed(() =>
   debounced.value === ''
@@ -32,36 +35,50 @@ watch(CtrlM, (v) => {
 })
 
 </script>
-
 <template>
-  <div class="h-full border-t p-1 border-secondary">
-    <div class="flex justify-start gap-3">
-      <RouterLink
-        to="/"
-        class="text-sm"
+  <div class="h-full p-1 border-t border-secondary">
+    <div class="flex justify-between items-center">
+      <div
+        class="flex justify-start gap-3"
+        v-if="file_name"
       >
-        {{ file_name }}
-      </RouterLink>
+        <RouterLink
+          to="/"
+          class="text-sm"
+        >
+          {{ file_name }}
+        </RouterLink>
+      </div>
+      <button
+        @click="new_document()"
+        class="text-xs flex gap-1 "
+        :class="counter.loaded_id !== null ? 'text-primary  ' : 'text-primary/50 pointer-events-none'"
+      >
+        Agregar
+        <CirclePlus class="size-4" />
+      </button>
     </div>
-    <div class="w-full my-1 relative bg-secondary  items-center flex text-xs justify-between p-1 ring-secondary/60 focus-within:ring-secondary">
+    <div
+      class="relative flex items-center justify-between w-full p-1 my-1 text-xs bg-secondary ring-secondary/60 focus-within:ring-secondary"
+    >
       <input
         ref="focusSearch"
         v-model="searchTerm"
         placeholder="Filtrar [Ctrl+M]"
-        class=" outline-none w-full bg-secondary h-6 placeholder:text-xs"
+        class="w-full h-6 outline-none bg-secondary placeholder:text-xs"
       >
       <div class="shrink-0">
         <span
           v-if="!searchTerm"
-          class="text-xs bg-background size-5 flex justify-center items-center rounded"
+          class="flex items-center justify-center text-xs rounded bg-background size-5"
         >
           {{ allItems?.length }}
         </span>
         <button
           v-else
-          class="text-xs bg-background px-1 h-5 gap-2 flex justify-center items-center rounded"
+          class="flex items-center justify-center h-5 gap-2 px-1 text-xs rounded bg-background"
           @click="searchTerm = ''"
-        > 
+        >
           <CircleX class="shrink-0 size-3" />
           <span>{{ filteredOptions.length }}</span>
         </button>
@@ -76,14 +93,14 @@ watch(CtrlM, (v) => {
         :key="item.id"
         class="w-full"
       >
-        <div class="flex flex-row w-full justify-between items-center pb-0">
+        <div class="flex flex-row items-center justify-between w-full pb-0">
           <button
-            class="flex items-center focus-within:ring-1 duration-100 ring-primary justify-start text-left text-sm gap-2"
+            class="flex items-center justify-start gap-2 text-sm text-left duration-100 focus-within:ring-1 ring-primary"
             :class="loaded_id === item.id ? 'text-primary' : ''"
             @click="counter.set_project(item.id)"
           >
             <ArrowRight class="size-4" />
-            <p class="truncate w-56">
+            <p class="w-56 truncate">
               {{ item.project_data.name }}
             </p>
           </button>

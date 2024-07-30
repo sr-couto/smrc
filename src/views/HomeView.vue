@@ -1,67 +1,31 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue'
-import Editor from '@/components/EditorTipTap.vue'
-import { useCounterStore } from '@/stores/counter'
-import NavProjectListLocal from '@/components/NavProjectListLocal.vue'
-import { TentTree, GripVertical } from 'lucide-vue-next'
-import ToggleTheme from '@/components/ToggleTheme.vue';
-import { storeToRefs } from 'pinia'
 import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from 'radix-vue'
-import { TooltipArrow, TooltipContent, TooltipPortal, TooltipProvider, TooltipRoot, TooltipTrigger } from 'radix-vue'
-import { useMagicKeys, whenever, useFileDialog, useTimeoutFn, useDropZone, useFocus } from '@vueuse/core'
-import ExportPopover from '@/components/ExportPopover.vue'
+import { storeToRefs } from 'pinia'
+import { TentTree, GripVertical } from 'lucide-vue-next'
+import { useCounterStore } from '@/stores/counter'
+import { useMagicKeys, whenever } from '@vueuse/core'
+import Editor from '@/components/EditorTipTap.vue'
 
-const inputTitleFocus = ref()
-const filesData = ref([])
-const showImport = ref(false)
-const showProjects = ref(true)
-const dropZoneRef = ref()
+import NavProjectListLocal from '@/components/NavProjectListLocal.vue'
+import ToggleTheme from '@/components/ToggleTheme.vue';
+import Tooltip from '@/components/ui/Tooltip.vue'
+import BottomToolbar from '@/components/BottomToolbar.vue'
+import FileDropZone from '@/components/FileDropZone.vue'
 
-const keys = useMagicKeys()
 const counter = useCounterStore()
 const { project_name, project_body } = storeToRefs(counter)
-const { isOverDropZone } = useDropZone(dropZoneRef, onDrop)
-const { focused } = useFocus(inputTitleFocus)
-const Ctrle = keys['Ctrl+e']
-const Ctrli = keys['Ctrl+i']
 
-function clear_editor() {
-  counter.clear_editor()
-  focused.value = true
-}
+const keys = useMagicKeys()
+const Shifte = keys['Shift+e']
 
-const { open, onChange } = useFileDialog({
-  accept: 'application/json'
+onMounted(() => {
+  counter.set_database()
+  counter.auto_save()
 })
 
-function onDrop(files) {
-  filesData.value = []
-  if (files) {
-    filesData.value = files.map(file => ({
-      name: file.name,
-      size: file.size,
-      type: file.type,
-      lastModified: file.lastModified,
-    }))
-    counter.import_database(files[0])
-    showProjects.value = true
-    useTimeoutFn(() => {
-      filesData.value = []
-    }, 3000)
-  }
-}
-
-onChange((files) => {
-  counter.import_database(files[0])
-  showImport.value = false
-})
-
-whenever(Ctrle, () => {
-  showProjects.value = !showProjects.value
-})
-
-whenever(Ctrli, () => {
-  showImport.value = !showImport.value
+whenever(Shifte, () => {
+  counter.showProjects = !counter.showProjects
 })
 
 watch(project_name, (v) => {
@@ -74,109 +38,45 @@ watch(project_body, (v) => {
     counter.auto_save()
 })
 
-onMounted(() => {
-  counter.auto_save()
-})
-
 </script>
-
 <template>
   <div class="flex w-full min-h-screen">
     <header
-      ref="dropZoneRef"
-      class="flex justify-start h-screen sticky top-0 z-10 flex-col bg-background border-secondary border-r"
-      :class="showProjects ? 'min-w-64' : ' '"
+      class="sticky top-0 z-10 flex flex-col justify-start h-screen border-r bg-background border-secondary"
+      :class="counter.showProjects ? 'min-w-64' : ' '"
     >
       <div
         class="flex items-center justify-between"
-        :class="showProjects ? '' : ' flex-col '"
+        :class="counter.showProjects ? '' : ' flex-col '"
       >
-        <TooltipProvider>
-          <TooltipRoot :delay-duration="0">
-            <TooltipTrigger as-child>
-              <button
-                @click="showProjects = !showProjects"
-                class="flex gap-2 p-2 items-center justify-start"
-              >
-                <TentTree class="size-4" />
-                <span
-                  class="text-xs"
-                  v-if="showProjects"
-                >Menu
-                </span>
-              </button>
-            </TooltipTrigger>
-            <TooltipPortal>
-              <TooltipContent
-                :side="'right'"
-                class="data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade text-secondary-foreground select-none rounded-[4px] bg-secondary px-2 py-1 text-xs leading-none shadow will-change-[transform,opacity]"
-                :side-offset="5"
-              >
-                Menu
-                <kbd
-                  class="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100"
-                >
-                  <span class="">Ctrl</span>B
-                </kbd>
-                <TooltipArrow
-                  class="fill-secondary"
-                  :width="8"
-                />
-              </TooltipContent>
-            </TooltipPortal>
-          </TooltipRoot>
-        </TooltipProvider>
+        <Tooltip
+          name="Menú"
+          shortcut="E"
+        >
+          <button
+            @click="counter.showProjects = !counter.showProjects"
+            class="flex items-center justify-start gap-2 p-2"
+          >
+            <TentTree class="size-4" />
+            <span
+              class="text-xs"
+              v-if="counter.showProjects"
+            >Menu
+            </span>
+          </button>
+        </Tooltip>
         <ToggleTheme />
       </div>
-      <NavProjectListLocal v-if="showProjects" />
-      <div
-      
-        :class="isOverDropZone ? '' : 'pointer-events-none opacity-0'"
-        class="bg-secondary/80 fixed left-0 top-0 bottom-0 w-64 z-[999] duration-100"
-      >
-        <div
-          class="flex flex-col w-full  duration-100 h-screen min-w-64 justify-center items-center border border-dashed border-secondary-foreground/20"
-          :class="isOverDropZone ? '!border-primary bg-primary/10' : ''"
-          v-auto-animate
-        >
-          <div
-            v-if="filesData.length === 0"
-            class="grid text-center gap-2 px-3 text-pretty"
-          >
-            <h2>Importar proyectos</h2>
-            <button
-              type="button"
-              @click="open()"
-              class="underline text-sm text-primary underline-offset-2"
-            >
-              Seleccionar archivo JSON
-            </button>
-          </div>
-          <div
-            v-else
-            class="grid text-center gap-2 px-3 text-pretty"
-          >
-            <h2>Importado OK</h2>
-            <template
-              v-for="(file, index) in filesData"
-              :key="index"
-            >
-              <p class="text-xs">
-                desde {{ file.name }}
-              </p>
-            </template>
-          </div>
-        </div>
-      </div>
+      <NavProjectListLocal v-if="counter.showProjects" />
+      <FileDropZone v-if="counter.showProjects" />
     </header>
-
     <div class="w-full min-h-screen bg-background group">
       <SplitterGroup
         direction="horizontal"
         auto-save-id="splitter"
       >
         <SplitterPanel>
-          <div class="ring-1 min-w-96 h-full mx-auto ring-secondary">
+          <div class="h-full mx-auto ring-1 min-w-96 ring-secondary">
             <div
               :key="counter.loaded_id"
               class="max-w-3xl mx-auto"
@@ -186,9 +86,8 @@ onMounted(() => {
                   type="text"
                   placeholder="Sin titulo"
                   autocomplete="off"
-                  ref="inputTitleFocus"
                   v-model="counter.project_name"
-                  class="bg-background outline-none text-lg p-2 h-10 text-primary ring-secondary ring-1 focus-within:ring-primary border-0 w-full placeholder:text-foreground/50"
+                  class="w-full h-10 p-2 text-lg border-0 outline-none bg-background text-primary ring-secondary ring-1 focus-within:ring-primary placeholder:text-foreground/50"
                 >
               </Editor>
             </div>
@@ -200,56 +99,19 @@ onMounted(() => {
           <GripVertical />
         </SplitterResizeHandle>
         <SplitterPanel>
-          <div class="ring-1 min-w-96 px-2 mx-auto ring-secondary">
-            <h2 class="max-w-3xl  mx-auto text-4xl px-6 pt-3">
+          <div class="px-2 mx-auto ring-1 min-w-96 ring-secondary">
+            <h2 class="max-w-3xl px-6 pt-3 mx-auto text-4xl">
               {{ counter.project_name }}
             </h2>
             <article
-              class="output-group p-6  mx-auto prose text-foreground prose-purple prose-headings:text-foreground max-w-3xl "
+              class="max-w-3xl p-6 mx-auto prose output-group text-foreground prose-purple prose-headings:text-foreground "
               v-dompurify-html="counter.project_body"
             />
           </div>
         </SplitterPanel>
       </SplitterGroup>
-      <div
-        class="flex fixed bottom-0 right-0 left-0 h-12 justify-between items-center z-20 text-sm bg-background border-t border-secondary gap-8"
-      >
-        <div class="flex items-center">
-          <button
-            @click="open()"
-            class="px-5 h-12"
-          >
-            Importar
-          </button>
-          <ExportPopover />
-          <button
-            v-if="counter.loaded_id !== null"
-            @click="clear_editor()"
-            class="px-5 ml-10 h-12 text-sm font-medium shrink-0 underline underline-offset-2 text-primary"
-          >
-            Crear nuevo documento
-          </button>
-        </div>
-        <div class="">
-          <button
-            v-if="counter.loaded_id === null"
-            @click="counter.create_project()"
-            :disabled="counter.project_name === ''"
-            :class="counter.project_name ? 'bg-primary text-white h-12 px-5' : 'opacity-50 h-12 px-5 pointer-events-none'"
-          >
-            Crear Proyecto
-          </button>
-          <button
-            variant="destructive"
-            v-if="counter.loaded_id !== null"
-            @click="counter.delete_project()"
-            :class="counter.loaded_id ? 'text-primary h-12 px-5' : 'opacity-50 h-12 px-5 pointer-events-none'"
-            :disabled="counter.loaded_id === null"
-          >
-            Eliminar documento
-          </button>
-        </div>
-      </div>
+      <BottomToolbar />
     </div>
   </div>
 </template>
+

@@ -12,9 +12,4 @@ import { RouterView } from 'vue-router'
 nav a.router-link-exact-active {
   @apply text-primary
 }
-
-/* 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-} */
 </style>

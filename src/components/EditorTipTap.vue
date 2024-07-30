@@ -143,16 +143,6 @@
       <button @click="editor.chain().focus().setHorizontalRule().run()">
         <Minus />
       </button>
-      <!-- <button @click="editor.chain().focus().setHardBreak().run()">
-        Hard break
-      </button> -->
-
-      <!-- <button
-        @click="editor.chain().focus().setColor('#958DF1').run()"
-        :class="{ 'is-active': editor.isActive('textStyle', { color: '#958DF1' }) }"
-      >
-        Purple
-      </button> -->
     </div>
     <div class="prose text-foreground prose-purple prose-headings:text-foreground max-w-full">
       <editor-content :editor="editor" />
@@ -161,7 +151,7 @@
 </template>
 
 <script setup>
-import { Italic, ImagePlus, Pilcrow, SquarePilcrow, Bold, Strikethrough, Code, RemoveFormatting, Eraser, List, ListOrdered, SquareTerminal, Quote, Minus, Undo2, Redo2 } from 'lucide-vue-next';
+import { Italic, ImagePlus, SquarePilcrow, Bold, Strikethrough, Code, RemoveFormatting, Eraser, List, ListOrdered, SquareTerminal, Quote, Minus, Undo2, Redo2 } from 'lucide-vue-next';
 </script>
 
 <script>
