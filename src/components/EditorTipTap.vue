@@ -180,7 +180,7 @@ export default {
   data() {
     return {
       editor: null,
-      editorToolbar: true,
+      editorToolbar: false,
     }
   },
 

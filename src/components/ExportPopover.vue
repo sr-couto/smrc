@@ -30,7 +30,7 @@ watch(input, (v) => {
         side="top"
         :align="'end'"
         :side-offset="5"
-        class="rounded translate-x-1 font-mono p-5 w-[246px] text-foreground border border-secondary bg-background shadow-lg focus:shadow will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade z-10"
+        class="rounded translate-x-1 font-mono p-5 w-[296px] text-foreground border border-secondary bg-background shadow-lg focus:shadow will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade z-10"
       >
         <div class="flex flex-col gap-2">
           <p class="text-sm">
@@ -45,7 +45,7 @@ watch(input, (v) => {
             class="ml-auto text-sm font-medium underline text-primary underline-offset-2"
             @click="counter.export_database(input.value)"
           >
-            Exportar JSON
+            Crear JSON
           </button>
         </div>
         <PopoverClose

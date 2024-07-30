@@ -10,7 +10,7 @@ const focusSearch = ref()
 const { focused } = useFocus(focusSearch)
 const keys = useMagicKeys()
 const counter = useCounterStore()
-const CtrlM = keys['Ctrl+M']
+const CtrlAltS = keys['ctrl+alt+s']
 const { allItems, loaded_id, searchTerm, file_name } = storeToRefs(counter)
 const debounced = refDebounced(searchTerm, 300)
 
@@ -30,7 +30,7 @@ function handleOpenChange() {
   focused.value = true
 }
 
-watch(CtrlM, (v) => {
+watch(CtrlAltS, (v) => {
   if (v)
     handleOpenChange()
 })
@@ -57,7 +57,7 @@ watch(CtrlM, (v) => {
       <input
         ref="focusSearch"
         v-model="searchTerm"
-        placeholder="Filtrar [Ctrl+M]"
+        placeholder="Filtrar [Ctrl+Alt+S]"
         class="w-full h-6 outline-none bg-secondary placeholder:text-xs"
       >
       <div class="shrink-0">
@@ -79,21 +79,23 @@ watch(CtrlM, (v) => {
     </div>
     <div
       class="overflow-y-auto overflow-x-hidden h-[calc(100vh-19rem)]"
-      v-auto-animate
     >
       <ScrollAreaRoot
         class="w-full h-[calc(100vh-19rem)] rounded overflow-hidden"
         style="--scrollbar-size: 10px"
       >
         <ScrollAreaViewport class="w-full h-full rounded">
-          <div class="py-1">
+          <div
+            class="py-1"
+            v-auto-animate
+          >
             <button
               @click="new_document()"
               class="flex items-center justify-start gap-2 text-sm w-full text-left duration-100 focus-within:ring-1 ring-primary"
               :class="counter.loaded_id !== null ? 'text-secondary-foreground  ' : 'text-primary pointer-events-none'"
             >
               <Plus 
-                class="size-4 duration-1000"
+                class="size-4"
                 :class="counter.loaded_id !== null ? ' ' : ''"
               />
               <span v-if="counter.loaded_id !== null">Agregar</span>
@@ -116,6 +118,12 @@ watch(CtrlM, (v) => {
                   </p>
                 </button>
               </div>
+            </div>
+            <div
+              class="flex justify-center items-center w-full h-96 bg-secondary/20"
+              v-if="filteredOptions?.length === 0"
+            >
+              <span class="text-sm">Sin resultados</span>
             </div>
           </div>
         </ScrollAreaViewport>

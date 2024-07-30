@@ -17,14 +17,14 @@ const counter = useCounterStore()
 const { project_name, project_body } = storeToRefs(counter)
 
 const keys = useMagicKeys()
-const Shifte = keys['Shift+e']
-
+const CtrlAltW = keys['ctrl+alt+w']
 onMounted(() => {
   counter.set_database()
   counter.auto_save()
 })
 
-whenever(Shifte, () => {
+whenever(CtrlAltW, () => {
+  console.log("asd")
   counter.showProjects = !counter.showProjects
 })
 
@@ -51,7 +51,7 @@ watch(project_body, (v) => {
       >
         <Tooltip
           name="Menú"
-          shortcut="E"
+          shortcut="W"
         >
           <button
             @click="counter.showProjects = !counter.showProjects"
