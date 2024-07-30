@@ -6,10 +6,6 @@ import { Upload, Download  } from 'lucide-vue-next';
 
 const counter = useCounterStore()
 
-function new_document() {
-  counter.clear_editor()
-}
-
 const { open, onChange } = useFileDialog({
   accept: 'application/json'
 })

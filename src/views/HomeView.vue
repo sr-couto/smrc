@@ -104,7 +104,7 @@ watch(project_body, (v) => {
               {{ counter.project_name }}
             </h2>
             <article
-              class="max-w-3xl p-6 mx-auto prose output-group text-foreground prose-purple prose-headings:text-foreground "
+              class="preview max-w-3xl p-6 mx-auto prose output-group text-foreground prose-purple prose-headings:text-foreground "
               v-dompurify-html="counter.project_body"
             />
           </div>
@@ -115,3 +115,10 @@ watch(project_body, (v) => {
   </div>
 </template>
 
+<style >
+
+.preview  img {
+  @apply w-full
+}
+
+</style>

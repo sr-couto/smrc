@@ -1,9 +1,10 @@
 <script setup>
 import { useCounterStore } from '@/stores/counter'
-import { ArrowRight, CircleX, CirclePlus } from 'lucide-vue-next';
+import { ArrowRight, CircleX, Plus  } from 'lucide-vue-next';
 import { storeToRefs } from 'pinia';
 import { computed, ref, watch } from 'vue'
 import { useFocus, useMagicKeys, refDebounced } from '@vueuse/core'
+import { ScrollAreaRoot, ScrollAreaScrollbar, ScrollAreaThumb, ScrollAreaViewport } from 'radix-vue'
 
 const focusSearch = ref()
 const { focused } = useFocus(focusSearch)
@@ -49,14 +50,6 @@ watch(CtrlM, (v) => {
           {{ file_name }}
         </RouterLink>
       </div>
-      <button
-        @click="new_document()"
-        class="text-xs flex gap-1 "
-        :class="counter.loaded_id !== null ? 'text-primary  ' : 'text-primary/50 pointer-events-none'"
-      >
-        Agregar
-        <CirclePlus class="size-4" />
-      </button>
     </div>
     <div
       class="relative flex items-center justify-between w-full p-1 my-1 text-xs bg-secondary ring-secondary/60 focus-within:ring-secondary"
@@ -85,27 +78,64 @@ watch(CtrlM, (v) => {
       </div>
     </div>
     <div
-      class="mt-3"
+      class="overflow-y-auto overflow-x-hidden h-[calc(100vh-19rem)]"
       v-auto-animate
     >
-      <div
-        v-for="item in filteredOptions"
-        :key="item.id"
-        class="w-full"
+      <ScrollAreaRoot
+        class="w-full h-[calc(100vh-19rem)] rounded overflow-hidden"
+        style="--scrollbar-size: 10px"
       >
-        <div class="flex flex-row items-center justify-between w-full pb-0">
-          <button
-            class="flex items-center justify-start gap-2 text-sm text-left duration-100 focus-within:ring-1 ring-primary"
-            :class="loaded_id === item.id ? 'text-primary' : ''"
-            @click="counter.set_project(item.id)"
-          >
-            <ArrowRight class="size-4" />
-            <p class="w-56 truncate">
-              {{ item.project_data.name }}
-            </p>
-          </button>
-        </div>
-      </div>
+        <ScrollAreaViewport class="w-full h-full rounded">
+          <div class="py-1">
+            <button
+              @click="new_document()"
+              class="flex items-center justify-start gap-2 text-sm w-full text-left duration-100 focus-within:ring-1 ring-primary"
+              :class="counter.loaded_id !== null ? 'text-secondary-foreground  ' : 'text-primary pointer-events-none'"
+            >
+              <Plus 
+                class="size-4 duration-1000"
+                :class="counter.loaded_id !== null ? ' ' : ''"
+              />
+              <span v-if="counter.loaded_id !== null">Agregar</span>
+              <span v-else>Agregando {{ counter.project_name }}</span>
+            </button>
+            <div
+              v-for="item in filteredOptions"
+              :key="item.id"
+              class="w-full"
+            >
+              <div class="flex flex-row items-center justify-between w-full pb-0">
+                <button
+                  class="flex items-center outline-none justify-start gap-2 text-sm text-left duration-100 focus-within:ring-1 ring-primary"
+                  :class="loaded_id === item.id ? 'text-primary' : ''"
+                  @click="counter.set_project(item.id)"
+                >
+                  <ArrowRight class="size-4" />
+                  <p class="w-56 truncate">
+                    {{ item.project_data.name }}
+                  </p>
+                </button>
+              </div>
+            </div>
+          </div>
+        </ScrollAreaViewport>
+        <ScrollAreaScrollbar
+          class="flex select-none touch-none p-0.5 bg-secondary transition-colors duration-[160ms] ease-out hover:bg-background data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+          orientation="vertical"
+        >
+          <ScrollAreaThumb
+            class="flex-1 bg-primary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]"
+          />
+        </ScrollAreaScrollbar>
+        <!-- <ScrollAreaScrollbar
+          class="flex select-none touch-none p-0.5 bg-secondary transition-colors duration-[160ms] ease-out hover:bg-background data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+          orientation="horizontal"
+        >
+          <ScrollAreaThumb
+            class="flex-1 bg-primary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]"
+          />
+        </ScrollAreaScrollbar> -->
+      </ScrollAreaRoot>
     </div>
   </div>
 </template>
