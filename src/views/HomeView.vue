@@ -42,7 +42,7 @@ watch(project_body, (v) => {
 <template>
   <div class="flex w-full min-h-screen">
     <header
-      class="fixed lg:sticky top-0 z-20 flex flex-col justify-start h-screen border-r bg-background border-secondary"
+      class="fixed lg:sticky top-0 z-20 flex flex-col justify-start h-screen border-r bg-background hover:bg-[#141d2f] duration-300  border-secondary"
       :class="counter.showProjects ? 'min-w-64' : ' '"
     >
       <div
@@ -60,23 +60,28 @@ watch(project_body, (v) => {
             <TentTree class="size-4" />
             <span
               class="text-xs"
-              v-if="counter.showProjects"
+              v-show="counter.showProjects"
             >Menu
             </span>
           </button>
         </Tooltip>
         <ToggleTheme />
+        <button
+          @click="counter.showProjects = !counter.showProjects"
+          v-show="!counter.showProjects"
+          class="absolute inset-0 top-20 z-10"
+        />
       </div>
-      <NavProjectListLocal v-if="counter.showProjects" />
+      <NavProjectListLocal v-show="counter.showProjects" />
       <FileDropZone
-        v-if="counter.showProjects"
+        v-show="counter.showProjects"
         class="hidden md:flex"
       />
     </header>
     <button
       @click="counter.showProjects = !counter.showProjects"
       v-show="counter.showProjects"
-      class="fixed inset-0 bg-secondary/50 lg:hidden z-10"
+      class="fixed inset-0 bg-background/95 lg:hidden z-10"
     />
     <div class="w-full pl-8 lg:pl-0 min-h-screen bg-background group">
       <SplitterGroup
