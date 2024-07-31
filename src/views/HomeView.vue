@@ -43,7 +43,7 @@ watch(project_body, (v) => {
 <template>
   <div class="flex w-full min-h-screen">
     <header
-      class="sticky top-0 z-10 flex flex-col justify-start h-screen border-r bg-background border-secondary"
+      class="fixed md:sticky top-0 z-10 flex flex-col justify-start h-screen border-r bg-background border-secondary"
       :class="counter.showProjects ? 'min-w-64' : ' '"
     >
       <div
@@ -71,7 +71,7 @@ watch(project_body, (v) => {
       <NavProjectListLocal v-if="counter.showProjects" />
       <FileDropZone v-if="counter.showProjects" />
     </header>
-    <div class="w-full min-h-screen bg-background group">
+    <div class="w-full pl-8 md:pl-0 min-h-screen bg-background group">
       <SplitterGroup
         direction="horizontal"
         auto-save-id="splitter"

@@ -1,6 +1,6 @@
 <script setup>
 import { useCounterStore } from '@/stores/counter'
-import { ArrowRight, CircleX, Plus  } from 'lucide-vue-next';
+import { ArrowRight, CircleX, Plus } from 'lucide-vue-next';
 import { storeToRefs } from 'pinia';
 import { computed, ref, watch } from 'vue'
 import { useFocus, useMagicKeys, refDebounced } from '@vueuse/core'
@@ -77,9 +77,7 @@ watch(CtrlAltS, (v) => {
         </button>
       </div>
     </div>
-    <div
-      class="overflow-y-auto overflow-x-hidden h-[calc(100vh-19rem)]"
-    >
+    <div class="overflow-y-auto overflow-x-hidden h-[calc(100vh-19rem)]">
       <ScrollAreaRoot
         class="w-full h-[calc(100vh-19rem)] rounded overflow-hidden"
         style="--scrollbar-size: 10px"
@@ -90,17 +88,26 @@ watch(CtrlAltS, (v) => {
             v-auto-animate
           >
             <button
+              v-if="counter.loaded_id !== null"
               @click="new_document()"
               class="flex items-center justify-start gap-2 text-sm w-full text-left duration-100 focus-within:ring-1 ring-primary"
               :class="counter.loaded_id !== null ? 'text-secondary-foreground  ' : 'text-primary pointer-events-none'"
             >
-              <Plus 
-                class="size-4"
-                :class="counter.loaded_id !== null ? ' ' : ''"
-              />
-              <span v-if="counter.loaded_id !== null">Agregar</span>
-              <span v-else>Agregando {{ counter.project_name }}</span>
+              <Plus class="size-4" />
+              <span>Agregar</span>
             </button>
+            <button
+              v-else
+              @click="counter.create_project()"
+              :disabled="counter.project_name === ''"
+              class="flex items-center justify-start gap-2 disabled:opacity-80 disabled:animate-pulse text-sm w-full text-primary text-left duration-100 focus-within:ring-1 ring-primary"
+            >
+              <Plus class="size-4" />
+              <p class="w-56 truncate">
+                Agregando {{ counter.project_name }}
+              </p>
+            </button>
+
             <div
               v-for="item in filteredOptions"
               :key="item.id"

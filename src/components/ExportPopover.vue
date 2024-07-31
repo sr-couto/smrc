@@ -19,11 +19,11 @@ watch(input, (v) => {
 <template>
   <PopoverRoot>
     <PopoverTrigger
-      class="h-12  items-center justify-center gap-2 text-xs flex bg-background hover:bg-background/50 focus-visible:bg-background/50 outline-none"
+      class="px-2 h-12 items-center justify-center gap-2 text-xs flex bg-background hover:bg-background/50 focus-visible:bg-background/50 outline-none"
       aria-label="Update dimensions"
     >
       <Download class="size-4" />
-      ExportarDB
+      <span class="hidden sm:inline-flex">ExportarDB</span>
     </PopoverTrigger>
     <PopoverPortal>
       <PopoverContent

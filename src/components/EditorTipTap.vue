@@ -4,9 +4,9 @@
     v-auto-animate
     class="p-1"
   >
-    <div class="control-group flex items-center gap-3 relative">
+    <div class="control-group flex md:flex-row flex-col flex-wrap items-center gap-3 relative">
       <slot />
-      <div class="flex gap-2">
+      <div class="flex w-full md:w-auto justify-start gap-2">
         <button
           class="size-11 focus-visible:border-primary outline-none flex justify-center items-center border rounded border-secondary"
           @click="editor.chain().focus().undo().run()"
