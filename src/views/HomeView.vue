@@ -25,7 +25,6 @@ onMounted(() => {
 })
 
 whenever(CtrlAltW, () => {
-  console.log("asd")
   counter.showProjects = !counter.showProjects
 })
 
@@ -43,7 +42,7 @@ watch(project_body, (v) => {
 <template>
   <div class="flex w-full min-h-screen">
     <header
-      class="fixed md:sticky top-0 z-10 flex flex-col justify-start h-screen border-r bg-background border-secondary"
+      class="fixed lg:sticky top-0 z-20 flex flex-col justify-start h-screen border-r bg-background border-secondary"
       :class="counter.showProjects ? 'min-w-64' : ' '"
     >
       <div
@@ -69,9 +68,17 @@ watch(project_body, (v) => {
         <ToggleTheme />
       </div>
       <NavProjectListLocal v-if="counter.showProjects" />
-      <FileDropZone v-if="counter.showProjects" />
+      <FileDropZone
+        v-if="counter.showProjects"
+        class="hidden md:flex"
+      />
     </header>
-    <div class="w-full pl-8 md:pl-0 min-h-screen bg-background group">
+    <button
+      @click="counter.showProjects = !counter.showProjects"
+      v-show="counter.showProjects"
+      class="fixed inset-0 bg-secondary/50 lg:hidden z-10"
+    />
+    <div class="w-full pl-8 lg:pl-0 min-h-screen bg-background group">
       <SplitterGroup
         direction="horizontal"
         auto-save-id="splitter"
@@ -116,7 +123,7 @@ watch(project_body, (v) => {
   </div>
 </template>
 
-<style >
+<style>
 
 .preview  img {
   @apply w-full

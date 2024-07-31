@@ -165,7 +165,6 @@ export const useCounterStore = defineStore('counter', () => {
   }
 
   async function update_database(name) {
-    console.log(name)
     file_name.value = name
     await db.file.update(1, {
       date: new Date().toISOString(),
