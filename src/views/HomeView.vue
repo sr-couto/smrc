@@ -69,7 +69,7 @@ watch(project_body, (v) => {
         <button
           @click="counter.showProjects = !counter.showProjects"
           v-show="!counter.showProjects"
-          class="absolute inset-0 top-20 z-10"
+          class="absolute inset-0 top-20 z-10" 
         />
       </div>
       <NavProjectListLocal v-show="counter.showProjects" />
