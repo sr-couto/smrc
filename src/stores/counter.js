@@ -140,7 +140,6 @@ export const useCounterStore = defineStore('counter', () => {
         clear_editor()
       }
     }
-
     return
   }
 
@@ -156,19 +155,18 @@ export const useCounterStore = defineStore('counter', () => {
     if (count === 1) {
       const selectedState = await db.file.get(1);
       if (selectedState) {
-        file_name.value = selectedState.name
-        return
+        return file_name.value = selectedState.name
       }
     }
   }
 
   async function update_database(name) {
     file_name.value = name
-    await db.file.update(1, {
+    return await db.file.update(1, {
       date: new Date().toISOString(),
       name: name
     });
-    return
+    
   }
 
   const allItems = useObservable(liveQuery(() => db.projects.toArray()))
