@@ -18,6 +18,7 @@ const { project_name, project_body } = storeToRefs(counter)
 
 const keys = useMagicKeys()
 const CtrlAltW = keys['ctrl+alt+w']
+
 onMounted(() => {
   counter.set_database()
   counter.auto_save()

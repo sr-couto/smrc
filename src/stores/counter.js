@@ -128,6 +128,7 @@ export const useCounterStore = defineStore('counter', () => {
         searchTerm.value = ""
         update_database(replace_file_name)
         clear_editor()
+        return
       }
     } else {
       const confirm = window.confirm('¿Desea reemplazar la DB con la información de ' + replace_file_name + '?');
@@ -138,6 +139,7 @@ export const useCounterStore = defineStore('counter', () => {
         searchTerm.value = ""
         update_database(replace_file_name)
         clear_editor()
+        return
       }
     }
     return
@@ -155,18 +157,21 @@ export const useCounterStore = defineStore('counter', () => {
     if (count === 1) {
       const selectedState = await db.file.get(1);
       if (selectedState) {
-        return file_name.value = selectedState.name
+        file_name.value = selectedState.name
+        return
       }
+      return
     }
   }
 
   async function update_database(name) {
+    console.log(name)
     file_name.value = name
-    return await db.file.update(1, {
+    await db.file.update(1, {
       date: new Date().toISOString(),
       name: name
     });
-    
+    return
   }
 
   const allItems = useObservable(liveQuery(() => db.projects.toArray()))
@@ -190,6 +195,6 @@ export const useCounterStore = defineStore('counter', () => {
     delete_project,
     auto_save,
     clear_editor,
-    
+
   }
 })

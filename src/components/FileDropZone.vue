@@ -18,14 +18,7 @@ onChange((files) => {
 })
 
 function onDrop(files) {
-  filesData.value = []
   if (files) {
-    filesData.value = files.map(file => ({
-      name: file.name,
-      size: file.size,
-      type: file.type,
-      lastModified: file.lastModified,
-    }))
     counter.import_database(files[0])
     counter.showProjects = true
     useTimeoutFn(() => {
