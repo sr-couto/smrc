@@ -42,7 +42,7 @@ watch(project_body, (v) => {
 <template>
   <div class="flex w-full min-h-screen">
     <header
-      class="fixed lg:sticky top-0 z-20 flex flex-col justify-start h-screen border-r bg-background hover:bg-[#141d2f] duration-300  border-secondary"
+      class="fixed lg:sticky top-0 z-20 flex flex-col justify-start h-screen border-r bg-background hover:bg-background/80 duration-300  border-secondary"
       :class="counter.showProjects ? 'min-w-64' : ' '"
     >
       <div

@@ -85,7 +85,6 @@ watch(CtrlAltS, (v) => {
         <ScrollAreaViewport class="w-full h-full rounded">
           <div
             class="py-1"
-            v-auto-animate
           >
             <button
               v-if="counter.loaded_id !== null"
