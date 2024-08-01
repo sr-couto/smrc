@@ -6,7 +6,7 @@ import { TentTree, GripVertical } from 'lucide-vue-next'
 import { useCounterStore } from '@/stores/counter'
 import { useMagicKeys, whenever } from '@vueuse/core'
 import Editor from '@/components/EditorTipTap.vue'
-
+import { ScrollAreaRoot, ScrollAreaScrollbar, ScrollAreaThumb, ScrollAreaViewport } from 'radix-vue'
 import NavProjectListLocal from '@/components/NavProjectListLocal.vue'
 import ToggleTheme from '@/components/ToggleTheme.vue';
 import Tooltip from '@/components/ui/Tooltip.vue'
@@ -40,7 +40,7 @@ watch(project_body, (v) => {
 
 </script>
 <template>
-  <div class="flex w-full min-h-screen">
+  <div class="flex w-full h-screen overflow-y-hidden">
     <header
       class="fixed lg:sticky top-0 z-20 flex flex-col justify-start h-screen border-r bg-background hover:bg-background/80 duration-300  border-secondary"
       :class="counter.showProjects ? 'min-w-64' : ' '"
@@ -87,13 +87,12 @@ watch(project_body, (v) => {
       <SplitterGroup
         direction="horizontal"
         auto-save-id="splitter"
-        class="!overflow-visible"
       >
-        <SplitterPanel class="!overflow-visible" >
-          <div class="h-full mx-auto ring-1 min-w-96 ring-secondary">
+        <SplitterPanel :min-size="50">
+          <div class="h-full mx-auto ring-1 md:w-auto  ring-secondary">
             <div
               :key="counter.loaded_id"
-              class="max-w-3xl mx-auto"
+              class="w-full mx-auto"
             >
               <Editor v-model="counter.project_body">
                 <input
@@ -108,21 +107,11 @@ watch(project_body, (v) => {
           </div>
         </SplitterPanel>
         <SplitterResizeHandle
-          class="bg-secondary flex justify-center items-center w-3 data-[state=hover]:bg-secondary/50 duration-100"
+          class="bg-secondary hidden md:flex justify-center items-center w-3 data-[state=hover]:bg-secondary/50 duration-100"
         >
           <GripVertical />
         </SplitterResizeHandle>
-        <SplitterPanel>
-          <div class="px-2 mx-auto ring-1 min-w-96 ring-secondary">
-            <h2 class="max-w-3xl px-6 pt-3 mx-auto text-4xl">
-              {{ counter.project_name }}
-            </h2>
-            <article
-              class="preview max-w-3xl p-6 mx-auto theme-vs2015 prose output-group text-foreground prose-purple prose-headings:text-foreground "
-              v-dompurify-html="counter.project_body"
-            />
-          </div>
-        </SplitterPanel>
+        <SplitterPanel class="hidden md:flex"/>
       </SplitterGroup>
       <BottomToolbar />
     </div>
@@ -134,5 +123,6 @@ watch(project_body, (v) => {
 .preview  img {
   @apply w-full
 }
+
 
 </style>

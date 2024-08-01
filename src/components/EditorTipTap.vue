@@ -34,6 +34,9 @@
           >
             <ImagePlus class="size-5" />
           </button>
+          <button @click="addIframe">
+            <Wifi />
+          </button>
         </div>
       </div>
       <div
@@ -68,12 +71,6 @@
         >
           <Code />
         </button>
-        <button @click="editor.chain().focus().unsetAllMarks().run()">
-          <RemoveFormatting />
-        </button>
-        <button @click="editor.chain().focus().clearNodes().run()">
-          <Eraser />
-        </button>
         <button
           @click="editor.chain().focus().setParagraph().run()"
           :class="{ 'is-active': editor.isActive('paragraph') }"
@@ -105,7 +102,7 @@
         >
           H4
         </button>
-        <button
+        <!-- <button
           @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
           :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
         >
@@ -116,7 +113,7 @@
           :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }"
         >
           H6
-        </button>
+        </button> -->
         <button
           @click="editor.chain().focus().toggleBulletList().run()"
           :class="{ 'is-active': editor.isActive('bulletList') }"
@@ -144,16 +141,49 @@
         <button @click="editor.chain().focus().setHorizontalRule().run()">
           <Minus />
         </button>
+        <button @click="editor.chain().focus().unsetAllMarks().run()">
+          <RemoveFormatting />
+        </button>
+        <button @click="editor.chain().focus().clearNodes().run()">
+          <Eraser />
+        </button>
       </div>
     </div>
-    <div class="prose text-foreground prose-purple prose-headings:text-foreground max-w-full">
-      <editor-content :editor="editor" />
+    <div>
+      <ScrollAreaRoot
+        class="w-full h-[calc(100vh-6rem)] rounded overflow-hidden "
+        style="--scrollbar-size: 10px"
+      >
+        <ScrollAreaViewport class="w-full h-full rounded">
+          <div class="prose text-foreground prose-purple prose-headings:text-foreground max-w-full">
+            <editor-content :editor="editor" />
+          </div>
+        </ScrollAreaViewport>
+        <ScrollAreaScrollbar
+          class="flex select-none touch-none p-0.5 bg-secondary transition-colors duration-[160ms] ease-out hover:bg-background data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+          orientation="vertical"
+        >
+          <ScrollAreaThumb
+            class="flex-1 bg-primary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]"
+          />
+        </ScrollAreaScrollbar>
+        <!-- <ScrollAreaScrollbar
+          class="flex select-none touch-none p-0.5 bg-secondary transition-colors duration-[160ms] ease-out hover:bg-background data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+          orientation="horizontal"
+        >
+          <ScrollAreaThumb
+            class="flex-1 bg-primary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]"
+          />
+        </ScrollAreaScrollbar> -->
+      </ScrollAreaRoot>
     </div>
   </div>
 </template>
 
 <script setup>
-import { Italic, ImagePlus, SquarePilcrow, Bold, Strikethrough, Code, RemoveFormatting, Eraser, List, ListOrdered, SquareTerminal, Quote, Minus, Undo2, Redo2 } from 'lucide-vue-next';
+import { Italic, ImagePlus, SquarePilcrow, Bold, Strikethrough, Code, RemoveFormatting, Eraser, List, ListOrdered, SquareTerminal, Quote, Minus, Undo2, Redo2, Wifi } from 'lucide-vue-next';
+import { ScrollAreaRoot, ScrollAreaScrollbar, ScrollAreaThumb, ScrollAreaViewport } from 'radix-vue'
+
 </script>
 
 <script>
@@ -171,6 +201,7 @@ import ts from 'highlight.js/lib/languages/typescript'
 import html from 'highlight.js/lib/languages/xml'
 import { lowlight } from "lowlight/lib/common.js";
 import CodeBlockComponent from './CodeBlockComponent.vue'
+import Iframe from './iframe.ts'
 
 lowlight.registerLanguage('html', html)
 lowlight.registerLanguage('css', css)
@@ -205,6 +236,13 @@ export default {
         this.editor.chain().focus().setImage({ src: url }).run()
       }
     },
+    addIframe() {
+      const url = window.prompt('Ingresar URL del iframe')
+
+      if (url) {
+        this.editor.chain().focus().setIframe({ src: url }).run()
+      }
+    },
   },
 
   watch: {
@@ -227,6 +265,7 @@ export default {
           codeBlock: false
         }),
         Image,
+        Iframe,
         Placeholder.configure({
           placeholder: 'Escribir algo …',
         }),
@@ -252,6 +291,11 @@ export default {
 </script>
 
 <style>
+
+.tiptap iframe {
+  @apply w-full h-[78vh] my-12 border border-red-600 p-2
+}
+
 .button-group button {
   @apply border border-secondary focus-within:border-primary min-w-9 max-w-9 flex-1 outline-none h-9 text-sm focus-visible:border-primary flex justify-center items-center duration-100;
 
@@ -288,21 +332,21 @@ export default {
 
 
 
-/* .tiptap pre {
-  background: var(--black);
+ .preview pre {
+  @apply bg-secondary;
   border-radius: 0.5rem;
-  color: var(--white);
-  font-family: 'JetBrainsMono', monospace;
   margin: 1.5rem 0;
   padding: 0.75rem 1rem;
 }
 
-.tiptap code {
+.preview code {
   background: none;
   color: inherit;
   font-size: 0.8rem;
   padding: 0;
-} */
+} 
+
+
 
 /* Code styling */
 .hljs-comment,
@@ -358,117 +402,4 @@ export default {
 }
 
 
-.theme-vs2015 pre code.hljs {
-  display: block;
-  overflow-x: auto;
-  padding: 1em
-}
-
-.theme-vs2015 code.hljs {
-  padding: 3px 5px
-}
-
-.theme-vs2015 .hljs {
-  background: #1e1e1e;
-  color: #dcdcdc
-}
-
-.theme-vs2015 .hljs-keyword,
-.theme-vs2015 .hljs-literal,
-.theme-vs2015 .hljs-name,
-.theme-vs2015 .hljs-symbol {
-  color: #569cd6
-}
-
-.theme-vs2015 .hljs-link {
-  color: #569cd6;
-  text-decoration: underline
-}
-
-.theme-vs2015 .hljs-built_in,
-.theme-vs2015 .hljs-type {
-  color: #4ec9b0
-}
-
-.theme-vs2015 .hljs-class,
-.theme-vs2015 .hljs-number {
-  color: #b8d7a3
-}
-
-.theme-vs2015 .hljs-meta .hljs-string,
-.theme-vs2015 .hljs-string {
-  color: #d69d85
-}
-
-.theme-vs2015 .hljs-regexp,
-.theme-vs2015 .hljs-template-tag {
-  color: #9a5334
-}
-
-.theme-vs2015 .hljs-formula,
-.theme-vs2015 .hljs-function,
-.theme-vs2015 .hljs-params,
-.theme-vs2015 .hljs-subst,
-.theme-vs2015 .hljs-title {
-  color: #dcdcdc
-}
-
-.theme-vs2015 .hljs-comment,
-.theme-vs2015 .hljs-quote {
-  color: #57a64a;
-  font-style: italic
-}
-
-.theme-vs2015 .hljs-doctag {
-  color: #608b4e
-}
-
-.theme-vs2015 .hljs-meta,
-.theme-vs2015 .hljs-meta .hljs-keyword,
-.theme-vs2015 .hljs-tag {
-  color: #9b9b9b
-}
-
-.theme-vs2015 .hljs-template-variable,
-.theme-vs2015 .hljs-variable {
-  color: #bd63c5
-}
-
-.theme-vs2015 .hljs-attr,
-.theme-vs2015 .hljs-attribute {
-  color: #9cdcfe
-}
-
-.theme-vs2015 .hljs-section {
-  color: gold
-}
-
-.theme-vs2015 .hljs-emphasis {
-  font-style: italic
-}
-
-.theme-vs2015 .hljs-strong {
-  font-weight: 700
-}
-
-.theme-vs2015 .hljs-bullet,
-.theme-vs2015 .hljs-selector-attr,
-.theme-vs2015 .hljs-selector-class,
-.theme-vs2015 .hljs-selector-id,
-.theme-vs2015 .hljs-selector-pseudo,
-.theme-vs2015 .hljs-selector-tag {
-  color: #d7ba7d
-}
-
-.theme-vs2015 .hljs-addition {
-  background-color: #144212;
-  display: inline-block;
-  width: 100%
-}
-
-.theme-vs2015 .hljs-deletion {
-  background-color: #600;
-  display: inline-block;
-  width: 100%
-}
 </style>
