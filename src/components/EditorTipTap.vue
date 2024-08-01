@@ -8,100 +8,172 @@
       <div class="control-group flex md:flex-row flex-col flex-wrap @lg:flex-nowrap items-center gap-1 relative">
         <slot />
         <div class="flex w-full md:w-auto justify-start gap-1">
-          <button
-            class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
-            @click="editor.chain().focus().undo().run()"
-            :disabled="!editor.can().chain().focus().undo().run()"
+          <Tooltip
+            name="Deshacer"
+            side="bottom"
           >
-            <Undo2 class="size-5" />
-          </button>
-          <button
-            class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
-            @click="editor.chain().focus().redo().run()"
-            :disabled="!editor.can().chain().focus().redo().run()"
+            <button
+              class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
+              @click="editor.chain().focus().undo().run()"
+              :disabled="!editor.can().chain().focus().undo().run()"
+            >
+              <Undo2 class="size-5" />
+            </button>
+          </Tooltip>
+          <Tooltip
+            name="rehacer"
+            side="bottom"
           >
-            <Redo2 class="size-5" />
-          </button>
-          <button
-            class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
-            @click="editorToolbar = !editorToolbar"
+            <button
+              class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
+              @click="editor.chain().focus().redo().run()"
+              :disabled="!editor.can().chain().focus().redo().run()"
+            >
+              <Redo2 class="size-5" />
+            </button>
+          </Tooltip>
+          <Tooltip
+            name="Formato texto"
+            side="bottom"
           >
-            <SquarePilcrow class="size-5" />
-          </button>
-          <button
-            @click="addImage"
-            class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
+            <button
+              class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
+              @click="editorToolbar = !editorToolbar"
+            >
+              <SquarePilcrow class="size-5" />
+            </button>
+          </Tooltip>
+          <Tooltip
+            name="Agregar imagen"
+            side="bottom"
           >
-            <ImagePlus class="size-5" />
-          </button>
-          <button @click="addIframe">
-            <Wifi />
-          </button>
+            <button
+              @click="addImage"
+              class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
+            >
+              <ImagePlus class="size-5" />
+            </button>
+          </Tooltip>
+          <Tooltip
+            name="Iframe"
+            side="bottom"
+          >
+            <button
+              @click="addIframe"
+              class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
+            >
+              <Wifi class="size-5" />
+            </button>
+          </Tooltip>
         </div>
       </div>
       <div
         class="button-group  bg-background py-1 border-b border-secondary flex mt-1 gap-1 flex-wrap"
         v-if="editorToolbar"
       >
-        <button
-          @click="editor.chain().focus().toggleBold().run()"
-          :disabled="!editor.can().chain().focus().toggleBold().run()"
-          :class="{ 'is-active': editor.isActive('bold') }"
+        <Tooltip
+          name="Bold"
+          side="bottom"
         >
-          <Bold />
-        </button>
-        <button
-          @click="editor.chain().focus().toggleItalic().run()"
-          :disabled="!editor.can().chain().focus().toggleItalic().run()"
-          :class="{ 'is-active': editor.isActive('italic') }"
+          <button
+            @click="editor.chain().focus().toggleBold().run()"
+            :disabled="!editor.can().chain().focus().toggleBold().run()"
+            :class="{ 'is-active': editor.isActive('bold') }"
+          >
+            <Bold />
+          </button>
+        </Tooltip>
+        <Tooltip
+          name="Italic"
+          side="bottom"
         >
-          <Italic />
-        </button>
-        <button
-          @click="editor.chain().focus().toggleStrike().run()"
-          :disabled="!editor.can().chain().focus().toggleStrike().run()"
-          :class="{ 'is-active': editor.isActive('strike') }"
+          <button
+            @click="editor.chain().focus().toggleItalic().run()"
+            :disabled="!editor.can().chain().focus().toggleItalic().run()"
+            :class="{ 'is-active': editor.isActive('italic') }"
+          >
+            <Italic />
+          </button>
+        </Tooltip>
+        <Tooltip
+          name="Strikethrough"
+          side="bottom"
         >
-          <Strikethrough />
-        </button>
-        <button
-          @click="editor.chain().focus().toggleCode().run()"
-          :disabled="!editor.can().chain().focus().toggleCode().run()"
-          :class="{ 'is-active': editor.isActive('code') }"
+          <button
+            @click="editor.chain().focus().toggleStrike().run()"
+            :disabled="!editor.can().chain().focus().toggleStrike().run()"
+            :class="{ 'is-active': editor.isActive('strike') }"
+          >
+            <Strikethrough />
+          </button>
+        </Tooltip>
+        <Tooltip
+          name="Code"
+          side="bottom"
         >
-          <Code />
-        </button>
-        <button
-          @click="editor.chain().focus().setParagraph().run()"
-          :class="{ 'is-active': editor.isActive('paragraph') }"
+          <button
+            @click="editor.chain().focus().toggleCode().run()"
+            :disabled="!editor.can().chain().focus().toggleCode().run()"
+            :class="{ 'is-active': editor.isActive('code') }"
+          >
+            <Code />
+          </button>
+        </Tooltip>
+        <Tooltip
+          name="Párrafo"
+          side="bottom"
         >
-          <!-- <Pilcrow /> -->
-          P
-        </button>
-        <button
-          @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-          :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
+          <button
+            @click="editor.chain().focus().setParagraph().run()"
+            :class="{ 'is-active': editor.isActive('paragraph') }"
+          >
+            P
+          </button>
+        </Tooltip>
+        <Tooltip
+          name="Titulo 1"
+          side="bottom"
         >
-          H1
-        </button>
-        <button
-          @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-          :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
+          <button
+            @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+            :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
+          >
+            H1
+          </button>
+        </Tooltip>
+        <Tooltip
+          name="Titulo 2"
+          side="bottom"
         >
-          H2
-        </button>
-        <button
-          @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-          :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
+          <button
+            @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+            :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
+          >
+            H2
+          </button>
+        </Tooltip>
+        <Tooltip
+          name="Titulo 3"
+          side="bottom"
         >
-          H3
-        </button>
-        <button
-          @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
-          :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
+          <button
+            @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+            :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
+          >
+            H3
+          </button>
+        </Tooltip>
+        <Tooltip
+          name="Titulo 4"
+          side="bottom"
         >
-          H4
-        </button>
+          <button
+            @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
+            :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
+          >
+            H4
+          </button>
+        </Tooltip>
         <!-- <button
           @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
           :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
@@ -114,39 +186,80 @@
         >
           H6
         </button> -->
-        <button
-          @click="editor.chain().focus().toggleBulletList().run()"
-          :class="{ 'is-active': editor.isActive('bulletList') }"
+        <Tooltip
+          name="Lista desordenada"
+          side="bottom"
         >
-          <List />
-        </button>
-        <button
-          @click="editor.chain().focus().toggleOrderedList().run()"
-          :class="{ 'is-active': editor.isActive('orderedList') }"
+          <button
+            @click="editor.chain().focus().toggleBulletList().run()"
+            :class="{ 'is-active': editor.isActive('bulletList') }"
+          >
+            <List />
+          </button>
+        </Tooltip>
+        <Tooltip
+          name="Lista ordenada"
+          side="bottom"
         >
-          <ListOrdered />
-        </button>
-        <button
-          @click="editor.chain().focus().toggleCodeBlock().run()"
-          :class="{ 'is-active': editor.isActive('codeBlock') }"
+          <button
+            @click="editor.chain().focus().toggleOrderedList().run()"
+            :class="{ 'is-active': editor.isActive('orderedList') }"
+          >
+            <ListOrdered />
+          </button>
+        </Tooltip>
+        <Tooltip
+          name="Código"
+          side="bottom"
         >
-          <SquareTerminal />
-        </button>
-        <button
-          @click="editor.chain().focus().toggleBlockquote().run()"
-          :class="{ 'is-active': editor.isActive('blockquote') }"
+          <button
+            @click="editor.chain().focus().toggleCodeBlock().run()"
+            :class="{ 'is-active': editor.isActive('codeBlock') }"
+          >
+            <SquareTerminal />
+          </button>
+        </Tooltip>
+        <Tooltip
+          name="Cita"
+          side="bottom"
         >
-          <Quote />
-        </button>
-        <button @click="editor.chain().focus().setHorizontalRule().run()">
-          <Minus />
-        </button>
-        <button @click="editor.chain().focus().unsetAllMarks().run()">
-          <RemoveFormatting />
-        </button>
-        <button @click="editor.chain().focus().clearNodes().run()">
-          <Eraser />
-        </button>
+          <button
+            @click="editor.chain().focus().toggleBlockquote().run()"
+            :class="{ 'is-active': editor.isActive('blockquote') }"
+          >
+            <Quote />
+          </button>
+        </Tooltip>
+        <Tooltip
+          name="Separador"
+          side="bottom"
+        >
+          <button
+            @click="editor.chain().focus().setHorizontalRule().run()"
+          >
+            <Minus />
+          </button>
+        </Tooltip>
+        <Tooltip
+          name="Quitar formato"
+          side="bottom"
+        >
+          <button
+            @click="editor.chain().focus().unsetAllMarks().run()"
+          >
+            <RemoveFormatting />
+          </button>
+        </Tooltip>
+        <Tooltip
+          name="Limpiar todo"
+          side="bottom"
+        >
+          <button
+            @click="editor.chain().focus().clearNodes().run()"
+          >
+            <Eraser />
+          </button>
+        </Tooltip>
       </div>
     </div>
     <div>
@@ -202,6 +315,7 @@ import html from 'highlight.js/lib/languages/xml'
 import { lowlight } from "lowlight/lib/common.js";
 import CodeBlockComponent from './CodeBlockComponent.vue'
 import Iframe from './iframe.ts'
+import Tooltip from './ui/Tooltip.vue';
 
 lowlight.registerLanguage('html', html)
 lowlight.registerLanguage('css', css)
@@ -291,7 +405,6 @@ export default {
 </script>
 
 <style>
-
 .tiptap iframe {
   @apply w-full h-[78vh] my-12 border border-primary p-2
 }
@@ -330,21 +443,9 @@ export default {
   @apply text-foreground/30
 }
 
-
-
- .preview pre {
-  @apply bg-secondary;
-  border-radius: 0.5rem;
-  margin: 1.5rem 0;
-  padding: 0.75rem 1rem;
+.tiptap blockquote {
+  @apply text-foreground
 }
-
-.preview code {
-  background: none;
-  color: inherit;
-  font-size: 0.8rem;
-  padding: 0;
-} 
 
 
 
@@ -400,6 +501,4 @@ export default {
 .hljs-strong {
   font-weight: 700;
 }
-
-
 </style>

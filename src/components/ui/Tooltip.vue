@@ -12,6 +12,11 @@ const props = defineProps({
     default: "",
     required: false,
   },
+  side: {
+    type: String,
+    default: "right",
+    required: false,
+  },
 })
 </script>
 
@@ -23,7 +28,7 @@ const props = defineProps({
       </TooltipTrigger>
       <TooltipPortal>
         <TooltipContent
-          :side="'right'"
+          :side="props.side"
           class="data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade text-secondary-foreground select-none rounded-[4px] bg-secondary px-2 py-1 text-xs leading-none shadow will-change-[transform,opacity]"
           :side-offset="5"
         >
