@@ -293,7 +293,7 @@ export default {
 <style>
 
 .tiptap iframe {
-  @apply w-full h-[78vh] my-12 border border-red-600 p-2
+  @apply w-full h-[78vh] my-12 border border-primary p-2
 }
 
 .button-group button {
