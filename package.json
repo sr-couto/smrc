@@ -13,6 +13,8 @@
   "dependencies": {
     "@fontsource-variable/jetbrains-mono": "^5.0.21",
     "@formkit/auto-animate": "^0.8.2",
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tiptap/extension-code-block-lowlight": "^2.5.8",
     "@tiptap/extension-color": "^2.5.6",
     "@tiptap/extension-dropcursor": "^2.5.6",
     "@tiptap/extension-highlight": "^2.5.6",
@@ -30,7 +32,9 @@
     "dexie-export-import": "^4.1.2",
     "focus-trap": "^7.5.4",
     "fuse.js": "^6.6.2",
+    "highlight.js": "^11.2.0",
     "indexeddb-export-import": "^2.1.5",
+    "lowlight": "^2.4.0",
     "lucide-vue-next": "^0.416.0",
     "pinia": "^2.1.7",
     "radix-vue": "^1.9.2",

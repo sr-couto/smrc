@@ -77,9 +77,9 @@ watch(CtrlAltS, (v) => {
         </button>
       </div>
     </div>
-    <div class="overflow-y-auto overflow-x-hidden h-[calc(100vh-19rem)]">
+    <div class="overflow-y-auto overflow-x-hidden h-[calc(100vh-9rem)] ">
       <ScrollAreaRoot
-        class="w-full h-[calc(100vh-19rem)] rounded overflow-hidden"
+        class="w-full h-[calc(100vh-9rem)] rounded overflow-hidden "
         style="--scrollbar-size: 10px"
       >
         <ScrollAreaViewport class="w-full h-full rounded">
@@ -99,7 +99,7 @@ watch(CtrlAltS, (v) => {
               v-else
               @click="counter.create_project()"
               :disabled="counter.project_name === ''"
-              class="flex items-center justify-start gap-2 disabled:opacity-80 disabled:animate-pulse text-sm w-full text-primary text-left duration-100 focus-within:ring-1 ring-primary"
+              class="flex items-center justify-start gap-2 disabled:animate-pulse text-sm w-full text-primary text-left duration-100 focus-within:ring-1 ring-primary"
             >
               <Plus class="size-4" />
               <p class="w-56 truncate">
@@ -126,10 +126,10 @@ watch(CtrlAltS, (v) => {
               </div>
             </div>
             <div
-              class="flex justify-center items-center w-full h-96 bg-secondary/20"
+              class="flex justify-center items-center w-full py-5 mt-2 bg-secondary/20"
               v-if="filteredOptions?.length === 0"
             >
-              <span class="text-sm">Sin resultados</span>
+              <span class="text-xs text-secondary-foreground/30">Sin resultados</span>
             </div>
           </div>
         </ScrollAreaViewport>

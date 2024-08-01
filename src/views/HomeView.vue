@@ -73,10 +73,10 @@ watch(project_body, (v) => {
         />
       </div>
       <NavProjectListLocal v-show="counter.showProjects" />
-      <FileDropZone
+      <!-- <FileDropZone
         v-show="counter.showProjects"
         class="hidden md:flex"
-      />
+      /> -->
     </header>
     <button
       @click="counter.showProjects = !counter.showProjects"
@@ -87,8 +87,9 @@ watch(project_body, (v) => {
       <SplitterGroup
         direction="horizontal"
         auto-save-id="splitter"
+        class="!overflow-visible"
       >
-        <SplitterPanel>
+        <SplitterPanel class="!overflow-visible" >
           <div class="h-full mx-auto ring-1 min-w-96 ring-secondary">
             <div
               :key="counter.loaded_id"
@@ -100,7 +101,7 @@ watch(project_body, (v) => {
                   placeholder="Sin titulo"
                   autocomplete="off"
                   v-model="counter.project_name"
-                  class="w-full h-10 p-2 text-lg border-0 outline-none bg-background text-primary ring-secondary ring-1 focus-within:ring-primary placeholder:text-foreground/50"
+                  class="w-full h-10 p-2 text-lg outline-none bg-background text-primary border-secondary border focus-within:border-primary placeholder:text-foreground/50"
                 >
               </Editor>
             </div>
@@ -117,7 +118,7 @@ watch(project_body, (v) => {
               {{ counter.project_name }}
             </h2>
             <article
-              class="preview max-w-3xl p-6 mx-auto prose output-group text-foreground prose-purple prose-headings:text-foreground "
+              class="preview max-w-3xl p-6 mx-auto theme-vs2015 prose output-group text-foreground prose-purple prose-headings:text-foreground "
               v-dompurify-html="counter.project_body"
             />
           </div>
