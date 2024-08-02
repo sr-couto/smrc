@@ -2,10 +2,10 @@
   <div
     v-if="editor"
     v-auto-animate
-    class="px-1 pt-1 @container grid"
+    class="px-1 pt-1 @container grid pr-3"
   >
     <div class="sticky z-20 top-0 bg-background pt-1">
-      <div class="control-group flex md:flex-row flex-col flex-wrap @lg:flex-nowrap items-center gap-1 relative">
+      <div class="control-group max-w-5xl mx-auto flex md:flex-row flex-col flex-wrap @lg:flex-nowrap items-center gap-1 relative">
         <slot />
         <div class="flex w-full md:w-auto justify-start gap-1">
           <Tooltip
@@ -68,7 +68,7 @@
         </div>
       </div>
       <div
-        class="button-group  bg-background py-1 border-b border-secondary flex mt-1 gap-1 flex-wrap"
+        class="button-group bg-background mx-auto pt-1 max-w-5xl w-full flex gap-1 flex-wrap"
         v-if="editorToolbar"
       >
         <Tooltip
@@ -268,7 +268,7 @@
         style="--scrollbar-size: 10px"
       >
         <ScrollAreaViewport class="w-full h-full rounded">
-          <div class="prose text-foreground prose-purple prose-headings:text-foreground max-w-full">
+          <div class="prose text-foreground prose-purple prose-headings:text-foreground max-w-5xl mx-auto">
             <editor-content :editor="editor" />
           </div>
         </ScrollAreaViewport>
@@ -371,7 +371,6 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-
       extensions: [
         Color.configure({ types: [TextStyle.name, ListItem.name] }),
         TextStyle.configure({ types: [ListItem.name] }),
@@ -406,12 +405,11 @@ export default {
 
 <style>
 .tiptap iframe {
-  @apply w-full h-[78vh] my-12 border border-primary p-2
+  @apply w-full h-[78vh] my-12 border border-primary mr-12
 }
 
 .button-group button {
-  @apply border border-secondary focus-within:border-primary min-w-9 max-w-9 flex-1 outline-none h-9 text-sm focus-visible:border-primary flex justify-center items-center duration-100;
-
+  @apply border border-secondary focus-within:border-primary min-w-9  flex-1 outline-none h-9 text-sm focus-visible:border-primary flex justify-center items-center duration-100;
 }
 
 .control-group button {
@@ -428,7 +426,16 @@ export default {
 
 /* Basic editor styles */
 .tiptap {
-  @apply p-2 border border-t-0 border-secondary outline-none placeholder:text-primary min-h-96;
+  @apply border p-2 mt-1 border-secondary outline-none placeholder:text-primary min-h-96;
+}
+
+.tiptap code {
+  @apply text-foreground bg-secondary px-1 py-1;
+}
+
+.tiptap code::after,
+.tiptap code::before {
+  display: none;  
 }
 
 .tiptap:first-child * {
@@ -446,8 +453,6 @@ export default {
 .tiptap blockquote {
   @apply text-foreground
 }
-
-
 
 /* Code styling */
 .hljs-comment,

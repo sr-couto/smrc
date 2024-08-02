@@ -1,17 +1,15 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, watch } from 'vue'
 import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from 'radix-vue'
 import { storeToRefs } from 'pinia'
 import { TentTree, GripVertical } from 'lucide-vue-next'
 import { useCounterStore } from '@/stores/counter'
 import { useMagicKeys, whenever } from '@vueuse/core'
 import Editor from '@/components/EditorTipTap.vue'
-import { ScrollAreaRoot, ScrollAreaScrollbar, ScrollAreaThumb, ScrollAreaViewport } from 'radix-vue'
 import NavProjectListLocal from '@/components/NavProjectListLocal.vue'
 import ToggleTheme from '@/components/ToggleTheme.vue';
 import Tooltip from '@/components/ui/Tooltip.vue'
 import BottomToolbar from '@/components/BottomToolbar.vue'
-import FileDropZone from '@/components/FileDropZone.vue'
 
 const counter = useCounterStore()
 const { project_name, project_body } = storeToRefs(counter)
@@ -42,7 +40,7 @@ watch(project_body, (v) => {
 <template>
   <div class="flex w-full h-screen overflow-y-hidden">
     <header
-      class="fixed lg:sticky top-0 z-20 flex flex-col justify-start h-screen border-r bg-background hover:bg-background/80 duration-300  border-secondary"
+      class="fixed lg:sticky top-0 z-50 flex flex-col justify-start h-screen border-r bg-background  border-secondary"
       :class="counter.showProjects ? 'min-w-64' : ' '"
     >
       <div
@@ -88,7 +86,7 @@ watch(project_body, (v) => {
         direction="horizontal"
         auto-save-id="splitter"
       >
-        <SplitterPanel :min-size="50">
+        <SplitterPanel :min-size="30">
           <div class="h-full mx-auto ring-1 md:w-auto  ring-secondary">
             <div
               :key="counter.loaded_id"
@@ -111,7 +109,7 @@ watch(project_body, (v) => {
         >
           <GripVertical />
         </SplitterResizeHandle>
-        <SplitterPanel class="hidden md:flex"/>
+        <SplitterPanel class="hidden md:flex" />
       </SplitterGroup>
       <BottomToolbar />
     </div>

@@ -2,7 +2,7 @@
 import ExportPopover from '@/components/ExportPopover.vue'
 import { useCounterStore } from '@/stores/counter'
 import { useFileDialog } from '@vueuse/core'
-import { Upload, Download  } from 'lucide-vue-next';
+import { Upload } from 'lucide-vue-next';
 
 const counter = useCounterStore()
 
@@ -18,7 +18,7 @@ onChange((files) => {
 
 <template>
   <div
-    class="fixed bottom-0 left-0 right-0 z-20 text-xs flex items-center justify-between h-12  border-t bg-background border-secondary"
+    class="fixed bottom-0 left-0 right-0 z-[60] text-xs flex items-center justify-between h-12  border-t bg-background border-secondary"
   >
     <div class="grid grid-cols-2 gap-0.5 px-0.5 bg-secondary min-w-32 sm:min-w-64 border-r border-secondary">
       <button

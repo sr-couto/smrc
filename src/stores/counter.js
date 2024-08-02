@@ -14,12 +14,22 @@ export const useCounterStore = defineStore('counter', () => {
   const searchTerm = ref('');
   const showProjects = ref(true);
 
+  /**
+   * "Restaura el editor estableciendo los valores de `loaded_id`, `project_name`, and `project_body`.
+   *
+   * @return {void} This function does not return anything.
+   */
   function clear_editor() {
     loaded_id.value = null;
     project_name.value = '';
     project_body.value = '';
   }
-
+  /**
+   * Asincrónicamente crea un nuevo proyecto en la base de datos.
+   *
+   * @return {Promise<void>} Una promesa que se resuelve cuando el proyecto se crea correctamente,
+   *                        o se rechaza con un error si falla la creación.
+   */
   async function create_project() {
     try {
       status.value = 'CHANGING';
@@ -38,6 +48,12 @@ export const useCounterStore = defineStore('counter', () => {
     }
   }
 
+  /**
+   * Asynchronously updates a project in the database.
+   *
+   * @return {Promise<void>} A promise that resolves when the project is successfully updated,
+   *                        or rejects with an error if the update fails.
+   */
   async function update_project() {
     try {
       await db.projects.update(loaded_id.value, {
@@ -52,6 +68,13 @@ export const useCounterStore = defineStore('counter', () => {
     }
   }
 
+  /**
+   * Asynchronously sets the current project based on the provided ID.
+   *
+   * @param {string|null} id - The ID of the project to set. If null, clears the editor.
+   * @return {Promise<void>} A promise that resolves when the project is successfully set,
+   *                        or rejects with an error if the set fails.
+   */
   async function set_project(id) {
     const selectedId = id ? parseInt(id, 10) : null;
     if (selectedId === loaded_id.value) return;
@@ -76,6 +99,12 @@ export const useCounterStore = defineStore('counter', () => {
     status.value = 'READY';
   }
 
+  /**
+   * Asynchronously deletes a project from the database and clears the editor if successful.
+   *
+   * @return {Promise<void>} A promise that resolves when the project is successfully deleted,
+   *                        or rejects with an error if the deletion fails.
+   */
   async function delete_project() {
     if (window.confirm('¿Eliminar proyecto?')) {
       try {
@@ -87,12 +116,24 @@ export const useCounterStore = defineStore('counter', () => {
     }
   }
 
+  /**
+   * Automatically saves the project if the project name is not empty and the status is 'READY'.
+   *
+   * @return {void} This function does not return a value.
+   */
   function auto_save() {
     if (project_name.value === '') return;
     if (status.value !== 'READY') return;
     update_project()
   }
 
+  /**
+   * Asynchronously exports the database to a JSON file.
+   *
+   * @param {string} filename - The name of the file to export the database to.
+   * @return {Promise<Blob>} A Promise that resolves with the exported database as a Blob.
+   * @throws {Error} If there is an error while exporting the database.
+   */
   async function export_database(filename) {
     try {
       await db.open();
@@ -111,6 +152,16 @@ export const useCounterStore = defineStore('counter', () => {
     }
   }
 
+  /**
+   * Asynchronously imports a database from a file. If the file name already exists, the user is prompted to confirm
+   * whether they want to replace the existing database with the new information. If the confirmation is given, the
+   * existing database is cleared, the new file is imported into the database, the search term is cleared, the database
+   * is updated with the new file name, and the editor is cleared. If there is an error during the import process, an
+   * error message is displayed.
+   *
+   * @param {File} file - The file containing the database to import.
+   * @return {Promise<void>} A promise that resolves when the import is complete.
+   */
   async function import_database(file) {
     const replace_file_name = file.name.replace('.json', '');
     const confirmationMessage = file_name.value
@@ -129,11 +180,26 @@ export const useCounterStore = defineStore('counter', () => {
     }
   }
 
+  /**
+   * Asynchronously clears the database by removing all records from the
+   * 'projects' and 'file' tables. This function does not take any parameters
+   * and does not return any values.
+   *
+   * @return {Promise<void>} A promise that resolves when the database is cleared.
+   */
   async function clearDatabase() {
     await db.projects.clear();
     await db.file.clear();
   }
 
+  /**
+   * Sets the database by checking the count of files in the database.
+   * If the count is 0, adds a new file with the current date and the value of file_name.
+   * If the count is 1, retrieves the selected state and sets the value of file_name to the name of the selected state.
+   * If an error occurs, calls the handleError function with the appropriate error message.
+   *
+   * @return {Promise<void>} A promise that resolves when the database is set.
+   */
   async function set_database() {
     try {
       const count = await db.file.count();
@@ -151,6 +217,13 @@ export const useCounterStore = defineStore('counter', () => {
     }
   }
 
+  /**
+   * Updates the database with a new name.
+   *
+   * @param {string} name - The new name to update the database with.
+   * @return {Promise<void>} - A Promise that resolves when the database is updated successfully.
+   * @throws {Error} - If there is an error updating the database, an error is thrown with a message indicating the error.
+   */
   async function update_database(name) {
     try {
       file_name.value = name;
@@ -163,6 +236,12 @@ export const useCounterStore = defineStore('counter', () => {
     }
   }
 
+  /**
+   * Handles an error by logging the error message and updating the status value.
+   *
+   * @param {string} message - The error message to be logged.
+   * @param {Error} error - The error object to be logged.
+   */
   function handleError(message, error) {
     console.error(message, error);
     status.value = 'ERROR';
