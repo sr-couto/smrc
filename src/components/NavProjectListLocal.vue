@@ -1,40 +1,45 @@
 <script setup>
-import { useCounterStore } from '@/stores/counter'
-import { ArrowRight, CircleX, Plus } from 'lucide-vue-next';
-import { storeToRefs } from 'pinia';
-import { computed, ref, watch } from 'vue'
-import { useFocus, useMagicKeys, refDebounced } from '@vueuse/core'
-import { ScrollAreaRoot, ScrollAreaScrollbar, ScrollAreaThumb, ScrollAreaViewport } from 'radix-vue'
+import { useCounterStore } from "@/stores/counter";
+import { ArrowRight, CircleX, Plus } from "lucide-vue-next";
+import { storeToRefs } from "pinia";
+import { computed, ref, watch } from "vue";
+import { useFocus, useMagicKeys, refDebounced } from "@vueuse/core";
+import {
+  ScrollAreaRoot,
+  ScrollAreaScrollbar,
+  ScrollAreaThumb,
+  ScrollAreaViewport,
+} from "radix-vue";
 
-const focusSearch = ref()
-const { focused } = useFocus(focusSearch)
-const keys = useMagicKeys()
-const counter = useCounterStore()
-const CtrlAltS = keys['ctrl+alt+s']
-const { allItems, loaded_id, searchTerm, file_name } = storeToRefs(counter)
-const debounced = refDebounced(searchTerm, 300)
+const focusSearch = ref();
+const { focused } = useFocus(focusSearch);
+const keys = useMagicKeys();
+const counter = useCounterStore();
+const CtrlAltS = keys["ctrl+alt+s"];
+const { allItems, loaded_id, searchTerm, file_name } = storeToRefs(counter);
+const debounced = refDebounced(searchTerm, 300);
 
 function new_document() {
-  counter.clear_editor()
+  counter.clear_editor();
 }
 
 const filteredOptions = computed(() =>
-  debounced.value === ''
+  debounced.value === ""
     ? allItems.value
     : allItems.value.filter((item) => {
-      return item.project_data?.name.toLowerCase().includes(debounced.value.toLowerCase())
-    })
-)
+        return item.project_data?.name
+          .toLowerCase()
+          .includes(debounced.value.toLowerCase());
+      }),
+);
 
 function handleOpenChange() {
-  focused.value = true
+  focused.value = true;
 }
 
 watch(CtrlAltS, (v) => {
-  if (v)
-    handleOpenChange()
-})
-
+  if (v) handleOpenChange();
+});
 </script>
 <template>
   <div class="h-full p-1 border-t border-secondary">
@@ -77,20 +82,22 @@ watch(CtrlAltS, (v) => {
         </button>
       </div>
     </div>
-    <div class="overflow-y-auto overflow-x-hidden h-[calc(100vh-9rem)] ">
+    <div class="overflow-y-auto overflow-x-hidden h-[calc(100vh-9rem)]">
       <ScrollAreaRoot
-        class="w-full h-[calc(100vh-9rem)] rounded overflow-hidden "
+        class="w-full h-[calc(100vh-9rem)] rounded overflow-hidden"
         style="--scrollbar-size: 10px"
       >
         <ScrollAreaViewport class="w-full h-full rounded">
-          <div
-            class="py-1"
-          >
+          <div class="py-1">
             <button
               v-if="counter.loaded_id !== null"
               @click="new_document()"
               class="flex items-center justify-start gap-2 text-sm w-full text-left duration-100 focus-within:ring-1 ring-primary"
-              :class="counter.loaded_id !== null ? 'text-secondary-foreground  ' : 'text-primary pointer-events-none'"
+              :class="
+                counter.loaded_id !== null
+                  ? 'text-secondary-foreground  '
+                  : 'text-primary pointer-events-none'
+              "
             >
               <Plus class="size-4" />
               <span>Agregar</span>
@@ -112,7 +119,9 @@ watch(CtrlAltS, (v) => {
               :key="item.id"
               class="w-full"
             >
-              <div class="flex flex-row items-center justify-between w-full pb-0">
+              <div
+                class="flex flex-row items-center justify-between w-full pb-0"
+              >
                 <button
                   class="flex items-center outline-none justify-start gap-2 text-sm text-left duration-100 focus-within:ring-1 ring-primary"
                   :class="loaded_id === item.id ? 'text-primary' : ''"

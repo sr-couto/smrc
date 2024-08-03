@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
+import { NodeViewContent, nodeViewProps, NodeViewWrapper } from "@tiptap/vue-3";
 
 export default {
   components: {
@@ -36,20 +36,20 @@ export default {
   data() {
     return {
       languages: this.extension.options.lowlight.listLanguages(),
-    }
+    };
   },
 
   computed: {
     selectedLanguage: {
       get() {
-        return this.node.attrs.language
+        return this.node.attrs.language;
       },
       set(language) {
-        this.updateAttributes({ language })
+        this.updateAttributes({ language });
       },
     },
   },
-}
+};
 </script>
 
 <style>
@@ -62,6 +62,6 @@ export default {
 }
 
 .tiptap option {
-  @apply bg-secondary
+  @apply bg-secondary;
 }
 </style>

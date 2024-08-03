@@ -4,8 +4,13 @@
     v-auto-animate
     class="px-1 pt-1 @container grid pr-3"
   >
-    <div class="sticky z-20 top-0 bg-background pt-1">
-      <div class="control-group max-w-5xl mx-auto flex md:flex-row flex-col flex-wrap @lg:flex-nowrap items-center gap-1 relative">
+    <div
+      class="sticky z-20 top-0 bg-background py-1"
+      v-auto-animate
+    >
+      <div
+        class="control-group max-w-5xl mx-auto w-full flex md:flex-row flex-col flex-wrap @lg:flex-nowrap items-center gap-1 relative"
+      >
         <slot />
         <div class="flex w-full md:w-auto justify-start gap-1">
           <Tooltip
@@ -234,9 +239,7 @@
           name="Separador"
           side="bottom"
         >
-          <button
-            @click="editor.chain().focus().setHorizontalRule().run()"
-          >
+          <button @click="editor.chain().focus().setHorizontalRule().run()">
             <Minus />
           </button>
         </Tooltip>
@@ -244,9 +247,7 @@
           name="Quitar formato"
           side="bottom"
         >
-          <button
-            @click="editor.chain().focus().unsetAllMarks().run()"
-          >
+          <button @click="editor.chain().focus().unsetAllMarks().run()">
             <RemoveFormatting />
           </button>
         </Tooltip>
@@ -254,9 +255,7 @@
           name="Limpiar todo"
           side="bottom"
         >
-          <button
-            @click="editor.chain().focus().clearNodes().run()"
-          >
+          <button @click="editor.chain().focus().clearNodes().run()">
             <Eraser />
           </button>
         </Tooltip>
@@ -264,11 +263,13 @@
     </div>
     <div>
       <ScrollAreaRoot
-        class="w-full h-[calc(100vh-6rem)] rounded overflow-hidden "
+        class="w-full h-[calc(100vh-6rem)] rounded overflow-hidden"
         style="--scrollbar-size: 10px"
       >
         <ScrollAreaViewport class="w-full h-full rounded">
-          <div class="prose text-foreground prose-purple prose-headings:text-foreground max-w-5xl mx-auto">
+          <div
+            class="prose prose-purple max-w-5xl mx-auto"
+          >
             <editor-content :editor="editor" />
           </div>
         </ScrollAreaViewport>
@@ -294,78 +295,99 @@
 </template>
 
 <script setup>
-import { Italic, ImagePlus, SquarePilcrow, Bold, Strikethrough, Code, RemoveFormatting, Eraser, List, ListOrdered, SquareTerminal, Quote, Minus, Undo2, Redo2, Wifi } from 'lucide-vue-next';
-import { ScrollAreaRoot, ScrollAreaScrollbar, ScrollAreaThumb, ScrollAreaViewport } from 'radix-vue'
-
+import {
+  Italic,
+  ImagePlus,
+  SquarePilcrow,
+  Bold,
+  Strikethrough,
+  Code,
+  RemoveFormatting,
+  Eraser,
+  List,
+  ListOrdered,
+  SquareTerminal,
+  Quote,
+  Minus,
+  Undo2,
+  Redo2,
+  Wifi,
+} from "lucide-vue-next";
+import {
+  ScrollAreaRoot,
+  ScrollAreaScrollbar,
+  ScrollAreaThumb,
+  ScrollAreaViewport,
+} from "radix-vue";
 </script>
 
 <script>
-import { Color } from '@tiptap/extension-color'
-import ListItem from '@tiptap/extension-list-item'
-import TextStyle from '@tiptap/extension-text-style'
-import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent, VueNodeViewRenderer } from '@tiptap/vue-3'
-import Image from '@tiptap/extension-image'
-import Placeholder from '@tiptap/extension-placeholder'
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-import css from 'highlight.js/lib/languages/css'
-import js from 'highlight.js/lib/languages/javascript'
-import ts from 'highlight.js/lib/languages/typescript'
-import html from 'highlight.js/lib/languages/xml'
+import { Color } from "@tiptap/extension-color";
+import ListItem from "@tiptap/extension-list-item";
+import TextStyle from "@tiptap/extension-text-style";
+import StarterKit from "@tiptap/starter-kit";
+import { Editor, EditorContent, VueNodeViewRenderer } from "@tiptap/vue-3";
+import Image from "@tiptap/extension-image";
+import Placeholder from "@tiptap/extension-placeholder";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import css from "highlight.js/lib/languages/css";
+import js from "highlight.js/lib/languages/javascript";
+import ts from "highlight.js/lib/languages/typescript";
+import html from "highlight.js/lib/languages/xml";
 import { lowlight } from "lowlight/lib/common.js";
-import CodeBlockComponent from './CodeBlockComponent.vue'
-import Iframe from './iframe.ts'
-import Tooltip from './ui/Tooltip.vue';
+import CodeBlockComponent from "./CodeBlockComponent.vue";
+import Iframe from "./iframe.ts";
+import Tooltip from "./ui/Tooltip.vue";
 
-lowlight.registerLanguage('html', html)
-lowlight.registerLanguage('css', css)
-lowlight.registerLanguage('js', js)
-lowlight.registerLanguage('ts', ts)
+lowlight.registerLanguage("html", html);
+lowlight.registerLanguage("css", css);
+lowlight.registerLanguage("js", js);
+lowlight.registerLanguage("ts", ts);
 
 export default {
   components: {
-    EditorContent
+    EditorContent,
   },
 
   props: {
     modelValue: {
       type: String,
-      default: '',
+      default: "",
     },
   },
 
-  emits: ['update:modelValue'],
+  emits: ["update:modelValue"],
 
   data() {
     return {
       editor: null,
       editorToolbar: true,
-    }
+    };
   },
 
   methods: {
     addImage() {
-      const url = window.prompt('Ingresar URL de la imagen')
+      const url = window.prompt("Ingresar URL de la imagen");
       if (url) {
-        this.editor.chain().focus().setImage({ src: url }).run()
+        this.editor.chain().focus().setImage({ src: url }).run();
       }
     },
     addIframe() {
-      const url = window.prompt('Ingresar URL del iframe')
+      const url = window.prompt("Ingresar URL del iframe");
 
       if (url) {
-        this.editor.chain().focus().setIframe({ src: url }).run()
+        this.editor.chain().focus().setIframe({ src: url }).run();
       }
     },
   },
 
   watch: {
     modelValue(value) {
-      const isSame = this.editor.getHTML() === value
+      const isSame = this.editor.getHTML() === value;
       if (isSame) {
-        return
+        return;
       }
-      this.editor.commands.setContent(value, false)
+      this.editor.commands.setContent(value, false);
     },
   },
 
@@ -375,45 +397,43 @@ export default {
         Color.configure({ types: [TextStyle.name, ListItem.name] }),
         TextStyle.configure({ types: [ListItem.name] }),
         StarterKit.configure({
-          codeBlock: false
+          codeBlock: false,
         }),
         Image,
         Iframe,
         Placeholder.configure({
-          placeholder: 'Escribir algo …',
+          placeholder: "Escribir algo …",
         }),
-        CodeBlockLowlight
-          .extend({
-            addNodeView() {
-              return VueNodeViewRenderer(CodeBlockComponent)
-            },
-          })
-          .configure({ lowlight }),
+        CodeBlockLowlight.extend({
+          addNodeView() {
+            return VueNodeViewRenderer(CodeBlockComponent);
+          },
+        }).configure({ lowlight }),
       ],
       content: this.modelValue,
       onUpdate: () => {
-        this.$emit('update:modelValue', this.editor.getHTML())
+        this.$emit("update:modelValue", this.editor.getHTML());
       },
-    })
+    });
   },
 
   beforeUnmount() {
-    this.editor.destroy()
+    this.editor.destroy();
   },
-}
+};
 </script>
 
 <style>
 .tiptap iframe {
-  @apply w-full h-[78vh] my-12 border border-primary mr-12
+  @apply w-full h-[78vh] my-12 border border-primary mr-12;
 }
 
 .button-group button {
-  @apply border border-secondary focus-within:border-primary min-w-9  flex-1 outline-none h-9 text-sm focus-visible:border-primary flex justify-center items-center duration-100;
+  @apply border border-secondary focus-within:border-primary min-w-9 max-w-9 @2xl:max-w-full flex-1 outline-none h-9 text-sm focus-visible:border-primary flex justify-center items-center duration-100;
 }
 
 .control-group button {
-  @apply disabled:opacity-50
+  @apply disabled:opacity-50;
 }
 
 .button-group button.is-active {
@@ -421,21 +441,18 @@ export default {
 }
 
 .button-group button svg {
-  @apply size-4
+  @apply size-4;
 }
 
 /* Basic editor styles */
 .tiptap {
-  @apply border p-2 mt-1 border-secondary outline-none placeholder:text-primary min-h-96;
+  @apply border p-2 border-secondary outline-none placeholder:text-primary min-h-96 font-serif;
 }
 
-.tiptap code {
-  @apply text-foreground bg-secondary px-1 py-1;
-}
 
 .tiptap code::after,
 .tiptap code::before {
-  display: none;  
+  display: none;
 }
 
 .tiptap:first-child * {
@@ -447,12 +464,9 @@ export default {
   float: left;
   height: 0;
   pointer-events: none;
-  @apply text-foreground/30
+  @apply text-foreground/30;
 }
 
-.tiptap blockquote {
-  @apply text-foreground
-}
 
 /* Code styling */
 .hljs-comment,

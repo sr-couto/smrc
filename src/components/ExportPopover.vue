@@ -1,20 +1,25 @@
 <script setup>
-import { PopoverClose, PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from 'radix-vue'
-import { useCounterStore } from '@/stores/counter'
-import { X, Download } from 'lucide-vue-next';
+import {
+  PopoverClose,
+  PopoverContent,
+  PopoverPortal,
+  PopoverRoot,
+  PopoverTrigger,
+} from "radix-vue";
+import { useCounterStore } from "@/stores/counter";
+import { X, Download } from "lucide-vue-next";
 
-import { storeToRefs } from 'pinia';
-import { ref, watch } from 'vue';
-const counter = useCounterStore()
-const { file_name } = storeToRefs(counter)
+import { storeToRefs } from "pinia";
+import { ref, watch } from "vue";
+const counter = useCounterStore();
+const { file_name } = storeToRefs(counter);
 
-const input = ref(file_name)
+const input = ref(file_name);
 
 watch(input, (v) => {
-  if (v)
-    counter.update_database(input.value)
-    counter.auto_save()
-})
+  if (v) counter.update_database(input.value);
+  counter.auto_save();
+});
 </script>
 <template>
   <PopoverRoot>

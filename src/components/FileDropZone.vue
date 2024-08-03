@@ -1,33 +1,31 @@
 <script setup>
-import { HardDriveUpload } from 'lucide-vue-next';
-import { useFileDialog, useTimeoutFn, useDropZone } from '@vueuse/core'
-import { ref } from 'vue';
-import { useCounterStore } from '@/stores/counter'
-const counter = useCounterStore()
+import { HardDriveUpload } from "lucide-vue-next";
+import { useFileDialog, useTimeoutFn, useDropZone } from "@vueuse/core";
+import { ref } from "vue";
+import { useCounterStore } from "@/stores/counter";
+const counter = useCounterStore();
 
-const dropZoneRef = ref()
-const { isOverDropZone } = useDropZone(dropZoneRef, onDrop)
+const dropZoneRef = ref();
+const { isOverDropZone } = useDropZone(dropZoneRef, onDrop);
 
 const { open, onChange } = useFileDialog({
-  accept: 'application/json'
-})
-const filesData = ref([])
+  accept: "application/json",
+});
+const filesData = ref([]);
 
 onChange((files) => {
-  counter.import_database(files[0])
-})
+  counter.import_database(files[0]);
+});
 
 function onDrop(files) {
   if (files) {
-    counter.import_database(files[0])
-    counter.showProjects = true
+    counter.import_database(files[0]);
+    counter.showProjects = true;
     useTimeoutFn(() => {
-      filesData.value = []
-    }, 3000)
+      filesData.value = [];
+    }, 3000);
   }
 }
-
-
 </script>
 
 <template>
@@ -37,11 +35,15 @@ function onDrop(files) {
   >
     <div
       :class="isOverDropZone ? ' border-animated ' : ''"
-      class="dropZone bg-secondary/80 absolute left-0 bottom-12 w-64 z-[999] duration-100  "
+      class="dropZone bg-secondary/80 absolute left-0 bottom-12 w-64 z-[999] duration-100"
     >
       <div
         class="flex flex-col items-center justify-center w-full h-40 duration-100 min-w-64"
-        :class="isOverDropZone ? '!border-primary bg-primary/10 hover:border-red-600' : ''"
+        :class="
+          isOverDropZone
+            ? '!border-primary bg-primary/10 hover:border-red-600'
+            : ''
+        "
         v-auto-animate
       >
         <div
@@ -81,21 +83,40 @@ function onDrop(files) {
 .border-animated:before {
   @apply absolute inset-0;
   content: "";
-  background: linear-gradient(90deg, #3b82f6 50%, transparent 50%), linear-gradient(90deg, #3b82f6 50%, transparent 50%), linear-gradient(0deg, #3b82f6 50%, transparent 50%), linear-gradient(0deg, #3b82f6 50%, transparent 50%);
+  background: linear-gradient(90deg, #3b82f6 50%, transparent 50%),
+    linear-gradient(90deg, #3b82f6 50%, transparent 50%),
+    linear-gradient(0deg, #3b82f6 50%, transparent 50%),
+    linear-gradient(0deg, #3b82f6 50%, transparent 50%);
   background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
-  background-size: 15px 4px, 15px 4px, 4px 15px, 4px 15px;
-  background-position: 0px 0px, 200px 155px, 0px 70px, 15.75rem 0px;
+  background-size:
+    15px 4px,
+    15px 4px,
+    4px 15px,
+    4px 15px;
+  background-position:
+    0px 0px,
+    200px 155px,
+    0px 70px,
+    15.75rem 0px;
   padding: 0;
   animation: border-dance 14s infinite linear;
 }
 
 @keyframes border-dance {
   0% {
-    background-position: 0px 0px, 300px 155px, 0px 150px, 15.75rem 0px;
+    background-position:
+      0px 0px,
+      300px 155px,
+      0px 150px,
+      15.75rem 0px;
   }
 
   100% {
-    background-position: 300px 0px, 0px 155px, 0px 0px, 15.75rem 150px;
+    background-position:
+      300px 0px,
+      0px 155px,
+      0px 0px,
+      15.75rem 150px;
   }
 }
 </style>

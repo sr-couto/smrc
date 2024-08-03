@@ -82,6 +82,7 @@ export default {
     },
     fontFamily: {
       mono: ["JetBrains Mono Variable", "mono"],
+      serif: ["IBM Plex Serif", "serif"],
     },
   },
   plugins: [

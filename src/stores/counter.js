@@ -1,17 +1,17 @@
-import { ref } from 'vue';
-import { defineStore } from 'pinia';
-import { db } from '@/db';
-import { liveQuery } from 'dexie';
-import { useObservable } from '@vueuse/rxjs';
-import { exportDB, importInto } from 'dexie-export-import';
+import { ref } from "vue";
+import { defineStore } from "pinia";
+import { db } from "@/db";
+import { liveQuery } from "dexie";
+import { useObservable } from "@vueuse/rxjs";
+import { exportDB, importInto } from "dexie-export-import";
 
-export const useCounterStore = defineStore('counter', () => {
-  const status = ref('LOADING');
+export const useCounterStore = defineStore("counter", () => {
+  const status = ref("LOADING");
   const loaded_id = ref(null);
-  const file_name = ref('');
-  const project_name = ref('');
-  const project_body = ref('');
-  const searchTerm = ref('');
+  const file_name = ref("");
+  const project_name = ref("");
+  const project_body = ref("");
+  const searchTerm = ref("");
   const showProjects = ref(true);
 
   /**
@@ -21,8 +21,8 @@ export const useCounterStore = defineStore('counter', () => {
    */
   function clear_editor() {
     loaded_id.value = null;
-    project_name.value = '';
-    project_body.value = '';
+    project_name.value = "";
+    project_body.value = "";
   }
   /**
    * Asincrónicamente crea un nuevo proyecto en la base de datos.
@@ -32,7 +32,7 @@ export const useCounterStore = defineStore('counter', () => {
    */
   async function create_project() {
     try {
-      status.value = 'CHANGING';
+      status.value = "CHANGING";
       const new_project_id = await db.projects.add({
         date: new Date().toISOString(),
         createAd: new Date().toISOString(),
@@ -42,9 +42,9 @@ export const useCounterStore = defineStore('counter', () => {
         },
       });
       loaded_id.value = new_project_id;
-      status.value = 'READY';
+      status.value = "READY";
     } catch (error) {
-      handleError('Error al crear el proyecto', error);
+      handleError("Error al crear el proyecto", error);
     }
   }
 
@@ -64,7 +64,7 @@ export const useCounterStore = defineStore('counter', () => {
         },
       });
     } catch (error) {
-      handleError('Error al actualizar el proyecto', error);
+      handleError("Error al actualizar el proyecto", error);
     }
   }
 
@@ -78,7 +78,7 @@ export const useCounterStore = defineStore('counter', () => {
   async function set_project(id) {
     const selectedId = id ? parseInt(id, 10) : null;
     if (selectedId === loaded_id.value) return;
-    status.value = 'CHANGING';
+    status.value = "CHANGING";
     try {
       if (selectedId === null) {
         clear_editor();
@@ -89,14 +89,14 @@ export const useCounterStore = defineStore('counter', () => {
           project_name.value = selectedState.project_data.name;
         } else {
           clear_editor();
-          console.error('Selected project not found');
+          console.error("Selected project not found");
         }
         loaded_id.value = selectedId;
       }
     } catch (error) {
-      handleError('Error al seleccionar el proyecto', error);
+      handleError("Error al seleccionar el proyecto", error);
     }
-    status.value = 'READY';
+    status.value = "READY";
   }
 
   /**
@@ -106,12 +106,12 @@ export const useCounterStore = defineStore('counter', () => {
    *                        or rejects with an error if the deletion fails.
    */
   async function delete_project() {
-    if (window.confirm('¿Eliminar proyecto?')) {
+    if (window.confirm("¿Eliminar proyecto?")) {
       try {
         await db.projects.delete(loaded_id.value);
         clear_editor();
       } catch (error) {
-        handleError('Error al eliminar el proyecto', error);
+        handleError("Error al eliminar el proyecto", error);
       }
     }
   }
@@ -122,9 +122,9 @@ export const useCounterStore = defineStore('counter', () => {
    * @return {void} This function does not return a value.
    */
   function auto_save() {
-    if (project_name.value === '') return;
-    if (status.value !== 'READY') return;
-    update_project()
+    if (project_name.value === "") return;
+    if (status.value !== "READY") return;
+    update_project();
   }
 
   /**
@@ -139,7 +139,7 @@ export const useCounterStore = defineStore('counter', () => {
       await db.open();
       const blob = await exportDB(db);
       const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = url;
       link.download = `${filename || file_name.value}.json`;
       document.body.appendChild(link);
@@ -148,7 +148,7 @@ export const useCounterStore = defineStore('counter', () => {
       URL.revokeObjectURL(url);
       return blob;
     } catch (error) {
-      handleError('Error al exportar la base de datos', error);
+      handleError("Error al exportar la base de datos", error);
     }
   }
 
@@ -163,7 +163,7 @@ export const useCounterStore = defineStore('counter', () => {
    * @return {Promise<void>} A promise that resolves when the import is complete.
    */
   async function import_database(file) {
-    const replace_file_name = file.name.replace('.json', '');
+    const replace_file_name = file.name.replace(".json", "");
     const confirmationMessage = file_name.value
       ? `¿Desea reemplazar la DB ${file_name.value} con la información de ${replace_file_name}?`
       : `¿Desea reemplazar la DB con la información de ${replace_file_name}?`;
@@ -171,11 +171,11 @@ export const useCounterStore = defineStore('counter', () => {
       try {
         await clearDatabase();
         await importInto(db, file, {});
-        searchTerm.value = '';
+        searchTerm.value = "";
         update_database(replace_file_name);
         clear_editor();
       } catch (error) {
-        handleError('Error al importar la base de datos', error);
+        handleError("Error al importar la base de datos", error);
       }
     }
   }
@@ -213,7 +213,7 @@ export const useCounterStore = defineStore('counter', () => {
         if (selectedState) file_name.value = selectedState.name;
       }
     } catch (error) {
-      handleError('Error al configurar la base de datos', error);
+      handleError("Error al configurar la base de datos", error);
     }
   }
 
@@ -232,7 +232,7 @@ export const useCounterStore = defineStore('counter', () => {
         name,
       });
     } catch (error) {
-      handleError('Error al actualizar la base de datos', error);
+      handleError("Error al actualizar la base de datos", error);
     }
   }
 
@@ -244,7 +244,7 @@ export const useCounterStore = defineStore('counter', () => {
    */
   function handleError(message, error) {
     console.error(message, error);
-    status.value = 'ERROR';
+    status.value = "ERROR";
   }
 
   const allItems = useObservable(liveQuery(() => db.projects.toArray()));

@@ -1,5 +1,12 @@
 <script setup>
-import { TooltipArrow, TooltipContent, TooltipPortal, TooltipProvider, TooltipRoot, TooltipTrigger } from 'radix-vue'
+import {
+  TooltipArrow,
+  TooltipContent,
+  TooltipPortal,
+  TooltipProvider,
+  TooltipRoot,
+  TooltipTrigger,
+} from "radix-vue";
 
 const props = defineProps({
   name: {
@@ -17,7 +24,7 @@ const props = defineProps({
     default: "right",
     required: false,
   },
-})
+});
 </script>
 
 <template>
@@ -34,7 +41,7 @@ const props = defineProps({
         >
           {{ props.name }}
           <kbd
-            v-if="props.shortcut"
+            v-show="props.shortcut"
             class="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100"
           >
             <span>Ctrl</span><span>Alt</span>{{ props.shortcut }}

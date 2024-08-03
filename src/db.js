@@ -1,11 +1,8 @@
-import Dexie from 'dexie'
+import Dexie from "dexie";
 
-export const db = new Dexie('DB')
+export const db = new Dexie("DB");
 
 db.version(1).stores({
-  file: '++id, date, name',
-  projects: '++id, date'
-})
-
-
-
+  file: "++id, date, name",
+  projects: "++id, date",
+});
