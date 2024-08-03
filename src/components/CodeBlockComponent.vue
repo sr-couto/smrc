@@ -58,7 +58,7 @@ export default {
 }
 
 .tiptap select {
-  @apply bg-background border border-background top-1 right-1 text-xs p-1 absolute;
+  @apply bg-background font-mono border border-background top-1 right-1 text-xs p-1 absolute;
 }
 
 .tiptap option {

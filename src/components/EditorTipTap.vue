@@ -2,14 +2,15 @@
   <div
     v-if="editor"
     v-auto-animate
-    class="px-1 pt-1 @container grid pr-3"
+    class="px-1 pt-1 @container grid md:pr-3"
   >
     <div
+      v-if="toolbar"
       class="sticky z-20 top-0 bg-background py-1"
       v-auto-animate
     >
       <div
-        class="control-group max-w-5xl mx-auto w-full flex md:flex-row flex-col flex-wrap @lg:flex-nowrap items-center gap-1 relative"
+        class="control-group max-w-full mx-auto w-full flex md:flex-row flex-col flex-wrap @lg:flex-nowrap items-center gap-1 relative"
       >
         <slot />
         <div class="flex w-full md:w-auto justify-start gap-1">
@@ -73,7 +74,7 @@
         </div>
       </div>
       <div
-        class="button-group bg-background mx-auto pt-1 max-w-5xl w-full flex gap-1 flex-wrap"
+        class="button-group bg-background mx-auto pt-1 max-w-full w-full flex gap-1 flex-wrap"
         v-if="editorToolbar"
       >
         <Tooltip
@@ -252,7 +253,7 @@
           </button>
         </Tooltip>
         <Tooltip
-          name="Limpiar todo"
+          name="Limpiar estilos"
           side="bottom"
         >
           <button @click="editor.chain().focus().clearNodes().run()">
@@ -263,12 +264,12 @@
     </div>
     <div>
       <ScrollAreaRoot
-        class="w-full h-[calc(100vh-6rem)] rounded overflow-hidden"
+        class="w-full h-[calc(100vh-5rem)] rounded overflow-hidden"
         style="--scrollbar-size: 10px"
       >
         <ScrollAreaViewport class="w-full h-full rounded">
           <div
-            class="prose prose-purple max-w-5xl mx-auto"
+            class="prose prose-purple dark:prose-invert max-w-full mx-auto"
           >
             <editor-content :editor="editor" />
           </div>
@@ -312,6 +313,7 @@ import {
   Undo2,
   Redo2,
   Wifi,
+  Eye,
 } from "lucide-vue-next";
 import {
   ScrollAreaRoot,
@@ -319,6 +321,12 @@ import {
   ScrollAreaThumb,
   ScrollAreaViewport,
 } from "radix-vue";
+
+import { useCounterStore } from "@/stores/counter";
+
+const counter = useCounterStore();
+
+
 </script>
 
 <script>
@@ -338,6 +346,7 @@ import { lowlight } from "lowlight/lib/common.js";
 import CodeBlockComponent from "./CodeBlockComponent.vue";
 import Iframe from "./iframe.ts";
 import Tooltip from "./ui/Tooltip.vue";
+import { useStorage } from '@vueuse/core'
 
 lowlight.registerLanguage("html", html);
 lowlight.registerLanguage("css", css);
@@ -354,6 +363,10 @@ export default {
       type: String,
       default: "",
     },
+    toolbar: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   emits: ["update:modelValue"],
@@ -361,7 +374,7 @@ export default {
   data() {
     return {
       editor: null,
-      editorToolbar: true,
+      editorToolbar: useStorage('editorToolbar', true),
     };
   },
 
@@ -428,6 +441,9 @@ export default {
   @apply w-full h-[78vh] my-12 border border-primary mr-12;
 }
 
+
+
+
 .button-group button {
   @apply border border-secondary focus-within:border-primary min-w-9 max-w-9 @2xl:max-w-full flex-1 outline-none h-9 text-sm focus-visible:border-primary flex justify-center items-center duration-100;
 }
@@ -449,6 +465,9 @@ export default {
   @apply border p-2 border-secondary outline-none placeholder:text-primary min-h-96 font-serif;
 }
 
+.tiptap pre {
+  @apply bg-gray-900 text-white
+}
 
 .tiptap code::after,
 .tiptap code::before {

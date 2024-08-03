@@ -82,13 +82,22 @@ watch(project_body, (v) => {
         direction="horizontal"
         auto-save-id="splitter"
       >
+        <SplitterPanel class="hidden md:flex" />
+        <SplitterResizeHandle
+          class="bg-background hidden md:flex justify-center items-center w-2 data-[state=hover]:bg-primary/10 duration-100"
+        >
+          <GripVertical />
+        </SplitterResizeHandle>
         <SplitterPanel :min-size="30">
           <div class="h-full mx-auto ring-1 md:w-auto ring-secondary">
             <div
               :key="counter.loaded_id"
               class="w-full mx-auto"
             >
-              <Editor v-model="counter.project_body">
+              <Editor
+                v-model="counter.project_body"
+                toolbar
+              >
                 <div class="flex gap-1 w-full items-center justify-between">
                   <input
                     type="text"
@@ -116,7 +125,7 @@ watch(project_body, (v) => {
           </div>
         </SplitterPanel>
         <SplitterResizeHandle
-          class="bg-secondary hidden md:flex justify-center items-center w-3 data-[state=hover]:bg-secondary/50 duration-100"
+          class="bg-background hidden md:flex justify-center items-center w-2 data-[state=hover]:bg-primary/10 duration-100"
         >
           <GripVertical />
         </SplitterResizeHandle>
