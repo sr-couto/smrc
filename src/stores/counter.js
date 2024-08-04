@@ -20,7 +20,7 @@ export const useCounterStore = defineStore("counter", () => {
    * @return {void} This function does not return anything.
    */
   function clear_editor() {
-    loaded_id.value = null;
+    loaded_id.value = "";
     project_name.value = "";
     project_body.value = "";
   }
@@ -153,7 +153,7 @@ export const useCounterStore = defineStore("counter", () => {
   }
 
   /**
-   * Asynchronously imports a database from a file. If the file name already exists, the user is prompted to confirm
+   * Asynchronously imports a database from a file. If DB name already exists, the user is prompted to confirm
    * whether they want to replace the existing database with the new information. If the confirmation is given, the
    * existing database is cleared, the new file is imported into the database, the search term is cleared, the database
    * is updated with the new file name, and the editor is cleared. If there is an error during the import process, an
@@ -171,9 +171,9 @@ export const useCounterStore = defineStore("counter", () => {
       try {
         await clearDatabase();
         await importInto(db, file, {});
-        searchTerm.value = "";
         update_database(replace_file_name);
         clear_editor();
+        searchTerm.value = "";
       } catch (error) {
         handleError("Error al importar la base de datos", error);
       }
@@ -200,7 +200,7 @@ export const useCounterStore = defineStore("counter", () => {
    *
    * @return {Promise<void>} A promise that resolves when the database is set.
    */
-  async function set_database() {
+  async function init_database() {
     try {
       const count = await db.file.count();
       if (count === 0) {
@@ -258,7 +258,7 @@ export const useCounterStore = defineStore("counter", () => {
     status,
     allItems,
     showProjects,
-    set_database,
+    init_database,
     update_database,
     export_database,
     import_database,

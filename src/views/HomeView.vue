@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from "radix-vue";
 import { storeToRefs } from "pinia";
 import { TentTree, GripVertical } from "lucide-vue-next";
@@ -16,9 +16,10 @@ const { project_name, project_body } = storeToRefs(counter);
 
 const keys = useMagicKeys();
 const CtrlAltW = keys["ctrl+alt+w"];
+const layout = ref(0)
 
 onMounted(() => {
-  counter.set_database();
+  counter.init_database();
   counter.auto_save();
 });
 
@@ -75,20 +76,22 @@ watch(project_body, (v) => {
     <button
       @click="counter.showProjects = !counter.showProjects"
       v-show="counter.showProjects"
-      class="fixed inset-0 bg-secondary/25 lg:hidden z-10"
+      class="fixed inset-0 bg-background/90 lg:hidden z-40"
     />
     <div class="w-full pl-8 lg:pl-0 min-h-screen bg-background group">
       <SplitterGroup
         direction="horizontal"
         auto-save-id="splitter"
+        @layout="layout = $event"
       >
-        <SplitterPanel class="hidden md:flex" />
-        <SplitterResizeHandle
-          class="bg-background hidden md:flex justify-center items-center w-2 data-[state=hover]:bg-primary/10 duration-100"
+        <div
+          :style="`flex: ${layout[1]} 1 0px; overflow: hidden;`"
+          class="hidden sm:flex"
+        />
+        <SplitterPanel
+          :min-size="60"
+          :max-size="98"
         >
-          <GripVertical />
-        </SplitterResizeHandle>
-        <SplitterPanel :min-size="30">
           <div class="h-full mx-auto ring-1 md:w-auto ring-secondary">
             <div
               :key="counter.loaded_id"
@@ -103,6 +106,7 @@ watch(project_body, (v) => {
                     type="text"
                     placeholder="Sin titulo"
                     autocomplete="off"
+                    @keyup.enter="counter.create_project()"
                     v-model="counter.project_name"
                     class="w-full h-10 p-2 text-lg outline-none bg-background text-primary border-secondary border focus-within:border-primary placeholder:text-foreground/50"
                   >
@@ -117,7 +121,7 @@ watch(project_body, (v) => {
                         : 'opacity-50 bg-secondary  pointer-events-none'
                     "
                   >
-                    Agregar proyecto
+                    Agregar
                   </button>
                 </div>
               </Editor>
@@ -125,11 +129,14 @@ watch(project_body, (v) => {
           </div>
         </SplitterPanel>
         <SplitterResizeHandle
-          class="bg-background hidden md:flex justify-center items-center w-2 data-[state=hover]:bg-primary/10 duration-100"
+          class=" hidden md:flex justify-center  items-center w-3 border-l border-secondary data-[state=hover]:border-primary/10 duration-100"
         >
-          <GripVertical />
+          <GripVertical class="-translate-x-1.5 hover:opacity-100 opacity-0 duration-300" />
         </SplitterResizeHandle>
-        <SplitterPanel class="hidden md:flex" />
+        <SplitterPanel
+          :max-size="30"
+          class="hidden md:flex"
+        />
       </SplitterGroup>
       <BottomToolbar />
     </div>

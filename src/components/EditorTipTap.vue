@@ -2,7 +2,7 @@
   <div
     v-if="editor"
     v-auto-animate
-    class="px-1 pt-1 @container grid md:pr-3"
+    class="px-1 pt-1 @container grid md:pr-2"
   >
     <div
       v-if="toolbar"
@@ -74,11 +74,11 @@
         </div>
       </div>
       <div
-        class="button-group bg-background mx-auto pt-1 max-w-full w-full flex gap-1 flex-wrap"
+        class="button-group max-w-3xl bg-background justify-between m-0 mr-auto pr-[1px] pt-1 w-full flex gap-1 flex-wrap"
         v-if="editorToolbar"
       >
         <Tooltip
-          name="Bold"
+          name="Negrita"
           side="bottom"
         >
           <button
@@ -90,7 +90,7 @@
           </button>
         </Tooltip>
         <Tooltip
-          name="Italic"
+          name="Cursiva"
           side="bottom"
         >
           <button
@@ -102,7 +102,7 @@
           </button>
         </Tooltip>
         <Tooltip
-          name="Strikethrough"
+          name="Linea de tachado"
           side="bottom"
         >
           <button
@@ -114,7 +114,7 @@
           </button>
         </Tooltip>
         <Tooltip
-          name="Code"
+          name="Código en linea"
           side="bottom"
         >
           <button
@@ -245,7 +245,7 @@
           </button>
         </Tooltip>
         <Tooltip
-          name="Quitar formato"
+          name="Quitar marcas"
           side="bottom"
         >
           <button @click="editor.chain().focus().unsetAllMarks().run()">
@@ -253,7 +253,7 @@
           </button>
         </Tooltip>
         <Tooltip
-          name="Limpiar estilos"
+          name="Limpiar nodos"
           side="bottom"
         >
           <button @click="editor.chain().focus().clearNodes().run()">
@@ -264,10 +264,11 @@
     </div>
     <div>
       <ScrollAreaRoot
-        class="w-full h-[calc(100vh-5rem)] rounded overflow-hidden"
+        class="w-full border border-secondary"
+        :class="editorToolbar ? 'h-[calc(100vh-9rem)]': 'h-[calc(100vh-6.75rem)]'"
         style="--scrollbar-size: 10px"
       >
-        <ScrollAreaViewport class="w-full h-full rounded">
+        <ScrollAreaViewport class="w-full h-full">
           <div
             class="prose prose-purple dark:prose-invert max-w-full mx-auto"
           >
@@ -437,15 +438,10 @@ export default {
 </script>
 
 <style>
-.tiptap iframe {
-  @apply w-full h-[78vh] my-12 border border-primary mr-12;
-}
-
-
 
 
 .button-group button {
-  @apply border border-secondary focus-within:border-primary min-w-9 max-w-9 @2xl:max-w-full flex-1 outline-none h-9 text-sm focus-visible:border-primary flex justify-center items-center duration-100;
+  @apply border border-secondary focus-within:border-primary min-w-9  flex-1 outline-none h-9 text-sm focus-visible:border-primary flex justify-center items-center duration-100;
 }
 
 .control-group button {
@@ -462,11 +458,27 @@ export default {
 
 /* Basic editor styles */
 .tiptap {
-  @apply border p-2 border-secondary outline-none placeholder:text-primary min-h-96 font-serif;
+  @apply  p-4  outline-none placeholder:text-primary min-h-96 font-serif;
 }
 
 .tiptap pre {
   @apply bg-gray-900 text-white
+}
+
+.tiptap .iframe-wrapper  {
+  @apply w-full h-[76vh] overflow-hidden m-0 border-2 bg-primary/10 border-primary/50 relative;
+}
+
+.tiptap .iframe-wrapper iframe {
+  @apply w-full h-[76vh];
+}
+
+.tiptap iframe:before {
+  content: "Cargando iframe"
+}
+
+.tiptap img {
+  @apply mx-auto
 }
 
 .tiptap code::after,

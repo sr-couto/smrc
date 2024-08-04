@@ -15,7 +15,7 @@ const focusSearch = ref();
 const { focused } = useFocus(focusSearch);
 const keys = useMagicKeys();
 const counter = useCounterStore();
-const CtrlAltS = keys["ctrl+alt+s"];
+const CtrlShiftF = keys["ctrl+shift+f"];
 const { allItems, loaded_id, searchTerm, file_name } = storeToRefs(counter);
 const debounced = refDebounced(searchTerm, 300);
 
@@ -37,7 +37,7 @@ function handleOpenChange() {
   focused.value = true;
 }
 
-watch(CtrlAltS, (v) => {
+watch(CtrlShiftF, (v) => {
   if (v) handleOpenChange();
 });
 </script>
@@ -62,7 +62,7 @@ watch(CtrlAltS, (v) => {
       <input
         ref="focusSearch"
         v-model="searchTerm"
-        placeholder="Filtrar [Ctrl+Alt+S]"
+        placeholder="Filtrar [Ctrl+Shift+F]"
         class="w-full h-6 outline-none bg-secondary placeholder:text-xs"
       >
       <div class="shrink-0">
