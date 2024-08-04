@@ -212,7 +212,8 @@
             </Tooltip>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            align="end"
+            align="start"
+            side="bottom"
             class="bg-secondary w-44 grid text-xs z-10"
           >
             <DropdownMenuItem
@@ -556,12 +557,12 @@ export default {
 
 
 .tiptap .iframe-wrapper  {
-  @apply w-full h-[calc(100vh-9rem)] overflow-hidden m-0 border-2 bg-primary/10 border-primary/50 relative;
+  @apply w-full h-[calc(100vh-9rem)] overflow-hidden m-0 border-2 bg-white border-primary/50 relative;
 }
 
 /* :class="editorToolbar ? 'h-[calc(100vh-9.25rem)]': 'h-[calc(100vh-6.75rem)]'" */
 .tiptap .iframe-wrapper iframe {
-  @apply w-full h-[calc(100vh-9rem)];
+  @apply w-full h-[calc(100vh-9rem)] bg-white;
 }
 
 .tiptap iframe:before {
