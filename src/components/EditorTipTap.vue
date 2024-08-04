@@ -7,7 +7,6 @@
     <div
       v-if="toolbar"
       class="sticky z-20 top-0 bg-background py-1"
-      v-auto-animate
     >
       <div
         class="control-group max-w-full mx-auto w-full flex md:flex-row flex-col flex-wrap @lg:flex-nowrap items-center gap-1 relative"
@@ -73,6 +72,7 @@
           </Tooltip>
         </div>
       </div>
+      
       <div
         class="button-group max-w-3xl bg-background justify-between m-0 mr-auto pr-[1px] pt-1 w-full flex gap-1 flex-wrap"
         v-if="editorToolbar"
@@ -180,6 +180,81 @@
             H4
           </button>
         </Tooltip>
+        <DropdownMenuRoot>
+          <DropdownMenuTrigger>
+            <Tooltip
+              name="Alineación de texto"
+              side="bottom"
+            >
+              <button class="bg-secondary size-8 justify-center items-center flex">
+                <template
+                  v-if="editor.isActive({ textAlign: 'center' })"
+                >
+                  <AlignCenter class="size-6" />
+                </template>
+                <template
+                  v-else-if="editor.isActive({ textAlign: 'right' })"
+                >
+                  <AlignRight class="size-6" />
+                </template>
+                <template
+                  v-else-if="editor.isActive({ textAlign: 'justify' })"
+                >
+                  <AlignJustify class="size-6" />
+                </template>
+                <template
+                  v-else
+                >
+                  <AlignLeft class="size-6" />
+                </template>
+                <span class="sr-only">Alineación de texto</span>
+              </button>
+            </Tooltip>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="end"
+            class="bg-secondary w-44 grid text-xs z-10"
+          >
+            <DropdownMenuItem
+              @click="editor.chain().focus().setTextAlign('left').run()"
+              class="hover:bg-secondary-foreground/10 p-2 cursor-pointer flex gap-2 justify-between pr-3"
+              :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }"
+            >
+              <span>Izquierda</span>
+              <AlignLeft class="size-4" />
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              @click="editor.chain().focus().setTextAlign('center').run()"
+              class="hover:bg-secondary-foreground/10 p-2 cursor-pointer flex gap-2 justify-between pr-3"
+              :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }"
+            >
+              <span>Centro</span>
+              <AlignCenter class="size-4" />
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              @click="editor.chain().focus().setTextAlign('right').run()"
+              class="hover:bg-secondary-foreground/10 p-2 cursor-pointer flex gap-2 justify-between pr-3"
+              :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }"
+            >
+              <span>Derecha</span>
+              <AlignRight class="size-4" />
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              @click="editor.chain().focus().setTextAlign('justify').run()"
+              class="hover:bg-secondary-foreground/10 p-2 cursor-pointer flex gap-2 justify-between pr-3"
+              :class="{ 'is-active': editor.isActive({ textAlign: 'justify' }) }"
+            >
+              <span>Justificado</span>
+              <AlignJustify class="size-4" />
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              @click="editor.chain().focus().unsetTextAlign().run()"
+              class="hover:bg-secondary-foreground/10 p-2 cursor-pointer justify-between pr-3"
+            >
+              <span>Sin alineación</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenuRoot>
         <!-- <button
           @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
           :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
@@ -265,7 +340,7 @@
     <div>
       <ScrollAreaRoot
         class="w-full border border-secondary"
-        :class="editorToolbar ? 'h-[calc(100vh-9rem)]': 'h-[calc(100vh-6.75rem)]'"
+        :class="editorToolbar ? 'h-[calc(100vh-9.25rem)]': 'h-[calc(100vh-6.75rem)]'"
         style="--scrollbar-size: 10px"
       >
         <ScrollAreaViewport class="w-full h-full">
@@ -314,7 +389,10 @@ import {
   Undo2,
   Redo2,
   Wifi,
-  Eye,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  AlignJustify,
 } from "lucide-vue-next";
 import {
   ScrollAreaRoot,
@@ -327,6 +405,12 @@ import { useCounterStore } from "@/stores/counter";
 
 const counter = useCounterStore();
 
+import {
+  DropdownMenuRoot,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "radix-vue";
 
 </script>
 
@@ -343,6 +427,7 @@ import css from "highlight.js/lib/languages/css";
 import js from "highlight.js/lib/languages/javascript";
 import ts from "highlight.js/lib/languages/typescript";
 import html from "highlight.js/lib/languages/xml";
+import TextAlign from '@tiptap/extension-text-align'
 import { lowlight } from "lowlight/lib/common.js";
 import CodeBlockComponent from "./CodeBlockComponent.vue";
 import Iframe from "./iframe.ts";
@@ -415,6 +500,9 @@ export default {
         }),
         Image,
         Iframe,
+        TextAlign.configure({
+          types: ['heading', 'paragraph'],
+        }),
         Placeholder.configure({
           placeholder: "Escribir algo …",
         }),
@@ -465,12 +553,15 @@ export default {
   @apply bg-gray-900 text-white
 }
 
+
+
 .tiptap .iframe-wrapper  {
-  @apply w-full h-[76vh] overflow-hidden m-0 border-2 bg-primary/10 border-primary/50 relative;
+  @apply w-full h-[calc(100vh-9rem)] overflow-hidden m-0 border-2 bg-primary/10 border-primary/50 relative;
 }
 
+/* :class="editorToolbar ? 'h-[calc(100vh-9.25rem)]': 'h-[calc(100vh-6.75rem)]'" */
 .tiptap .iframe-wrapper iframe {
-  @apply w-full h-[76vh];
+  @apply w-full h-[calc(100vh-9rem)];
 }
 
 .tiptap iframe:before {

@@ -16,6 +16,7 @@
     "@formkit/auto-animate": "^0.8.2",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tiptap/extension-code-block-lowlight": "^2.5.8",
+    "@tiptap/extension-text-align": "^2.5.8",
     "@tiptap/extension-color": "^2.5.8",
     "@tiptap/extension-dropcursor": "^2.5.8",
     "@tiptap/extension-highlight": "^2.5.8",

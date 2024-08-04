@@ -89,7 +89,7 @@ watch(project_body, (v) => {
           class="hidden sm:flex"
         />
         <SplitterPanel
-          :min-size="60"
+          :min-size="75"
           :max-size="98"
         >
           <div class="h-full mx-auto ring-1 md:w-auto ring-secondary">
@@ -111,7 +111,7 @@ watch(project_body, (v) => {
                     class="w-full h-10 p-2 text-lg outline-none bg-background text-primary border-secondary border focus-within:border-primary placeholder:text-foreground/50"
                   >
                   <button
-                    v-show="counter.loaded_id === null"
+                    v-show="!counter.loaded_id"
                     @click="counter.create_project()"
                     class="h-10 px-3 shrink-0 text-xs"
                     :disabled="counter.project_name === ''"
@@ -130,9 +130,7 @@ watch(project_body, (v) => {
         </SplitterPanel>
         <SplitterResizeHandle
           class=" hidden md:flex justify-center  items-center w-3 border-l border-secondary data-[state=hover]:border-primary/10 duration-100"
-        >
-          <GripVertical class="-translate-x-1.5 hover:opacity-100 opacity-0 duration-300" />
-        </SplitterResizeHandle>
+        />
         <SplitterPanel
           :max-size="30"
           class="hidden md:flex"
