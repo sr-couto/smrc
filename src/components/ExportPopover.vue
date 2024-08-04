@@ -52,6 +52,15 @@ watch(input, (v) => {
           >
             Crear JSON
           </button>
+          <button @click="counter.share_database()">
+            Compartir
+          </button>
+          <Teleport to="body">
+            <pre
+              class="text-sm fixed right-0 bottom-0 h-screen left-0 overflow-y-auto top-0 text-foreground/50 text-nowrap bg-secondary md:w-full pl-12 md:pl-64 p-2"
+            >{{ counter.shareOptions }}
+          </pre>
+          </Teleport>
         </div>
         <PopoverClose
           class="size-6 inline-flex items-center justify-center absolute top-[5px] right-[5px] outline-none cursor-default"

@@ -13,6 +13,7 @@ export const useCounterStore = defineStore("counter", () => {
   const project_body = ref("");
   const searchTerm = ref("");
   const showProjects = ref(true);
+  const shareOptions = ref([])
 
   /**
    * "Restaura el editor estableciendo los valores de `loaded_id`, `project_name`, and `project_body`.
@@ -152,6 +153,22 @@ export const useCounterStore = defineStore("counter", () => {
     }
   }
 
+  async function share_database() {
+    try {
+      await db.open();
+      const blob = await exportDB(db);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const text = reader.result;
+        const json = JSON.parse(text);
+        shareOptions.value = JSON.stringify(json, null, 2);
+      };
+      reader.readAsText(blob);
+    } catch (error) {
+      handleError("Error al exportar la base de datos", error);
+    }
+  }
+
   /**
    * Asynchronously imports a database from a file. If DB name already exists, the user is prompted to confirm
    * whether they want to replace the existing database with the new information. If the confirmation is given, the
@@ -258,10 +275,12 @@ export const useCounterStore = defineStore("counter", () => {
     status,
     allItems,
     showProjects,
+    shareOptions,
     init_database,
     update_database,
-    export_database,
     import_database,
+    export_database,
+    share_database,
     set_project,
     create_project,
     update_project,
