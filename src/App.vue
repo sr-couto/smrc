@@ -25,20 +25,20 @@ async function close() {
     >
       <div class="message">
         <span v-if="offlineReady">
-          App ready to work offline
+          Aplicación lista para trabajar sin conexión
         </span>
         <span v-else>
-          New content available, click on reload button to update.
+          Hay contenido nuevo disponible, haga clic en el botón de recarga para actualizar.
         </span>
       </div>
       <button
         v-if="needRefresh"
         @click="updateServiceWorker()"
       >
-        Reload
+        Recargar
       </button>
       <button @click="close">
-        Close
+        Cerrar
       </button>
     </div>
   </main>
@@ -52,7 +52,7 @@ nav a.router-link-exact-active {
 
 <style>
 .pwa-toast {
-  @apply bg-background border-secondary text-foreground fixed right-0 bottom-12 m-3 p-3 z-50 text-left
+  @apply bg-background border-secondary text-foreground fixed right-0 bottom-12 m-3 p-3 z-[9999] text-left
 }
 .pwa-toast .message {
   margin-bottom: 8px;

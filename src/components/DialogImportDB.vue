@@ -101,7 +101,7 @@ function handleAction() {
               >
                 Seleccionar archivo JSON
               </button>
-              <AlertDialogCancel class="">
+              <AlertDialogCancel class="bg-secondary text-foreground hover:bg-backgorund/80 text-xs inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-semibold leading-none focus:shadow-[0_0_0_2px] focus:outline-none">
                 Cancelar
               </AlertDialogCancel>
             </div>
@@ -120,6 +120,9 @@ function handleAction() {
                   </p>
                 </template>
               </div>
+              <AlertDialogCancel class="bg-secondary text-foreground hover:bg-backgorund/80 text-xs inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-semibold leading-none focus:shadow-[0_0_0_2px] focus:outline-none">
+                Cerrar
+              </AlertDialogCancel>
             </div>
           </div>
         </div>
