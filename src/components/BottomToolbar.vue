@@ -3,6 +3,7 @@ import { useCounterStore } from "@/stores/counter";
 import { useFileDialog } from "@vueuse/core";
 import { Upload } from "lucide-vue-next";
 import DialogShareDB from "./DialogShareDB.vue";
+import DialogImportDB from "./DialogImportDB.vue";
 
 const counter = useCounterStore();
 
@@ -23,13 +24,14 @@ onChange((files) => {
     <div
       class="grid grid-cols-2 gap-[1px] bg-secondary min-w-32 sm:min-w-64 border-r border-secondary"
     >
-      <button
+      <!-- <button
         @click="open()"
         class="h-12 px-2 items-center justify-center gap-2 flex bg-background hover:bg-background/50 focus-visible:bg-background/50 outline-none"
       >
         <Upload class="size-4" />
         <span class="hidden sm:inline-flex">ImportarDB</span>
-      </button>
+      </button> -->
+      <DialogImportDB/>
       <DialogShareDB />
     </div>
     <div class="flex justify-end w-full">
