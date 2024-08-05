@@ -92,7 +92,7 @@ export default {
       },
     },
     fontFamily: {
-      mono: ["JetBrains Mono Variable", "mono"],
+      mono: ["JetBrains Mono Variable", "monospace"],
       serif: ["IBM Plex Serif", "serif"],
     },
   },
