@@ -1,8 +1,8 @@
 <script setup>
-import ExportPopover from "@/components/ExportPopover.vue";
 import { useCounterStore } from "@/stores/counter";
 import { useFileDialog } from "@vueuse/core";
 import { Upload } from "lucide-vue-next";
+import DialogShareDB from "./DialogShareDB.vue";
 
 const counter = useCounterStore();
 
@@ -30,7 +30,7 @@ onChange((files) => {
         <Upload class="size-4" />
         <span class="hidden sm:inline-flex">ImportarDB</span>
       </button>
-      <ExportPopover />
+      <DialogShareDB />
     </div>
     <div class="flex justify-end w-full">
       <button

@@ -11,6 +11,8 @@ import { X, Download } from "lucide-vue-next";
 
 import { storeToRefs } from "pinia";
 import { ref, watch } from "vue";
+import DialogShareDB from "./DialogShareDB.vue";
+
 const counter = useCounterStore();
 const { file_name } = storeToRefs(counter);
 
@@ -35,8 +37,15 @@ watch(input, (v) => {
         side="top"
         :align="'end'"
         :side-offset="5"
-        class="rounded translate-x-1 font-mono p-5 w-[296px] text-foreground border border-secondary bg-background shadow-lg focus:shadow will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade z-30"
+        :align-offset="15"
+        class="rounded font-mono p-5 w-64 text-foreground border border-secondary bg-background shadow-lg focus:shadow will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade z-30"
       >
+        <PopoverClose
+          class="size-6 inline-flex items-center justify-center absolute top-[5px] right-[5px] outline-none cursor-default"
+          aria-label="Close"
+        >
+          <X class="size-4" />
+        </PopoverClose>
         <div class="flex flex-col gap-2">
           <p class="text-sm">
             Nombre del archivo
@@ -52,22 +61,8 @@ watch(input, (v) => {
           >
             Crear JSON
           </button>
-          <button @click="counter.share_database()">
-            Compartir
-          </button>
-          <Teleport to="body">
-            <pre
-              class="text-sm fixed right-0 bottom-0 h-screen left-0 overflow-y-auto top-0 text-foreground/50 text-nowrap bg-secondary md:w-full pl-12 md:pl-64 p-2"
-            >{{ counter.shareOptions }}
-          </pre>
-          </Teleport>
+          <DialogShareDB />
         </div>
-        <PopoverClose
-          class="size-6 inline-flex items-center justify-center absolute top-[5px] right-[5px] outline-none cursor-default"
-          aria-label="Close"
-        >
-          <X class="size-4" />
-        </PopoverClose>
       </PopoverContent>
     </PopoverPortal>
   </PopoverRoot>

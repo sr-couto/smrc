@@ -10,6 +10,7 @@ import NavProjectListLocal from "@/components/NavProjectListLocal.vue";
 import ToggleTheme from "@/components/ToggleTheme.vue";
 import Tooltip from "@/components/ui/Tooltip.vue";
 import BottomToolbar from "@/components/BottomToolbar.vue";
+import DialogInfo from "@/components/DialogInfo.vue";
 
 const counter = useCounterStore();
 const { project_name, project_body } = storeToRefs(counter);
@@ -60,11 +61,18 @@ watch(project_body, (v) => {
             >Menu </span>
           </button>
         </Tooltip>
-        <ToggleTheme />
+        <div
+          class="flex  gap-1"
+          :class="counter.showProjects ? '' : ' flex-col '"
+        >
+          <DialogInfo />
+          
+          <ToggleTheme />
+        </div>
         <button
           @click="counter.showProjects = !counter.showProjects"
           v-show="!counter.showProjects"
-          class="absolute inset-0 top-20 z-10"
+          class="absolute inset-0 top-32 z-10"
         />
       </div>
       <NavProjectListLocal v-show="counter.showProjects" />
@@ -86,11 +94,10 @@ watch(project_body, (v) => {
       >
         <div
           :style="`flex: ${layout[1]} 1 0px; overflow: hidden;`"
-          class="hidden sm:flex"
+          class="hidden md:flex"
         />
         <SplitterPanel
           :min-size="75"
-          :max-size="98"
         >
           <div class="h-full mx-auto ring-1 md:w-auto ring-secondary">
             <div
@@ -129,7 +136,7 @@ watch(project_body, (v) => {
           </div>
         </SplitterPanel>
         <SplitterResizeHandle
-          class=" hidden md:flex justify-center  items-center w-3 border-l border-secondary data-[state=hover]:border-primary/10 duration-100"
+          class=" hidden md:flex justify-center items-center w-2 border-l border-secondary data-[state=hover]:border-primary/10 duration-100"
         />
         <SplitterPanel
           :max-size="30"
