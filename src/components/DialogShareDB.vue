@@ -83,7 +83,7 @@ onMounted(() => {
             Exportar DB
           </button>
         </div>
-        <div
+        <!-- <div
           class="overflow-y-auto overflow-x-hidden h-96"
           :class="copied ? 'ring-2 ring-primary' : ''"
         >
@@ -115,7 +115,7 @@ onMounted(() => {
               />
             </ScrollAreaScrollbar>
           </ScrollAreaRoot>
-        </div>
+        </div> -->
         <div class="mt-3 text-xs text-foreground flex justify-between items-center">
           <DialogClose as-child>
             <button

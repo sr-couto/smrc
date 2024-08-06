@@ -100,7 +100,7 @@ watch(CtrlShiftF, (v) => {
               "
             >
               <Plus class="size-4" />
-              <span>Agregar</span>
+              <span>Crear</span>
             </button>
             <button
               v-else
@@ -110,7 +110,7 @@ watch(CtrlShiftF, (v) => {
             >
               <Plus class="size-4" />
               <p class="w-56 truncate">
-                Agregando {{ counter.project_name }}
+                Creando {{ counter.project_name }}
               </p>
             </button>
 

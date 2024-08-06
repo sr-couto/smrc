@@ -128,7 +128,7 @@ watch(project_body, (v) => {
                         : 'opacity-50 bg-secondary  pointer-events-none'
                     "
                   >
-                    Agregar
+                    Crear
                   </button>
                 </div>
               </Editor>
