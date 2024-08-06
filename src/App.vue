@@ -52,10 +52,11 @@ nav a.router-link-exact-active {
 
 <style>
 .pwa-toast {
-  @apply bg-background border-secondary text-foreground fixed right-0 bottom-12 m-3 p-3 z-[9999] text-left
+  @apply bg-background border border-secondary text-foreground fixed right-0 bottom-12 m-3 p-3 z-[9999] text-left
 }
 .pwa-toast .message {
   margin-bottom: 8px;
+  @apply text-xs w-64 
 }
 .pwa-toast button {
   border: 1px solid #8885;
@@ -63,5 +64,6 @@ nav a.router-link-exact-active {
   margin-right: 5px;
   border-radius: 2px;
   padding: 3px 10px;
+  @apply text-xs
 }
 </style>

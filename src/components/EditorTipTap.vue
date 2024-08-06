@@ -48,36 +48,53 @@
               <SquarePilcrow class="size-5" />
             </button>
           </Tooltip>
-          <Tooltip
-            name="Agregar imagen"
-            side="bottom"
-          >
-            <button
-              @click="addImage"
-              class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
+          <DropdownMenuRoot>
+            <DropdownMenuTrigger>
+              <Tooltip
+                name="Agregar imagen"
+                side="bottom"
+              >
+                <button
+                  class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
+                >
+                  <ImagePlus class="size-5" />
+                </button>
+              </Tooltip>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              side="bottom"
+              class="bg-secondary w-44 grid text-xs z-10"
             >
-              <ImagePlus class="size-5" />
-            </button>
-          </Tooltip>
-          <Tooltip
-            name="Agregar imagen"
-            side="bottom"
-          >
-            <input
-              id="img-uploader"
-              type="file"
-              accept="image/jpeg"
-              style="display: none"
-              @change="addImageBase64"
-            >
-            <label
-              class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
-              for="img-uploader"
-              id="uploader"
-            >
-              <ImageDownIcon class="size-5" />
-            </label>
-          </Tooltip>
+              <DropdownMenuItem
+                as-child
+                class="hover:bg-secondary-foreground/10 p-2 cursor-pointer flex gap-2 justify-between pr-3"
+              >
+                <input
+                  id="img-uploader"
+                  type="file"
+                  accept="image/jpeg"
+                  style="display: none"
+                  @change="addImageBase64"
+                >
+                <label
+                  class="hover:bg-secondary-foreground/10 p-2 cursor-pointer flex gap-2 justify-between pr-3"
+                  for="img-uploader"
+                  id="uploader"
+                >
+                  Base64
+                </label>
+              </DropdownMenuItem>
+              
+              <DropdownMenuItem
+                @click="addImage"
+                class="hover:bg-secondary-foreground/10 p-2 cursor-pointer justify-between pr-3"
+              >
+                Url
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenuRoot>
+
           <Tooltip
             name="Iframe"
             side="bottom"
