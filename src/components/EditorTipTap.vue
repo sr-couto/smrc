@@ -60,6 +60,25 @@
             </button>
           </Tooltip>
           <Tooltip
+            name="Agregar imagen"
+            side="bottom"
+          >
+            <input
+              id="img-uploader"
+              type="file"
+              accept="image/jpeg"
+              style="display: none"
+              @change="addImageBase64"
+            >
+            <label
+              class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
+              for="img-uploader"
+              id="uploader"
+            >
+              <ImageDownIcon class="size-5" />
+            </label>
+          </Tooltip>
+          <Tooltip
             name="Iframe"
             side="bottom"
           >
@@ -72,7 +91,7 @@
           </Tooltip>
         </div>
       </div>
-      
+
       <div
         class="button-group max-w-3xl bg-background justify-between m-0 mr-auto pr-[1px] pt-1 w-full flex gap-1 flex-wrap"
         v-if="editorToolbar"
@@ -187,24 +206,16 @@
               side="bottom"
             >
               <button class="bg-secondary size-8 justify-center items-center flex">
-                <template
-                  v-if="editor.isActive({ textAlign: 'center' })"
-                >
+                <template v-if="editor.isActive({ textAlign: 'center' })">
                   <AlignCenter class="size-6" />
                 </template>
-                <template
-                  v-else-if="editor.isActive({ textAlign: 'right' })"
-                >
+                <template v-else-if="editor.isActive({ textAlign: 'right' })">
                   <AlignRight class="size-6" />
                 </template>
-                <template
-                  v-else-if="editor.isActive({ textAlign: 'justify' })"
-                >
+                <template v-else-if="editor.isActive({ textAlign: 'justify' })">
                   <AlignJustify class="size-6" />
                 </template>
-                <template
-                  v-else
-                >
+                <template v-else>
                   <AlignLeft class="size-6" />
                 </template>
                 <span class="sr-only">Alineación de texto</span>
@@ -341,13 +352,11 @@
     <div>
       <ScrollAreaRoot
         class="w-full border border-secondary"
-        :class="editorToolbar ? 'h-[calc(100vh-9.25rem)]': 'h-[calc(100vh-6.75rem)]'"
+        :class="editorToolbar ? 'h-[calc(100vh-9.25rem)]' : 'h-[calc(100vh-6.75rem)]'"
         style="--scrollbar-size: 10px"
       >
         <ScrollAreaViewport class="w-full h-full">
-          <div
-            class="prose prose-purple dark:prose-invert max-w-full mx-auto"
-          >
+          <div class="prose prose-purple dark:prose-invert max-w-full mx-auto">
             <editor-content :editor="editor" />
           </div>
         </ScrollAreaViewport>
@@ -394,6 +403,7 @@ import {
   AlignCenter,
   AlignRight,
   AlignJustify,
+  ImageDownIcon,
 } from "lucide-vue-next";
 import {
   ScrollAreaRoot,
@@ -404,7 +414,7 @@ import {
 
 import { useCounterStore } from "@/stores/counter";
 
-const counter = useCounterStore();
+
 
 import {
   DropdownMenuRoot,
@@ -413,9 +423,7 @@ import {
   DropdownMenuTrigger,
 } from "radix-vue";
 
-</script>
-
-<script>
+import { ref, watch, onMounted, onBeforeUnmount } from "vue";
 import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
@@ -433,104 +441,112 @@ import { lowlight } from "lowlight/lib/common.js";
 import CodeBlockComponent from "./CodeBlockComponent.vue";
 import Iframe from "./iframe.ts";
 import Tooltip from "./ui/Tooltip.vue";
-import { useStorage } from '@vueuse/core'
+import { useBase64, useStorage } from '@vueuse/core'
 
+
+
+const counter = useCounterStore();
 lowlight.registerLanguage("html", html);
 lowlight.registerLanguage("css", css);
 lowlight.registerLanguage("js", js);
 lowlight.registerLanguage("ts", ts);
 
-export default {
-  components: {
-    EditorContent,
+const editor = ref(null);
+const editorToolbar = useStorage('editorToolbar', true);
+
+const props = defineProps({
+  modelValue: {
+    type: String,
+    default: "",
   },
-
-  props: {
-    modelValue: {
-      type: String,
-      default: "",
-    },
-    toolbar: {
-      type: Boolean,
-      default: false,
-    },
+  toolbar: {
+    type: Boolean,
+    default: false,
   },
+});
 
-  emits: ["update:modelValue"],
+const emit = defineEmits(["update:modelValue"]);
 
-  data() {
-    return {
-      editor: null,
-      editorToolbar: useStorage('editorToolbar', true),
+function addImage() {
+  const url = window.prompt("Ingresar URL de la imagen");
+  if (url) {
+    editor.value.chain().focus().setImage({ src: url }).run();
+  }
+}
+
+function addImageBase64(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const dataURL = e.target.result;
+      console.log(dataURL);
+      editor.value.chain().focus().setImage({ src: dataURL }).run();
     };
-  },
 
-  methods: {
-    addImage() {
-      const url = window.prompt("Ingresar URL de la imagen");
-      if (url) {
-        this.editor.chain().focus().setImage({ src: url }).run();
-      }
+    reader.readAsDataURL(file);
+  }
+}
+
+function addIframe() {
+  const url = window.prompt("Ingresar URL del iframe");
+  if (url) {
+    editor.value.chain().focus().setIframe({ src: url }).run();
+  }
+}
+
+watch(
+  () => props.modelValue,
+  (value) => {
+    const isSame = editor.value.getHTML() === value;
+    if (isSame) {
+      return;
+    }
+    editor.value.commands.setContent(value, false);
+  }
+);
+
+onMounted(() => {
+  editor.value = new Editor({
+    extensions: [
+      Color.configure({ types: [TextStyle.name, ListItem.name] }),
+      TextStyle.configure({ types: [ListItem.name] }),
+      StarterKit.configure({
+        codeBlock: false,
+      }),
+      Image.configure({
+        allowBase64: true,
+        inline: true,
+      }),
+      Iframe,
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
+      Placeholder.configure({
+        placeholder: "Escribir algo …",
+      }),
+      CodeBlockLowlight.extend({
+        addNodeView() {
+          return VueNodeViewRenderer(CodeBlockComponent);
+        },
+      }).configure({ lowlight }),
+    ],
+    content: props.modelValue,
+    onUpdate: () => {
+      emit("update:modelValue", editor.value.getHTML());
     },
-    addIframe() {
-      const url = window.prompt("Ingresar URL del iframe");
+  });
+});
 
-      if (url) {
-        this.editor.chain().focus().setIframe({ src: url }).run();
-      }
-    },
-  },
-
-  watch: {
-    modelValue(value) {
-      const isSame = this.editor.getHTML() === value;
-      if (isSame) {
-        return;
-      }
-      this.editor.commands.setContent(value, false);
-    },
-  },
-
-  mounted() {
-    this.editor = new Editor({
-      extensions: [
-        Color.configure({ types: [TextStyle.name, ListItem.name] }),
-        TextStyle.configure({ types: [ListItem.name] }),
-        StarterKit.configure({
-          codeBlock: false,
-        }),
-        Image,
-        Iframe,
-        TextAlign.configure({
-          types: ['heading', 'paragraph'],
-        }),
-        Placeholder.configure({
-          placeholder: "Escribir algo …",
-        }),
-        CodeBlockLowlight.extend({
-          addNodeView() {
-            return VueNodeViewRenderer(CodeBlockComponent);
-          },
-        }).configure({ lowlight }),
-      ],
-      content: this.modelValue,
-      onUpdate: () => {
-        this.$emit("update:modelValue", this.editor.getHTML());
-      },
-    });
-  },
-
-  beforeUnmount() {
-    this.editor.destroy();
-  },
-};
+onBeforeUnmount(() => {
+  editor.value.destroy();
+});
 </script>
 
 <style>
-
-
 .button-group button {
-  @apply border border-secondary focus-within:border-primary min-w-9  flex-1 outline-none h-9 text-sm focus-visible:border-primary flex justify-center items-center duration-100;
+  @apply border border-secondary focus-within:border-primary min-w-9 flex-1 outline-none h-9 text-sm focus-visible:border-primary flex justify-center items-center duration-100;
 }
 
 .control-group button {
@@ -547,7 +563,7 @@ export default {
 
 /* Basic editor styles */
 .tiptap {
-  @apply  p-4  outline-none placeholder:text-primary min-h-96 font-serif;
+  @apply p-4 outline-none placeholder:text-primary min-h-96 font-serif;
 }
 
 .tiptap pre {
@@ -556,7 +572,7 @@ export default {
 
 
 
-.tiptap .iframe-wrapper  {
+.tiptap .iframe-wrapper {
   @apply w-full h-[calc(100vh-9rem)] overflow-hidden m-0 border-2 bg-white border-primary/50 relative;
 }
 
