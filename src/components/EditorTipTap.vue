@@ -85,7 +85,7 @@
                   Base64
                 </label>
               </DropdownMenuItem>
-              
+
               <DropdownMenuItem
                 @click="addImage"
                 class="hover:bg-secondary-foreground/10 p-2 cursor-pointer justify-between pr-3"
@@ -94,7 +94,17 @@
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenuRoot>
-
+          <Tooltip
+            name="Video"
+            side="bottom"
+          >
+            <button
+              @click="addVideo"
+              class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
+            >
+              <Youtube class="size-5" />
+            </button>
+          </Tooltip>
           <Tooltip
             name="Iframe"
             side="bottom"
@@ -103,7 +113,7 @@
               @click="addIframe"
               class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
             >
-              <Wifi class="size-5" />
+              <Globe class="size-5" />
             </button>
           </Tooltip>
         </div>
@@ -115,6 +125,7 @@
       >
         <Tooltip
           name="Negrita"
+          shortcut="Ctrl B"
           side="bottom"
         >
           <button
@@ -127,6 +138,7 @@
         </Tooltip>
         <Tooltip
           name="Cursiva"
+          shortcut="Ctrl I"
           side="bottom"
         >
           <button
@@ -140,6 +152,7 @@
         <Tooltip
           name="Linea de tachado"
           side="bottom"
+          shortcut="Ctrl U"
         >
           <button
             @click="editor.chain().focus().toggleStrike().run()"
@@ -152,6 +165,7 @@
         <Tooltip
           name="Código en linea"
           side="bottom"
+          shortcut="Ctrl Shift S"
         >
           <button
             @click="editor.chain().focus().toggleCode().run()"
@@ -164,6 +178,7 @@
         <Tooltip
           name="Párrafo"
           side="bottom"
+          shortcut="Ctrl Alt 0"
         >
           <button
             @click="editor.chain().focus().setParagraph().run()"
@@ -175,6 +190,7 @@
         <Tooltip
           name="Titulo 1"
           side="bottom"
+          shortcut="Ctrl Alt 1"
         >
           <button
             @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
@@ -186,6 +202,7 @@
         <Tooltip
           name="Titulo 2"
           side="bottom"
+          shortcut="Ctrl Alt 2"
         >
           <button
             @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
@@ -197,6 +214,7 @@
         <Tooltip
           name="Titulo 3"
           side="bottom"
+          shortcut="Ctrl Alt 3"
         >
           <button
             @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
@@ -208,6 +226,7 @@
         <Tooltip
           name="Titulo 4"
           side="bottom"
+          shortcut="Ctrl Alt 4"
         >
           <button
             @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
@@ -242,45 +261,78 @@
           <DropdownMenuContent
             align="start"
             side="bottom"
-            class="bg-secondary w-44 grid text-xs z-10"
+            class="bg-secondary w-64 grid text-xs z-10"
           >
             <DropdownMenuItem
               @click="editor.chain().focus().setTextAlign('left').run()"
-              class="hover:bg-secondary-foreground/10 p-2 cursor-pointer flex gap-2 justify-between pr-3"
+              class="hover:bg-secondary-foreground/10 p-2 items-center cursor-pointer flex gap-2 justify-between pr-3"
               :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }"
             >
-              <span>Izquierda</span>
-              <AlignLeft class="size-4" />
+              <div class="flex justify-start p-1 items-center gap-3">
+                <AlignLeft class="size-4" />
+                <span>Izquierda</span>
+              </div>
+              <kbd
+                class="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded bg-muted px-1.5 font-mono text-[8px] font-medium text-muted-foreground opacity-100"
+              >
+                Ctrl Shift L
+              </kbd>
             </DropdownMenuItem>
             <DropdownMenuItem
               @click="editor.chain().focus().setTextAlign('center').run()"
-              class="hover:bg-secondary-foreground/10 p-2 cursor-pointer flex gap-2 justify-between pr-3"
+              class="hover:bg-secondary-foreground/10 p-2 cursor-pointer items-center flex gap-2 justify-between pr-3"
               :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }"
             >
-              <span>Centro</span>
-              <AlignCenter class="size-4" />
+              <div class="flex justify-start p-1 items-center gap-3">
+                <AlignCenter class="size-4" />
+                <span>Centro</span>
+              </div>
+              <kbd
+                class="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded bg-muted px-1.5 font-mono text-[8px] font-medium text-muted-foreground opacity-100"
+              >
+                Ctrl Shift E
+              </kbd>
             </DropdownMenuItem>
             <DropdownMenuItem
               @click="editor.chain().focus().setTextAlign('right').run()"
-              class="hover:bg-secondary-foreground/10 p-2 cursor-pointer flex gap-2 justify-between pr-3"
+              class="hover:bg-secondary-foreground/10 p-2 cursor-pointer items-center flex gap-2 justify-between pr-3"
               :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }"
             >
-              <span>Derecha</span>
-              <AlignRight class="size-4" />
+              <div class="flex justify-start p-1 items-center gap-3">
+                <AlignRight class="size-4" />
+                <span>Derecha</span>
+              </div>
+              <kbd
+                class="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded bg-muted px-1.5 font-mono text-[8px] font-medium text-muted-foreground opacity-100"
+              >
+                Ctrl Shift R
+              </kbd>
             </DropdownMenuItem>
             <DropdownMenuItem
               @click="editor.chain().focus().setTextAlign('justify').run()"
-              class="hover:bg-secondary-foreground/10 p-2 cursor-pointer flex gap-2 justify-between pr-3"
+              class="hover:bg-secondary-foreground/10 p-2 cursor-pointer items-center flex gap-2 justify-between pr-3"
               :class="{ 'is-active': editor.isActive({ textAlign: 'justify' }) }"
             >
-              <span>Justificado</span>
-              <AlignJustify class="size-4" />
+              <div class="flex justify-start p-1 items-center gap-3">
+                <AlignJustify class="size-4" />
+                <span>Justificado</span>
+              </div>
+              <kbd
+                class="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded bg-muted px-1.5 font-mono text-[8px] font-medium text-muted-foreground opacity-100"
+              >
+                Ctrl Shift J
+              </kbd>
             </DropdownMenuItem>
             <DropdownMenuItem
               @click="editor.chain().focus().unsetTextAlign().run()"
-              class="hover:bg-secondary-foreground/10 p-2 cursor-pointer justify-between pr-3"
+              class="hover:bg-secondary-foreground/10 p-2 cursor-pointer flex items-center justify-between pr-3"
             >
               <span>Sin alineación</span>
+              <kbd
+                class="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded bg-muted px-1.5 font-mono text-[8px] font-medium ml-auto text-muted-foreground opacity-100"
+              >
+                Ctrl Shift L
+              </kbd>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenuRoot>
@@ -299,6 +351,7 @@
         <Tooltip
           name="Lista desordenada"
           side="bottom"
+          shortcut="Ctrl Shift 8"
         >
           <button
             @click="editor.chain().focus().toggleBulletList().run()"
@@ -310,6 +363,7 @@
         <Tooltip
           name="Lista ordenada"
           side="bottom"
+          shortcut="Ctrl Shift 7"
         >
           <button
             @click="editor.chain().focus().toggleOrderedList().run()"
@@ -321,6 +375,7 @@
         <Tooltip
           name="Código"
           side="bottom"
+          shortcut="Ctrl Alt C"
         >
           <button
             @click="editor.chain().focus().toggleCodeBlock().run()"
@@ -332,6 +387,7 @@
         <Tooltip
           name="Cita"
           side="bottom"
+          shortcut="Ctrl Shift B"
         >
           <button
             @click="editor.chain().focus().toggleBlockquote().run()"
@@ -348,6 +404,7 @@
             <Minus />
           </button>
         </Tooltip>
+
         <Tooltip
           name="Quitar marcas"
           side="bottom"
@@ -366,6 +423,109 @@
         </Tooltip>
       </div>
     </div>
+    <!-- <bubble-menu
+      class="bubble-menu"
+      :tippy-options="{ animation: false, maxWidth: 'none', }"
+      :editor="editor"
+      v-if="editor"
+    >
+      <button
+        @click="
+          editor
+            .chain()
+            .focus()
+            .setImage({ size: 'small' })
+            .run()
+          "
+        :class="{
+          'is-active': editor.isActive('custom-image', {
+            size: 'small'
+          })
+        }"
+      >
+        SM
+      </button>
+      <button
+        @click="
+          editor
+            .chain()
+            .focus()
+            .setImage({ size: 'medium' })
+            .run()
+          "
+        :class="{
+          'is-active': editor.isActive('custom-image', {
+            size: 'medium'
+          })
+        }"
+      >
+        MD
+      </button>
+      <button
+        @click="
+          editor
+            .chain()
+            .focus()
+            .setImage({ size: 'large' })
+            .run()
+          "
+        :class="{
+          'is-active': editor.isActive('custom-image', {
+            size: 'large'
+          })
+        }"
+      >
+        XL
+      </button>
+      <button
+        @click="
+          editor
+            .chain()
+            .focus()
+            .setImage({ float: 'left' })
+            .run()
+          "
+        :class="{
+          'is-active': editor.isActive('custom-image', {
+            float: 'left'
+          })
+        }"
+      >
+        <AlignLeft class="size-4" />
+      </button>
+      <button
+        @click="
+          editor
+            .chain()
+            .focus()
+            .setImage({ float: 'none' })
+            .run()
+          "
+        :class="{
+          'is-active': editor.isActive('custom-image', {
+            float: 'none'
+          })
+        }"
+      >
+        <AlignCenter class="size-4" />
+      </button>
+      <button
+        @click="
+          editor
+            .chain()
+            .focus()
+            .setImage({ float: 'right' })
+            .run()
+          "
+        :class="{
+          'is-active': editor.isActive('custom-image', {
+            float: 'right'
+          })
+        }"
+      >
+        <AlignRight class="size-4" />
+      </button>
+    </bubble-menu> -->
     <div>
       <ScrollAreaRoot
         class="w-full border border-secondary"
@@ -415,12 +575,14 @@ import {
   Minus,
   Undo2,
   Redo2,
-  Wifi,
+  
   AlignLeft,
   AlignCenter,
   AlignRight,
   AlignJustify,
   ImageDownIcon,
+  Youtube,
+  Globe,
 } from "lucide-vue-next";
 import {
   ScrollAreaRoot,
@@ -445,28 +607,18 @@ import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
 import StarterKit from "@tiptap/starter-kit";
-import { Editor, EditorContent, VueNodeViewRenderer } from "@tiptap/vue-3";
+import { Editor, EditorContent, VueNodeViewRenderer, BubbleMenu } from "@tiptap/vue-3";
 import Image from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
-import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
-import css from "highlight.js/lib/languages/css";
-import js from "highlight.js/lib/languages/javascript";
-import ts from "highlight.js/lib/languages/typescript";
-import html from "highlight.js/lib/languages/xml";
 import TextAlign from '@tiptap/extension-text-align'
-import { lowlight } from "lowlight/lib/common.js";
-import CodeBlockComponent from "./CodeBlockComponent.vue";
-import Iframe from "./iframe.ts";
+import Iframe from "@/components/Tiptap/extensions/iframe.ts";
+import ExternalVideo from '@/components/Tiptap/extensions/external-video.js'
+// import CustomImage from '@/components/Tiptap/extensions/custom-image'
 import Tooltip from "./ui/Tooltip.vue";
-import { useBase64, useStorage } from '@vueuse/core'
-
-
+import { useStorage } from '@vueuse/core'
+import CodeBlockShiki from 'tiptap-extension-code-block-shiki'
 
 const counter = useCounterStore();
-lowlight.registerLanguage("html", html);
-lowlight.registerLanguage("css", css);
-lowlight.registerLanguage("js", js);
-lowlight.registerLanguage("ts", ts);
 
 const editor = ref(null);
 const editorToolbar = useStorage('editorToolbar', true);
@@ -506,6 +658,17 @@ function addImageBase64(event) {
   }
 }
 
+function addVideo() {
+  const url = window.prompt(
+    'Video URL',
+    'https://www.youtube.com/embed/iyd8dY8rRtA'
+  )
+
+  if (url) {
+    editor.value.chain().focus().setExternalVideo({ src: url }).run()
+  }
+}
+
 function addIframe() {
   const url = window.prompt("Ingresar URL del iframe");
   if (url) {
@@ -537,17 +700,25 @@ onMounted(() => {
         inline: true,
       }),
       Iframe,
+      // CustomImage.configure({
+      //   HTMLAttributes: {
+      //     class: 'custom-image'
+      //   }
+      // }),
+      ExternalVideo,
       TextAlign.configure({
         types: ['heading', 'paragraph'],
       }),
       Placeholder.configure({
         placeholder: "Escribir algo …",
       }),
-      CodeBlockLowlight.extend({
-        addNodeView() {
-          return VueNodeViewRenderer(CodeBlockComponent);
+      CodeBlockShiki.configure({
+        HTMLAttributes: {
+          spellcheck: "false"
         },
-      }).configure({ lowlight }),
+        // optional customizations
+        defaultTheme: 'houston',
+      }),
     ],
     content: props.modelValue,
     onUpdate: () => {
@@ -583,8 +754,12 @@ onBeforeUnmount(() => {
   @apply p-4 outline-none placeholder:text-primary min-h-96 font-serif;
 }
 
-.tiptap pre {
-  @apply bg-gray-900 text-white
+/* .tiptap pre {
+  @apply bg-secondary text-foreground
+} */
+
+.tiptap p code {
+  @apply bg-secondary px-1 rounded font-normal py-1 text-foreground
 }
 
 
@@ -611,8 +786,19 @@ onBeforeUnmount(() => {
   display: none;
 }
 
+/* 
 .tiptap:first-child * {
   margin-top: 0;
+} */
+
+html.dark .shiki,
+html.dark .shiki span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  /* Optional, if you also want font styles */
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
 }
 
 .tiptap p.is-editor-empty:first-child::before {
@@ -621,6 +807,82 @@ onBeforeUnmount(() => {
   height: 0;
   pointer-events: none;
   @apply text-foreground/30;
+}
+
+.custom-image-small {
+  max-width: 200px;
+}
+
+.custom-image-medium {
+  max-width: 500px;
+}
+
+.custom-image-large {
+  max-width: 100%;
+}
+
+.custom-image-float-none {
+  float: none;
+}
+
+.custom-image-float-left {
+  float: left;
+}
+
+.custom-image-float-right {
+  float: right;
+}
+
+/* Bubble menu */
+.bubble-menu {
+  @apply bg-secondary border border-secondary p-1 flex text-xs gap-2 items-center
+}
+
+.bubble-menu button {
+  background-color: unset;
+  @apply h-8 px-2
+}
+
+.bubble-menu button:hover {
+  @apply bg-background
+}
+
+.bubble-menu.is-active {
+  background-color: var(--purple);
+}
+
+.bubble-menu.is-active:hover {
+  background-color: var(--purple-contrast);
+}
+
+
+.tiptap img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tiptap .ProseMirror-selectednode {
+  outline: 3px solid #68cef8;
+}
+
+
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 10px;
+  height: 0;
+  overflow: hidden;
+}
+
+.video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 

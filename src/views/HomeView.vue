@@ -48,7 +48,7 @@ watch(project_body, (v) => {
       >
         <Tooltip
           name="Menú"
-          shortcut="W"
+          shortcut="Ctrl Alt W"
         >
           <button
             @click="counter.showProjects = !counter.showProjects"
@@ -72,7 +72,7 @@ watch(project_body, (v) => {
         <button
           @click="counter.showProjects = !counter.showProjects"
           v-show="!counter.showProjects"
-          class="absolute inset-0 top-32 z-10"
+          class="absolute inset-0 top-28 z-10"
         />
       </div>
       <NavProjectListLocal v-show="counter.showProjects" />

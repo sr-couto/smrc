@@ -70,7 +70,7 @@ function handleAction() {
       <span class="hidden sm:inline-flex">ImportarDB</span>
     </AlertDialogTrigger>
     <AlertDialogPortal>
-      <AlertDialogOverlay class="bg-background/90 data-[state=open]:animate-overlayShow fixed inset-0 z-[70]" />
+      <AlertDialogOverlay class="bg-background/95 backdrop-blur-sm data-[state=open]:animate-overlayShow fixed inset-0 z-[70]" />
       <AlertDialogContent>
         <div
           ref="dropZoneRef"
