@@ -3,7 +3,7 @@ import { useCounterStore } from "@/stores/counter";
 import { ArrowRight, CircleX, Plus } from "lucide-vue-next";
 import { storeToRefs } from "pinia";
 import { computed, ref, watch } from "vue";
-import { useFocus, useMagicKeys, refDebounced } from "@vueuse/core";
+import { useFocus, useMagicKeys, refDebounced,  breakpointsTailwind, useBreakpoints } from "@vueuse/core";
 import {
   ScrollAreaRoot,
   ScrollAreaScrollbar,
@@ -19,8 +19,17 @@ const CtrlShiftF = keys["ctrl+shift+f"];
 const { allItems, loaded_id, searchTerm, file_name } = storeToRefs(counter);
 const debounced = refDebounced(searchTerm, 300);
 
+const breakpoints = useBreakpoints(breakpointsTailwind)
+
+const largerThanLg = breakpoints.greater('lg')
+
 function new_document() {
-  counter.clear_editor();
+  if (largerThanLg.value === true) {
+    counter.clear_editor();
+  } else {
+    counter.clear_editor();
+    counter.showProjects = false
+  }
 }
 
 const filteredOptions = computed(() =>
