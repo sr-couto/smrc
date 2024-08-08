@@ -121,9 +121,9 @@ watch(project_body, (v) => {
                     class="h-10 px-3 shrink-0 text-xs"
                     :disabled="counter.project_name === ''"
                     :class="counter.project_name
-                        ? 'bg-primary text-white '
-                        : 'opacity-50 bg-secondary  pointer-events-none'
-                      "
+                      ? 'bg-primary text-white '
+                      : 'opacity-50 bg-secondary  pointer-events-none'
+                    "
                   >
                     Crear
                   </button>
