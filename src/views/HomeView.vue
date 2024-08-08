@@ -12,6 +12,7 @@ import Tooltip from "@/components/ui/Tooltip.vue";
 import BottomToolbar from "@/components/BottomToolbar.vue";
 import DialogInfo from "@/components/DialogInfo.vue";
 
+
 const counter = useCounterStore();
 const { project_name, project_body } = storeToRefs(counter);
 
@@ -40,7 +41,7 @@ watch(project_body, (v) => {
   <div class="flex w-full h-screen overflow-y-hidden">
     <header
       class="fixed lg:sticky top-0 z-50 flex flex-col justify-start h-screen border-r bg-background border-secondary"
-      :class="counter.showProjects ? 'min-w-64' : ' '"
+      :class="counter.showProjects ? 'min-w-80' : ' '"
     >
       <div
         class="flex items-center justify-between"
@@ -66,7 +67,6 @@ watch(project_body, (v) => {
           :class="counter.showProjects ? '' : ' flex-col '"
         >
           <DialogInfo />
-          
           <ToggleTheme />
         </div>
         <button
@@ -96,9 +96,7 @@ watch(project_body, (v) => {
           :style="`flex: ${layout[1]} 1 0px; overflow: hidden;`"
           class="hidden md:flex"
         />
-        <SplitterPanel
-          :min-size="75"
-        >
+        <SplitterPanel :min-size="75">
           <div class="h-full mx-auto ring-1 md:w-auto ring-secondary">
             <div
               :key="counter.loaded_id"
@@ -122,11 +120,10 @@ watch(project_body, (v) => {
                     @click="counter.create_project()"
                     class="h-10 px-3 shrink-0 text-xs"
                     :disabled="counter.project_name === ''"
-                    :class="
-                      counter.project_name
+                    :class="counter.project_name
                         ? 'bg-primary text-white '
                         : 'opacity-50 bg-secondary  pointer-events-none'
-                    "
+                      "
                   >
                     Crear
                   </button>

@@ -2,7 +2,7 @@
   <div
     v-if="editor"
     v-auto-animate
-    class="px-1 pt-1 @container grid md:pr-2"
+    class="px-1 @container grid md:pr-2"
   >
     <div
       v-if="toolbar"
@@ -809,30 +809,6 @@ html.dark .shiki span {
   @apply text-foreground/30;
 }
 
-.custom-image-small {
-  max-width: 200px;
-}
-
-.custom-image-medium {
-  max-width: 500px;
-}
-
-.custom-image-large {
-  max-width: 100%;
-}
-
-.custom-image-float-none {
-  float: none;
-}
-
-.custom-image-float-left {
-  float: left;
-}
-
-.custom-image-float-right {
-  float: right;
-}
-
 /* Bubble menu */
 .bubble-menu {
   @apply bg-secondary border border-secondary p-1 flex text-xs gap-2 items-center
@@ -885,57 +861,4 @@ html.dark .shiki span {
   height: 100%;
 }
 
-
-/* Code styling */
-.hljs-comment,
-.hljs-quote {
-  color: #616161;
-}
-
-.hljs-variable,
-.hljs-template-variable,
-.hljs-attribute,
-.hljs-tag,
-.hljs-name,
-.hljs-regexp,
-.hljs-link,
-.hljs-name,
-.hljs-selector-id,
-.hljs-selector-class {
-  color: #f98181;
-}
-
-.hljs-number,
-.hljs-meta,
-.hljs-built_in,
-.hljs-builtin-name,
-.hljs-literal,
-.hljs-type,
-.hljs-params {
-  color: #fbbc88;
-}
-
-.hljs-string,
-.hljs-symbol,
-.hljs-bullet {
-  color: #b9f18d;
-}
-
-.hljs-title,
-.hljs-section {
-  color: #faf594;
-}
-
-.hljs-keyword,
-.hljs-selector-tag {
-  color: #70cff8;
-}
-
-.hljs-emphasis {
-  font-style: italic;
-}
-
-.hljs-strong {
-  font-weight: 700;
-}
 </style>

@@ -1,7 +1,9 @@
 <script setup>
 import { RouterView } from "vue-router";
-
 import { useRegisterSW } from 'virtual:pwa-register/vue'
+import { useStorage } from "@vueuse/core";
+
+const colorTheme = useStorage('theme');
 
 const {
   offlineReady,
@@ -16,7 +18,10 @@ async function close() {
 </script>
 
 <template>
-  <main class="w-full font-mono bg-background min-h-screen text-foreground">
+  <main
+    :class="colorTheme"
+    class="w-full font-mono bg-background min-h-screen text-foreground"
+  >
     <RouterView />
     <div
       v-if="offlineReady || needRefresh"
@@ -28,7 +33,7 @@ async function close() {
           Aplicación lista para trabajar sin conexión
         </span>
         <span v-else>
-          Hay contenido nuevo disponible, haga clic en el botón de recarga para actualizar.
+          Hay una nueva versión disponible, haga clic en el botón de recarga para actualizar o en cerrar para dejarla pendiente.
         </span>
       </div>
       <button
@@ -52,7 +57,7 @@ nav a.router-link-exact-active {
 
 <style>
 .pwa-toast {
-  @apply bg-background border border-secondary text-foreground fixed right-0 bottom-12 m-3 p-3 z-[9999] text-left
+  @apply bg-secondary border border-background text-foreground fixed right-0 bottom-11 m-3 p-3 z-[9999] text-left
 }
 .pwa-toast .message {
   margin-bottom: 8px;
@@ -66,4 +71,8 @@ nav a.router-link-exact-active {
   padding: 3px 10px;
   @apply text-xs
 }
+
+
+    
+    
 </style>

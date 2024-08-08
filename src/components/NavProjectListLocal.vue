@@ -137,7 +137,7 @@ watch(CtrlShiftX, (v) => {
                   @click="counter.set_project(item.id)"
                 >
                   <ArrowRight class="size-4" />
-                  <p class="w-56 truncate">
+                  <p class="w-72 truncate">
                     {{ item.project_data.name }}
                   </p>
                 </button>
