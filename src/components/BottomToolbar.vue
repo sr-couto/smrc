@@ -22,24 +22,16 @@ onChange((files) => {
     class="fixed bottom-0 left-0 right-0 z-[60] text-xs flex items-center justify-between h-12 border-t bg-background border-secondary"
   >
     <div
-      class="grid grid-cols-2 gap-[1px] bg-secondary min-w-32 sm:min-w-64 border-r border-secondary"
+      class="grid grid-cols-2 gap-[1px] bg-secondary min-w-32 sm:min-w-80 border-r border-secondary"
     >
-      <!-- <button
-        @click="open()"
-        class="h-12 px-2 items-center justify-center gap-2 flex bg-background hover:bg-background/50 focus-visible:bg-background/50 outline-none"
-      >
-        <Upload class="size-4" />
-        <span class="hidden sm:inline-flex">ImportarDB</span>
-      </button> -->
-      <DialogImportDB/>
+      <DialogImportDB />
       <DialogShareDB />
     </div>
     <div class="flex justify-end w-full">
       <button
-        variant="destructive"
         v-show="counter.loaded_id !== null"
         @click="counter.delete_project()"
-        class="h-12 px-5"
+        class="h-12 px-5 hover:bg-red-600/5"
         :class="
           counter.loaded_id ? 'text-red-600' : 'opacity-50 pointer-events-none'
         "

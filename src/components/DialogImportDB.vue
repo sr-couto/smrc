@@ -1,5 +1,5 @@
 <script setup>
-import { Upload, HardDriveUpload, X } from 'lucide-vue-next';
+import { Upload, HardDriveUpload, X, CircleCheck } from 'lucide-vue-next';
 import {
   AlertDialogAction,
   AlertDialogCancel,
@@ -77,27 +77,27 @@ function handleAction() {
           :class="isOverDropZone ? ' border-animated ' : '   '"
           class="dropZone fixed flex-col font-mono inset-0 text-foreground z-[999] justify-center flex items-center"
         >
-          <HardDriveUpload />
-          <AlertDialogTitle class="text-mauve12 m-0 text-[17px] font-semibold">
-            ImportarDB
-          </AlertDialogTitle>
-          <AlertDialogDescription
-            class="text-foreground mt-4 text-pretty max-w-96 text-center mb-5 text-[15px] leading-normal"
-          >
-            Selecciona o arrastrar un archivo JSON exportado desde esta app.
-          </AlertDialogDescription>
           <div
-            class="flex flex-col items-center justify-center w-full duration-100 h-16"
+            class="flex flex-col items-center justify-center w-full h-16"
             v-auto-animate
           >
             <div
               v-if="filesData.length === 0"
-              class="flex flex-col w-full justify-center items-center gap-6 px-3 text-center text-pretty"
+              class="flex flex-col w-full justify-center items-center gap-2 px-3 text-center text-pretty"
             >
+              <HardDriveUpload class="size-12" />
+              <AlertDialogTitle class="text-mauve12 m-0 text-[17px] font-semibold">
+                ImportarDB
+              </AlertDialogTitle>
+              <AlertDialogDescription
+                class="text-foreground mt-4 text-pretty max-w-96 text-center mb-3 text-[15px] leading-normal"
+              >
+                Selecciona o arrastrar un archivo JSON exportado desde esta app.
+              </AlertDialogDescription>
               <button
                 type="button"
                 @click="open()"
-                class="text-sm underline text-primary underline-offset-2"
+                class="text-sm mb-4 underline text-primary underline-offset-2"
               >
                 Seleccionar archivo JSON
               </button>
@@ -109,17 +109,20 @@ function handleAction() {
               v-else
               class="flex justify-center flex-col items-center w-full gap-2 px-3 text-center text-pretty"
             >
-              <div class="flex gap-1 items-center">
-                <h2>Importado OK</h2>
+              <CircleCheck class="size-12" />
+              <AlertDialogTitle class="text-mauve12 m-0 text-[17px] font-semibold">
                 <template
                   v-for="(file, index) in filesData"
                   :key="index"
                 >
-                  <p>
-                    desde {{ file.name }}
-                  </p>
+                  importado desde {{ file.name }}
                 </template>
-              </div>
+              </AlertDialogTitle>
+              <AlertDialogDescription
+                class="text-foreground mt-4 text-pretty max-w-96 text-center mb-5 text-[15px] leading-normal"
+              >
+                Ya puede navegar sus nuevos datos.
+              </AlertDialogDescription>
               <AlertDialogCancel class="bg-secondary text-foreground hover:bg-backgorund/80 text-xs inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-semibold leading-none focus:shadow-[0_0_0_2px] focus:outline-none">
                 Cerrar
               </AlertDialogCancel>

@@ -66,23 +66,29 @@ watch(CtrlShiftX, (v) => {
 <template>
   <div class="h-full pt-0.5 px-1 border-t border-secondary">
     <div class="flex justify-center items-center text-sm">
-      <div
+      <button
         v-if="!editing"
+        @click="editTitle()"
         class="flex h-8 pl-1 border border-transparent items-center group w-full justify-between gap-1"
       >
-        <span v-if="!file_name">
+        <span
+          class=" group-hover:text-primary/80 duration-300"
+          v-if="!file_name"
+        >
           Sin titulo
         </span>
-        <span v-else>
+        <span
+          class=" group-hover:text-primary/80 duration-300"
+          v-else
+        >
           {{ file_name }}
         </span>
-        <button
+        <span
           class="size-7 flex justify-center items-center border shrink-0 bg-secondary group-hover:border-primary duration-300 border-secondary"
-          @click="editTitle()"
         >
           <Pencil class="size-4 opacity-70 group-hover:opacity-100 group-hover:text-primary" />
-        </button>
-      </div>
+        </span>
+      </button>
       <div
         v-if="editing"
         class="flex h-8 items-center w-full justify-between gap-1"
