@@ -555,7 +555,7 @@
         style="--scrollbar-size: 10px"
       >
         <ScrollAreaViewport class="w-full h-full">
-          <div class="prose prose-purple dark:prose-invert max-w-full mx-auto">
+          <div class="prose dark:prose-invert max-w-full mx-auto">
             <editor-content :editor="editor" />
           </div>
         </ScrollAreaViewport>
@@ -681,6 +681,11 @@ onMounted(() => {
         defaultProtocol: 'https',
         autolink: true,
         linkOnPaste: true,
+        HTMLAttributes: {
+          target: "_blank",
+          rel: "noopener",
+          class: "px-1 underline-offset-2 text-primary cursor-pointer hover:text-primary/80",
+        },
       }),
       ExternalVideo,
       TextAlign.configure({
