@@ -31,9 +31,9 @@ onChange((files) => {
       <button
         v-show="counter.loaded_id !== null"
         @click="counter.delete_project()"
-        class="h-12 px-5 hover:bg-red-600/5"
+        class="h-12 px-5 hover:bg-primary/5"
         :class="
-          counter.loaded_id ? 'text-red-600' : 'opacity-50 pointer-events-none'
+          counter.loaded_id ? 'text-primary' : 'opacity-50 pointer-events-none'
         "
         :disabled="counter.loaded_id === null"
       >

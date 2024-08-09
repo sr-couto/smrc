@@ -3,11 +3,24 @@
     class="code-block"
     spellcheck="false"
   >
-    <div class="flex absolute z-40 p-1 -translate-y-6 translate-x-1 top-0 right-0 gap-2">
+    <div class="flex absolute items-center justify-end z-40 p-1 translate-y-1 -translate-x-1 top-0 right-0 gap-2">
       <RadixVirtual
         v-model="selectedLanguage"
         :items="languages"
       />
+      <button
+        class="size-7 flex justify-center items-center  text-white"
+        @click="copyToClipboard()"
+      >
+        <ClipboardCheck
+          v-if="copyText === 'Copied'"
+          class="size-5 "
+        />
+        <Clipboard
+          v-else
+          class="size-5 text-primary"
+        />
+      </button>
     </div>
     <pre><code class="text-xs leading-6"><node-view-content /></code></pre>
   </node-view-wrapper>
@@ -19,12 +32,15 @@ import {
   bundledLanguages,
 } from 'shiki'
 import RadixVirtual from '@/components/ui/RadixVirtual.vue';
+import { Clipboard, ClipboardCheck } from 'lucide-vue-next';
+
 
 export default {
   components: {
     NodeViewWrapper,
     NodeViewContent,
-    RadixVirtual
+    RadixVirtual,
+    Clipboard, ClipboardCheck
   },
 
   props: nodeViewProps,
@@ -32,6 +48,7 @@ export default {
   data() {
     return {
       languages: Object.keys(bundledLanguages),
+      copyText: 'Copy',
     }
   },
 
@@ -45,6 +62,43 @@ export default {
       },
     },
   },
+  methods: {
+    copyToClipboard(
+      uuid,
+      successful = () => null,
+      failure = () => null
+    ) {
+      const clipboard = navigator.clipboard;
+      let value = this.node.content.content[0].text;
+      if (clipboard !== undefined && clipboard !== "undefined") {
+        navigator.clipboard.writeText(value).then(successful, failure);
+        this.copyText = 'Copied'
+      } else {
+        if (document.execCommand) {
+          const el = document.createElement("textarea");
+          el.value = value;
+          document.body.append(el);
+
+          el.select();
+          el.setSelectionRange(0, value.length);
+
+          if (document.execCommand("copy")) {
+            this.copyText = 'Copied' // popper?
+            // successful();
+          }
+
+          el.remove();
+        } else {
+          this.copyText = 'Error!';
+          alert('Error!')
+          // failure();
+        }
+      }
+      setTimeout(() => {
+        this.copyText = 'copy'
+      }, 1000);
+    },
+  }
 }
 </script>
 

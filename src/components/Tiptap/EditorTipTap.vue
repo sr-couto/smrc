@@ -848,9 +848,7 @@ onBeforeUnmount(() => {
   display: none;
 }
 
-.tiptap:first-child * {
-  margin-top: 0.25rem;
-}
+
 
 html.dark .shiki,
 html.dark .shiki span {

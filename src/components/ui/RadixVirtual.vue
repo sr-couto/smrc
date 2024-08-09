@@ -142,7 +142,7 @@ const filteredOptions = computed(() =>
                   class="w-full selection:bg-primary p-1 font-mono text-xs h-8 pl-10 text-foreground bg-background border border-secondary  outline-none placeholder:text-foreground/20"
                 />
               </div>
-              <ListboxContent class="w-full overflow-auto overflow-x-hidden bg-background h-[202px]">
+              <ListboxContent class="w-full overflow-auto overflow-x-hidden bg-background scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-secondary-foreground scrollbar-track-secondary h-[202px]">
                 <ListboxVirtualizer
                   v-slot="{ option }"
                   :options="filteredOptions"

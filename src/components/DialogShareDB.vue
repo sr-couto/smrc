@@ -13,15 +13,9 @@ import { CircleHelp, Download, X } from 'lucide-vue-next';
 import { onMounted, ref, watch } from 'vue';
 import { useCounterStore } from "@/stores/counter";
 const counter = useCounterStore();
-import { useClipboard, refDebounced } from '@vueuse/core'
-import {
-  ScrollAreaRoot,
-  ScrollAreaScrollbar,
-  ScrollAreaThumb,
-  ScrollAreaViewport,
-} from "radix-vue";
 import { storeToRefs } from 'pinia';
 const source = ref('Hello')
+import { useClipboard, refDebounced } from '@vueuse/core'
 const { text, copy, copied, isSupported } = useClipboard({ source })
 
 const { file_name } = storeToRefs(counter);
