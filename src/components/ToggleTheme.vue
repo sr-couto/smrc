@@ -7,6 +7,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuGroup,
 } from "radix-vue";
 import { SunMedium, Moon } from "lucide-vue-next";
 import Tooltip from "./ui/Tooltip.vue";

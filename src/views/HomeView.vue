@@ -5,7 +5,7 @@ import { storeToRefs } from "pinia";
 import { TentTree, GripVertical } from "lucide-vue-next";
 import { useCounterStore } from "@/stores/counter";
 import { useMagicKeys, whenever } from "@vueuse/core";
-import Editor from "@/components/EditorTipTap.vue";
+import Editor from "@/components/Tiptap/EditorTipTap.vue";
 import NavProjectListLocal from "@/components/NavProjectListLocal.vue";
 import ToggleTheme from "@/components/ToggleTheme.vue";
 import Tooltip from "@/components/ui/Tooltip.vue";

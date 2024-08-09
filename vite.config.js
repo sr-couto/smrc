@@ -16,20 +16,8 @@ export default defineConfig({
     vue(),
     VitePWA({
       registerType: 'prompt',
-      workbox: {
-        maximumFileSizeToCacheInBytes: 10000000
-      }
     })
   ],
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8000',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-      },
-    },
-  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

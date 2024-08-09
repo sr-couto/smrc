@@ -421,6 +421,28 @@
             <Eraser />
           </button>
         </Tooltip>
+        <Tooltip
+          name="Añadir link"
+          side="bottom"
+        >
+          <button
+            @click="setLink"
+            :class="{ 'is-active': editor.isActive('link') }"
+          >
+            <Link2 class="-rotate-45" />
+          </button>
+        </Tooltip>
+        <Tooltip
+          name="Eliminar link"
+          side="bottom"
+        >
+          <button
+            @click="editor.chain().focus().unsetLink().run()"
+            :disabled="!editor.isActive('link')"
+          >
+            <Unlink2 class="-rotate-45" />
+          </button>
+        </Tooltip>
       </div>
     </div>
     <!-- <bubble-menu
@@ -575,14 +597,14 @@ import {
   Minus,
   Undo2,
   Redo2,
-  
   AlignLeft,
   AlignCenter,
   AlignRight,
   AlignJustify,
-  ImageDownIcon,
   Youtube,
   Globe,
+  Link2,
+  Unlink2,
 } from "lucide-vue-next";
 import {
   ScrollAreaRoot,
@@ -591,7 +613,6 @@ import {
   ScrollAreaViewport,
 } from "radix-vue";
 
-import { useCounterStore } from "@/stores/counter";
 
 
 
@@ -603,22 +624,22 @@ import {
 } from "radix-vue";
 
 import { ref, watch, onMounted, onBeforeUnmount } from "vue";
+
+import { Editor, EditorContent, VueNodeViewRenderer } from "@tiptap/vue-3";
 import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
 import StarterKit from "@tiptap/starter-kit";
-import { Editor, EditorContent, VueNodeViewRenderer, BubbleMenu } from "@tiptap/vue-3";
 import Image from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
 import TextAlign from '@tiptap/extension-text-align'
-import Iframe from "@/components/Tiptap/extensions/iframe.ts";
-import ExternalVideo from '@/components/Tiptap/extensions/external-video.js'
-// import CustomImage from '@/components/Tiptap/extensions/custom-image'
-import Tooltip from "./ui/Tooltip.vue";
+import Link from '@tiptap/extension-link'
+import Iframe from "@/components/Tiptap/iframe.ts";
+import ExternalVideo from '@/components/Tiptap/external-video.js'
+import Tooltip from "@/components/ui/Tooltip.vue";
 import { useStorage } from '@vueuse/core'
 import CodeBlockShiki from 'tiptap-extension-code-block-shiki'
-
-const counter = useCounterStore();
+import ShikiCodeBlock from '@/components/Tiptap/ShikiCodeBlock.vue'
 
 const editor = ref(null);
 const editorToolbar = useStorage('editorToolbar', true);
@@ -676,6 +697,36 @@ function addIframe() {
   }
 }
 
+function setLink() {
+  const previousUrl = editor.value.getAttributes('link').href
+  const url = window.prompt('URL', previousUrl)
+
+  // cancelled
+  if (url === null) {
+    return
+  }
+
+  // empty
+  if (url === '') {
+    editor.value
+      .chain()
+      .focus()
+      .extendMarkRange('link')
+      .unsetLink()
+      .run()
+
+    return
+  }
+
+  // update link
+  editor.value
+    .chain()
+    .focus()
+    .extendMarkRange('link')
+    .setLink({ href: url })
+    .run()
+}
+
 watch(
   () => props.modelValue,
   (value) => {
@@ -705,6 +756,12 @@ onMounted(() => {
       //     class: 'custom-image'
       //   }
       // }),
+      Link.configure({
+        openOnClick: true,
+        defaultProtocol: 'https',
+        autolink: true,
+        linkOnPaste: true,
+      }),
       ExternalVideo,
       TextAlign.configure({
         types: ['heading', 'paragraph'],
@@ -712,13 +769,19 @@ onMounted(() => {
       Placeholder.configure({
         placeholder: "Escribir algo …",
       }),
-      CodeBlockShiki.configure({
-        HTMLAttributes: {
-          spellcheck: "false"
-        },
-        // optional customizations
-        defaultTheme: 'houston',
-      }),
+      CodeBlockShiki
+        .extend({
+          addNodeView() {
+            return VueNodeViewRenderer(ShikiCodeBlock)
+          },
+        })
+        .configure({
+          HTMLAttributes: {
+            spellcheck: "false"
+          },
+          // optional customizations
+          defaultTheme: 'houston',
+        }),
     ],
     content: props.modelValue,
     onUpdate: () => {
@@ -759,7 +822,7 @@ onBeforeUnmount(() => {
 } */
 
 .tiptap p code {
-  @apply bg-secondary px-1 rounded font-normal py-1 text-foreground
+  @apply bg-background px-1 rounded font-normal py-1 text-foreground
 }
 
 
@@ -786,10 +849,9 @@ onBeforeUnmount(() => {
   display: none;
 }
 
-/* 
 .tiptap:first-child * {
   margin-top: 0;
-} */
+}
 
 html.dark .shiki,
 html.dark .shiki span {
@@ -860,5 +922,4 @@ html.dark .shiki span {
   width: 100%;
   height: 100%;
 }
-
 </style>
