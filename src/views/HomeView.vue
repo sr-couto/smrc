@@ -96,7 +96,7 @@ watch(project_body, (v) => {
           :style="`flex: ${layout[1]} 1 0px; overflow: hidden;`"
           class="hidden md:flex"
         />
-        <SplitterPanel :min-size="75">
+        <SplitterPanel :min-size="30">
           <div class="h-full mx-auto ring-1 md:w-auto ring-secondary">
             <div
               :key="counter.loaded_id"
@@ -136,7 +136,8 @@ watch(project_body, (v) => {
           class=" hidden md:flex justify-center items-center w-2 border-l border-secondary data-[state=hover]:border-primary/10 duration-100"
         />
         <SplitterPanel
-          :max-size="30"
+          :max-size="40"
+          @resize="resize = $event"
           class="hidden md:flex"
         />
       </SplitterGroup>

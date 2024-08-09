@@ -104,7 +104,7 @@ const filteredOptions = computed(() =>
             v-else
             class="flex text-xs w-full justify-between items-center gap-2"
           >
-            <span>Seleccionar</span>
+            <span>Auto</span>
             <ChevronDown class="size-4 shrink-0" />
           </div>
         </PopoverTrigger>
@@ -150,9 +150,9 @@ const filteredOptions = computed(() =>
                 >
                   <ListboxItem
                     :value="option"
-                    class=" w-64 flex items-center  px-3 h-8 leading-none relative text-foreground select-none outline-none data-[highlighted]:ring-primary data-[highlighted]:ring-1 focus:ring-primary focus:ring-1 data-[state=checked]:text-primary data-[disabled]:opacity-50 data-[highlighted]:bg-secondary"
+                    class=" w-64 flex items-center pl-9 px-3 h-8 leading-none relative text-foreground select-none outline-none data-[highlighted]:ring-primary data-[highlighted]:ring-1 focus:ring-primary focus:ring-1 data-[state=checked]:text-primary data-[disabled]:opacity-50 data-[highlighted]:bg-secondary"
                   >
-                    <ListboxItemIndicator class="absolute right-2 inline-flex items-center justify-center">
+                    <ListboxItemIndicator class="absolute left-2 inline-flex items-center justify-center">
                       <Check class="size-5" />
                     </ListboxItemIndicator>
                     <p class="leading-5 text-pretty text-xs font-mono">
@@ -204,6 +204,6 @@ const filteredOptions = computed(() =>
 
 
 .btn {
-  @apply flex items-center w-full justify-start gap-1 px-2 h-7  text-xs bg-background font-normal text-foreground transition-colors border border-secondary ring-secondary ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+  @apply flex items-center w-full justify-start gap-1 px-2 h-6 text-xs bg-[#1f2937] dark:bg-[#060504] font-normal text-primary transition-colors border border-secondary/20 ring-secondary ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
 }
 </style>

@@ -3,30 +3,12 @@
     class="code-block"
     spellcheck="false"
   >
-    <div class="flex absolute  top-0 right-0 gap-2">
+    <div class="flex absolute z-40 p-1 -translate-y-6 translate-x-1 top-0 right-0 gap-2">
       <RadixVirtual
         v-model="selectedLanguage"
         :items="languages"
       />
     </div>
-    <!-- <select
-      contenteditable="false"
-      v-model="selectedLanguage"
-    >
-      <option :value="null">
-        auto
-      </option>
-      <option disabled>
-        —
-      </option>
-      <option
-        v-for="(language, index) in languages"
-        :value="language"
-        :key="index"
-      >
-        {{ language }}
-      </option>
-    </select> -->
     <pre><code class="text-xs leading-6"><node-view-content /></code></pre>
   </node-view-wrapper>
 </template>

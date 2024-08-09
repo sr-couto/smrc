@@ -64,43 +64,43 @@ watch(CtrlShiftX, (v) => {
 });
 </script>
 <template>
-  <div class="h-full pt-0.5 px-1 border-t border-secondary">
-    <div class="flex justify-center items-center text-sm">
+  <div class="h-full ">
+    <div class="flex justify-center items-center text-sm border-l border-secondary">
       <button
         v-if="!editing"
         @click="editTitle()"
-        class="flex h-8 pl-1 border border-transparent items-center group w-full justify-between gap-1"
+        class="flex h-8 pl-1 items-center w-full justify-between gap-1"
       >
         <span
-          class=" group-hover:text-primary/80 duration-300"
+          
           v-if="!file_name"
         >
           Sin titulo
         </span>
         <span
-          class=" group-hover:text-primary/80 duration-300"
+          
           v-else
         >
           {{ file_name }}
         </span>
         <span
-          class="size-7 flex justify-center items-center border shrink-0 bg-secondary group-hover:border-primary duration-300 border-secondary"
+          class="size-8 flex justify-center items-center border shrink-0 bg-primary hover:border-primary duration-300 border-secondary"
         >
-          <Pencil class="size-4 opacity-70 group-hover:opacity-100 group-hover:text-primary" />
+          <Pencil class="size-4 text-primary-foreground" />
         </span>
       </button>
       <div
         v-if="editing"
-        class="flex h-8 items-center w-full justify-between gap-1"
+        class="flex h-8 items-center w-full justify-between"
       >
         <input
           type="text"
           @keyup.enter="editTitle()"
-          class="h-7 pl-1 text-primary ring-primary outline-none focus-visible:ring-1 text-sm w-full border bg-background border-secondary"
+          class="h-8 pl-1 outline-none text-sm w-full  bg-primary text-primary-foreground border-secondary"
           v-model="input"
         >
         <button
-          class="size-7 flex justify-center items-center border shrink-0 bg-secondary border-secondary "
+          class="size-8 flex justify-center items-center shrink-0 bg-primary/80 hover:bg-primary/90 focus-visible:ring-2 outline-none ring-primary-foreground"
           @click="editTitle()"
         >
           <Check class="size-4" />
@@ -108,7 +108,7 @@ watch(CtrlShiftX, (v) => {
       </div>
     </div>
     <div
-      class="relative flex items-center justify-between w-full p-1 my-1 text-xs bg-secondary ring-secondary/60 focus-within:ring-secondary"
+      class="relative flex items-center justify-between w-full p-1 text-xs bg-secondary ring-secondary/60 focus-within:ring-secondary"
     >
       <input
         ref="focusSearch"
@@ -139,11 +139,11 @@ watch(CtrlShiftX, (v) => {
         style="--scrollbar-size: 10px"
       >
         <ScrollAreaViewport class="w-full h-full rounded">
-          <div class="py-1">
+          <div class="py-1 px-0.5">
             <button
               v-if="counter.loaded_id !== null"
               @click="new_document()"
-              class="flex items-center justify-start gap-2 text-sm w-full text-left duration-100 focus-within:ring-1 ring-primary"
+              class="flex items-center mb-0.5 justify-start gap-2 text-sm w-full text-left duration-100 focus-within:ring-1 ring-primary"
               :class="counter.loaded_id !== null
                 ? 'text-secondary-foreground  '
                 : 'text-primary pointer-events-none'
@@ -156,7 +156,7 @@ watch(CtrlShiftX, (v) => {
               v-else
               @click="counter.create_project()"
               :disabled="counter.project_name === ''"
-              class="flex items-center justify-start gap-2 disabled:animate-pulse text-sm w-full text-primary text-left duration-100 focus-within:ring-1 ring-primary"
+              class="flex items-center mb-0.5 justify-start gap-2 disabled:animate-pulse text-sm w-full text-primary text-left duration-100 focus-within:ring-1 ring-primary"
             >
               <Plus class="size-4" />
               <p class="w-56 truncate">
@@ -167,20 +167,18 @@ watch(CtrlShiftX, (v) => {
             <div
               v-for="item in filteredOptions"
               :key="item.id"
-              class="w-full"
+              class="flex flex-row items-center justify-between w-full"
             >
-              <div class="flex flex-row items-center justify-between w-full pb-0">
-                <button
-                  class="flex items-center outline-none justify-start gap-2 text-sm text-left duration-100 focus-within:ring-1 ring-primary"
-                  :class="loaded_id === item.id ? 'text-primary' : ''"
-                  @click="counter.set_project(item.id)"
-                >
-                  <ArrowRight class="size-4" />
-                  <p class="w-72 truncate">
-                    {{ item.project_data.name }}
-                  </p>
-                </button>
-              </div>
+              <button
+                class="flex py-0.5 w-full items-center outline-none justify-start gap-2 text-sm text-left duration-100 focus-within:ring-1 ring-primary"
+                :class="loaded_id === item.id ? 'text-primary' : ''"
+                @click="counter.set_project(item.id)"
+              >
+                <ArrowRight class="size-4" />
+                <p class="w-72 truncate">
+                  {{ item.project_data.name }}
+                </p>
+              </button>
             </div>
             <div
               class="flex justify-center items-center w-full py-5 mt-2 bg-secondary/20"

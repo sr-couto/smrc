@@ -120,7 +120,7 @@
       </div>
 
       <div
-        class="button-group max-w-3xl bg-background justify-between m-0 mr-auto pr-[1px] pt-1 w-full flex gap-1 flex-wrap"
+        class="button-group bg-background justify-start m-0 mr-auto pr-[1px] pt-1 w-full flex gap-1 flex-wrap"
         v-if="editorToolbar"
       >
         <Tooltip
@@ -605,6 +605,7 @@ import {
   Globe,
   Link2,
   Unlink2,
+  Maximize,
 } from "lucide-vue-next";
 import {
   ScrollAreaRoot,
@@ -612,9 +613,6 @@ import {
   ScrollAreaThumb,
   ScrollAreaViewport,
 } from "radix-vue";
-
-
-
 
 import {
   DropdownMenuRoot,
@@ -624,22 +622,29 @@ import {
 } from "radix-vue";
 
 import { ref, watch, onMounted, onBeforeUnmount } from "vue";
-
+import { useStorage } from '@vueuse/core'
 import { Editor, EditorContent, VueNodeViewRenderer } from "@tiptap/vue-3";
+
+import Tooltip from "@/components/ui/Tooltip.vue";
+
 import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
+import Typography from '@tiptap/extension-typography'
 import Placeholder from "@tiptap/extension-placeholder";
 import TextAlign from '@tiptap/extension-text-align'
 import Link from '@tiptap/extension-link'
 import Iframe from "@/components/Tiptap/iframe.ts";
 import ExternalVideo from '@/components/Tiptap/external-video.js'
-import Tooltip from "@/components/ui/Tooltip.vue";
-import { useStorage } from '@vueuse/core'
 import CodeBlockShiki from 'tiptap-extension-code-block-shiki'
 import ShikiCodeBlock from '@/components/Tiptap/ShikiCodeBlock.vue'
+
+import { useCounterStore } from "@/stores/counter";
+const counter = useCounterStore();
+
+
 
 const editor = ref(null);
 const editorToolbar = useStorage('editorToolbar', true);
@@ -657,6 +662,53 @@ const props = defineProps({
 
 const emit = defineEmits(["update:modelValue"]);
 
+onMounted(() => {
+  editor.value = new Editor({
+    extensions: [
+      Color.configure({ types: [TextStyle.name, ListItem.name] }),
+      TextStyle.configure({ types: [ListItem.name] }),
+      StarterKit.configure({
+        codeBlock: false,
+      }),
+      Image.configure({
+        allowBase64: true,
+        inline: true,
+      }),
+      Typography,
+      Iframe,
+      Link.configure({
+        openOnClick: true,
+        defaultProtocol: 'https',
+        autolink: true,
+        linkOnPaste: true,
+      }),
+      ExternalVideo,
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
+      Placeholder.configure({
+        placeholder: "Escribir algo …",
+      }),
+      CodeBlockShiki
+        .extend({
+          addNodeView() {
+            return VueNodeViewRenderer(ShikiCodeBlock)
+          },
+        })
+        .configure({
+          HTMLAttributes: {
+            spellcheck: "false"
+          },
+          defaultTheme: 'houston',
+        }),
+    ],
+    content: props.modelValue,
+    onUpdate: () => {
+      emit("update:modelValue", editor.value.getHTML());
+    },
+  });
+});
+
 function addImage() {
   const url = window.prompt("Ingresar URL de la imagen");
   if (url) {
@@ -671,7 +723,6 @@ function addImageBase64(event) {
 
     reader.onload = (e) => {
       const dataURL = e.target.result;
-      console.log(dataURL);
       editor.value.chain().focus().setImage({ src: dataURL }).run();
     };
 
@@ -738,57 +789,7 @@ watch(
   }
 );
 
-onMounted(() => {
-  editor.value = new Editor({
-    extensions: [
-      Color.configure({ types: [TextStyle.name, ListItem.name] }),
-      TextStyle.configure({ types: [ListItem.name] }),
-      StarterKit.configure({
-        codeBlock: false,
-      }),
-      Image.configure({
-        allowBase64: true,
-        inline: true,
-      }),
-      Iframe,
-      // CustomImage.configure({
-      //   HTMLAttributes: {
-      //     class: 'custom-image'
-      //   }
-      // }),
-      Link.configure({
-        openOnClick: true,
-        defaultProtocol: 'https',
-        autolink: true,
-        linkOnPaste: true,
-      }),
-      ExternalVideo,
-      TextAlign.configure({
-        types: ['heading', 'paragraph'],
-      }),
-      Placeholder.configure({
-        placeholder: "Escribir algo …",
-      }),
-      CodeBlockShiki
-        .extend({
-          addNodeView() {
-            return VueNodeViewRenderer(ShikiCodeBlock)
-          },
-        })
-        .configure({
-          HTMLAttributes: {
-            spellcheck: "false"
-          },
-          // optional customizations
-          defaultTheme: 'houston',
-        }),
-    ],
-    content: props.modelValue,
-    onUpdate: () => {
-      emit("update:modelValue", editor.value.getHTML());
-    },
-  });
-});
+
 
 onBeforeUnmount(() => {
   editor.value.destroy();
@@ -797,7 +798,7 @@ onBeforeUnmount(() => {
 
 <style>
 .button-group button {
-  @apply border border-secondary focus-within:border-primary min-w-9 flex-1 outline-none h-9 text-sm focus-visible:border-primary flex justify-center items-center duration-100;
+  @apply border border-secondary focus-within:border-primary min-w-9 flex-1 outline-none h-9 max-w-9 text-sm focus-visible:border-primary flex justify-center items-center duration-100;
 }
 
 .control-group button {
@@ -812,9 +813,8 @@ onBeforeUnmount(() => {
   @apply size-4;
 }
 
-/* Basic editor styles */
 .tiptap {
-  @apply p-4 outline-none placeholder:text-primary min-h-96 font-serif;
+  @apply p-4 outline-none placeholder:text-primary min-h-64 font-serif;
 }
 
 /* .tiptap pre {
@@ -831,7 +831,6 @@ onBeforeUnmount(() => {
   @apply w-full h-[calc(100vh-9rem)] overflow-hidden m-0 border-2 bg-white border-primary/50 relative;
 }
 
-/* :class="editorToolbar ? 'h-[calc(100vh-9.25rem)]': 'h-[calc(100vh-6.75rem)]'" */
 .tiptap .iframe-wrapper iframe {
   @apply w-full h-[calc(100vh-9rem)] bg-white;
 }
@@ -850,7 +849,7 @@ onBeforeUnmount(() => {
 }
 
 .tiptap:first-child * {
-  margin-top: 0;
+  margin-top: 0.25rem;
 }
 
 html.dark .shiki,

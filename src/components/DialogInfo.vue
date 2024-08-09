@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from 'radix-vue'
-import { CircleHelp, X } from 'lucide-vue-next';
+import { CircleHelp, TentTree, X } from 'lucide-vue-next';
 import Tooltip from './ui/Tooltip.vue';
 </script>
 
@@ -75,10 +75,16 @@ import Tooltip from './ui/Tooltip.vue';
             for="username"
           > ExportarDB </label>
         </fieldset>
-        <div class="mt-[25px] flex justify-end">
+        <div class="mt-[25px] flex justify-between">
+          <div
+            class="text-foreground opacity-50 text-xs gap-2 font-mono font-semibold flex justify-start items-center"
+          >
+            <TentTree class="size-5 text-primary" />
+            <span>0.0.1</span>
+          </div>
           <DialogClose as-child>
             <button
-              class="bg-secondary text-foreground hover:bg-primary text-sm focus:shadow-green7 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-semibold leading-none focus:shadow-[0_0_0_2px] focus:outline-none"
+              class="bg-secondary text-foreground hover:bg-background hover:ring-2 hover:ring-foreground text-sm focus:shadow-green7 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-semibold leading-none focus:shadow-[0_0_0_2px] focus:outline-none"
             >
               Cerrar ventana
             </button>
