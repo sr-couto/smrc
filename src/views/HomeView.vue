@@ -63,7 +63,7 @@ watch(project_body, (v) => {
           </button>
         </Tooltip>
         <div
-          class="flex  gap-1"
+          class="flex gap-0.5"
           :class="counter.showProjects ? '' : ' flex-col '"
         >
           <DialogInfo />

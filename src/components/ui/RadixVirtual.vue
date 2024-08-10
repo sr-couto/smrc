@@ -112,7 +112,7 @@ const filteredOptions = computed(() =>
       <PopoverPortal>
         <PopoverContent
           side="bottom"
-          :side-offset="12"
+          :side-offset="8"
           align="end"
           :align-offset="-8"
           class=" w-64 lg:max-w-7xl  bg-background shadow-md focus:shadow-lg will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade border border-secondary"
@@ -204,6 +204,6 @@ const filteredOptions = computed(() =>
 
 
 .btn {
-  @apply flex items-center w-full justify-start gap-1 px-2 h-6 text-xs bg-[#1f2937] dark:bg-[#060504] font-normal text-primary transition-colors border border-secondary/20 ring-secondary ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+  @apply flex items-center w-full justify-start gap-1 px-2 h-6 text-xs bg-secondary font-normal text-primary transition-colors border border-secondary/20 dark:text-white ring-secondary ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
 }
 </style>

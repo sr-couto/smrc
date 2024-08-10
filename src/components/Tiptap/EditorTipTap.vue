@@ -54,11 +54,11 @@
                 name="Agregar imagen"
                 side="bottom"
               >
-                <button
+                <span
                   class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
                 >
                   <ImagePlus class="size-5" />
-                </button>
+                </span>
               </Tooltip>
             </DropdownMenuTrigger>
             <DropdownMenuContent
@@ -68,21 +68,21 @@
             >
               <DropdownMenuItem
                 as-child
-                class="hover:bg-secondary-foreground/10 p-2 cursor-pointer flex gap-2 justify-between pr-3"
+                class="hover:bg-secondary-foreground/10 p-2 cursor-pointer flex gap-2 justify-between pr-3 relative"
               >
-                <input
-                  id="img-uploader"
-                  type="file"
-                  accept="image/jpeg"
-                  style="display: none"
-                  @change="addImageBase64"
-                >
                 <label
                   class="hover:bg-secondary-foreground/10 p-2 cursor-pointer flex gap-2 justify-between pr-3"
                   for="img-uploader"
                   id="uploader"
                 >
                   Base64
+                  <input
+                    id="img-uploader"
+                    type="file"
+                    accept="image/jpeg"
+                    class="inset-0 absolute opacity-0"
+                    @change="addImageBase64"
+                  >
                 </label>
               </DropdownMenuItem>
 
@@ -102,10 +102,10 @@
               @click="addVideo"
               class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
             >
-              <Youtube class="size-5" />
+              <Video class="size-5" />
             </button>
           </Tooltip>
-          <Tooltip
+          <!-- <Tooltip
             name="Iframe"
             side="bottom"
           >
@@ -115,7 +115,7 @@
             >
               <Globe class="size-5" />
             </button>
-          </Tooltip>
+          </Tooltip> -->
         </div>
       </div>
 
@@ -152,7 +152,7 @@
         <Tooltip
           name="Linea de tachado"
           side="bottom"
-          shortcut="Ctrl U"
+          shortcut="Ctrl Shift S"
         >
           <button
             @click="editor.chain().focus().toggleStrike().run()"
@@ -165,7 +165,7 @@
         <Tooltip
           name="Código en linea"
           side="bottom"
-          shortcut="Ctrl Shift S"
+          shortcut="Ctrl E"
         >
           <button
             @click="editor.chain().focus().toggleCode().run()"
@@ -555,7 +555,10 @@
         style="--scrollbar-size: 10px"
       >
         <ScrollAreaViewport class="w-full h-full">
-          <div class="prose dark:prose-invert max-w-full mx-auto">
+          <div
+            class="prose dark:prose-invert max-w-full mx-auto"
+            spellcheck="false"
+          >
             <editor-content :editor="editor" />
           </div>
         </ScrollAreaViewport>
@@ -601,11 +604,11 @@ import {
   AlignCenter,
   AlignRight,
   AlignJustify,
-  Youtube,
   Globe,
   Link2,
   Unlink2,
   Maximize,
+  Video,
 } from "lucide-vue-next";
 import {
   ScrollAreaRoot,
@@ -636,15 +639,14 @@ import Typography from '@tiptap/extension-typography'
 import Placeholder from "@tiptap/extension-placeholder";
 import TextAlign from '@tiptap/extension-text-align'
 import Link from '@tiptap/extension-link'
-import Iframe from "@/components/Tiptap/iframe.ts";
-import ExternalVideo from '@/components/Tiptap/external-video.js'
+// import Iframe from "@/components/Tiptap/iframe.ts";
+// import ExternalVideo from '@/components/Tiptap/external-video.js'
+import Youtube from '@tiptap/extension-youtube'
 import CodeBlockShiki from 'tiptap-extension-code-block-shiki'
 import ShikiCodeBlock from '@/components/Tiptap/ShikiCodeBlock.vue'
 
 import { useCounterStore } from "@/stores/counter";
 const counter = useCounterStore();
-
-
 
 const editor = ref(null);
 const editorToolbar = useStorage('editorToolbar', true);
@@ -675,7 +677,7 @@ onMounted(() => {
         inline: true,
       }),
       Typography,
-      Iframe,
+      // Iframe,
       Link.configure({
         openOnClick: true,
         defaultProtocol: 'https',
@@ -687,12 +689,17 @@ onMounted(() => {
           class: "px-1 underline-offset-2 text-primary cursor-pointer hover:text-primary/80",
         },
       }),
-      ExternalVideo,
+      // ExternalVideo,
       TextAlign.configure({
         types: ['heading', 'paragraph'],
       }),
       Placeholder.configure({
         placeholder: "Escribir algo …",
+      }),
+      Youtube.configure({
+        controls: true,
+        ccLanguage: 'es',
+        nocookie: true,
       }),
       CodeBlockShiki
         .extend({
@@ -735,22 +742,31 @@ function addImageBase64(event) {
   }
 }
 
+// function addVideo() {
+//   const url = window.prompt(
+//     'Video URL',
+//     'https://www.youtube.com/embed/iyd8dY8rRtA'
+//   )
+
+//   if (url) {
+//     editor.value.chain().focus().setExternalVideo({ src: url }).run()
+//   }
+// }
+
+// function addIframe() {
+//   const url = window.prompt("Ingresar URL del iframe");
+//   if (url) {
+//     editor.value.chain().focus().setIframe({ src: url }).run();
+//   }
+// }
+
 function addVideo() {
-  const url = window.prompt(
-    'Video URL',
-    'https://www.youtube.com/embed/iyd8dY8rRtA'
-  )
-
-  if (url) {
-    editor.value.chain().focus().setExternalVideo({ src: url }).run()
-  }
-}
-
-function addIframe() {
-  const url = window.prompt("Ingresar URL del iframe");
-  if (url) {
-    editor.value.chain().focus().setIframe({ src: url }).run();
-  }
+  const url = prompt('Enter YouTube URL')
+  editor.value.commands.setYoutubeVideo({
+    src: url,
+    width: Math.max(320, parseInt(640, 10)) || 640,
+    height: Math.max(180, parseInt(480, 10)) || 480,
+  })
 }
 
 function setLink() {
@@ -822,15 +838,9 @@ onBeforeUnmount(() => {
   @apply p-4 outline-none placeholder:text-primary min-h-64 font-serif;
 }
 
-/* .tiptap pre {
-  @apply bg-secondary text-foreground
-} */
-
 .tiptap p code {
-  @apply bg-background px-1 rounded font-normal py-1 text-foreground
+  @apply bg-secondary px-1 mx-0.5 rounded py-0.5 text-foreground font-light text-sm
 }
-
-
 
 .tiptap .iframe-wrapper {
   @apply w-full h-[calc(100vh-9rem)] overflow-hidden m-0 border-2 bg-white border-primary/50 relative;
@@ -895,6 +905,14 @@ html.dark .shiki span {
   background-color: var(--purple-contrast);
 }
 
+.tiptap [data-youtube-video] {
+  @apply max-w-6xl mx-auto
+}
+
+.tiptap [data-youtube-video] iframe {
+  @apply w-full h-64 @lg:h-96 @lg:aspect-video aspect-square;
+  /* aspect-ratio: 16/9; */
+}
 
 .tiptap img {
   width: 100%;
@@ -905,7 +923,8 @@ html.dark .shiki span {
 }
 
 .tiptap .ProseMirror-selectednode {
-  outline: 3px solid #68cef8;
+  /* outline: 3px solid #68cef8; */
+  @apply ring-2 ring-primary
 }
 
 

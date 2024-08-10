@@ -3,22 +3,22 @@
     class="code-block"
     spellcheck="false"
   >
-    <div class="flex absolute items-center justify-end z-40 p-1 translate-y-1 -translate-x-1 top-0 right-0 gap-2">
+    <div class="flex absolute items-center justify-end z-40 p-1 translate-y-1 -translate-x-1 top-0 right-0 gap-1">
       <RadixVirtual
         v-model="selectedLanguage"
         :items="languages"
       />
       <button
-        class="size-7 flex justify-center items-center  text-white"
+        class="size-6 bg-secondary flex shrink-0 justify-center items-center hover:opacity-70"
         @click="copyToClipboard()"
       >
         <ClipboardCheck
           v-if="copyText === 'Copied'"
-          class="size-5 "
+          class="size-4 text-primary "
         />
         <Clipboard
           v-else
-          class="size-5 text-primary"
+          class="size-4  "
         />
       </button>
     </div>
