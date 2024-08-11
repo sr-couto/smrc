@@ -1,13 +1,12 @@
 <script setup>
-import { useCounterStore } from "@/stores/counter";
-import { useFileDialog } from "@vueuse/core";
-import { Upload } from "lucide-vue-next";
 import DialogShareDB from "./DialogShareDB.vue";
 import DialogImportDB from "./DialogImportDB.vue";
+import { useCounterStore } from "@/stores/counter.js";
+import { useFileDialog } from "@vueuse/core";
 
 const counter = useCounterStore();
 
-const { open, onChange } = useFileDialog({
+const { onChange } = useFileDialog({
   accept: "application/json",
 });
 

@@ -1,7 +1,6 @@
 <script setup>
-import { Upload, HardDriveUpload, X, CircleCheck } from 'lucide-vue-next';
+import { Upload, HardDriveUpload, X } from 'lucide-vue-next';
 import {
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -12,53 +11,51 @@ import {
   AlertDialogTrigger,
 } from 'radix-vue'
 
-import { computed, ref } from "vue";
+import { ref } from 'vue'
+
 import { useCounterStore } from "@/stores/counter";
-import { useFileDialog, useTimeoutFn, useDropZone, useMouse, useWindowSize } from "@vueuse/core";
+import { useFileDialog, useTimeoutFn, useDropZone } from "@vueuse/core";
 
 const openDialog = ref(false)
 const counter = useCounterStore();
 const dropZoneRef = ref();
-
+const filesData = ref([]);
 const { isOverDropZone } = useDropZone(dropZoneRef, onDrop);
 
 const { open, onChange } = useFileDialog({
   accept: "application/json",
 });
-const filesData = ref([]);
 
 onChange((files) => {
-  if (files[0].type !== "application/json") {
-    alert("El archivo seleccionado no es un archivo JSON");
-    return;
+  if (files) {
+    if (files[0].type !== "application/json") {
+      alert("El archivo seleccionado no es un archivo JSON");
+      return;
+    }
+    counter.import_database(files[0]);
+    filesData.value = files
+    useTimeoutFn(() => {
+      filesData.value = [];
+    }, 3000);
   }
-  counter.import_database(files[0]);
-  filesData.value = files
-  useTimeoutFn(() => {
-    filesData.value = [];
-    
-  }, 3000);
 });
 
+
 function onDrop(files) {
-  if (files[0].type !== "application/json") {
-    alert("El archivo seleccionado no es un archivo JSON");
-    return;
-  }
   if (files) {
+    if (files[0].type !== "application/json") {
+      alert("El archivo seleccionado no es un archivo JSON");
+      return;
+    }
     counter.import_database(files[0]);
     counter.showProjects = true;
     filesData.value = files
     useTimeoutFn(() => {
       filesData.value = [];
-      
     }, 3000);
   }
 }
 
-function handleAction() {
-  alert('clicked action button!')
-}
 </script>
 
 <template>
@@ -70,7 +67,9 @@ function handleAction() {
       <span class="hidden sm:inline-flex">ImportarDB</span>
     </AlertDialogTrigger>
     <AlertDialogPortal>
-      <AlertDialogOverlay class="bg-background/95 backdrop-blur-sm data-[state=open]:animate-overlayShow fixed inset-0 z-[70]" />
+      <AlertDialogOverlay
+        class="bg-background/95 backdrop-blur-sm data-[state=open]:animate-overlayShow fixed inset-0 z-[70]"
+      />
       <AlertDialogContent>
         <div
           ref="dropZoneRef"
@@ -81,10 +80,7 @@ function handleAction() {
             class="flex flex-col items-center justify-center w-full h-16"
             v-auto-animate
           >
-            <div
-              v-if="filesData.length === 0"
-              class="flex flex-col w-full justify-center items-center gap-2 px-3 text-center text-pretty"
-            >
+            <div class="flex flex-col w-full justify-center items-center gap-2 px-3 text-center text-pretty">
               <HardDriveUpload class="size-12" />
               <AlertDialogTitle class="text-mauve12 m-0 text-[17px] font-semibold">
                 ImportarDB
@@ -101,32 +97,13 @@ function handleAction() {
               >
                 Seleccionar archivo JSON
               </button>
-              <AlertDialogCancel class="bg-secondary text-foreground hover:bg-backgorund/80 text-xs inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-semibold leading-none focus:shadow-[0_0_0_2px] focus:outline-none">
+              <AlertDialogCancel
+                class="bg-secondary text-foreground hover:bg-backgorund/80 text-xs inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-semibold leading-none focus:shadow-[0_0_0_2px] focus:outline-none"
+              >
                 Cancelar
               </AlertDialogCancel>
             </div>
-            <div
-              v-else
-              class="flex justify-center flex-col items-center w-full gap-2 px-3 text-center text-pretty"
-            >
-              <CircleCheck class="size-12" />
-              <AlertDialogTitle class="text-mauve12 m-0 text-[17px] font-semibold">
-                <template
-                  v-for="(file, index) in filesData"
-                  :key="index"
-                >
-                  importado desde {{ file.name }}
-                </template>
-              </AlertDialogTitle>
-              <AlertDialogDescription
-                class="text-foreground mt-4 text-pretty max-w-96 text-center mb-5 text-[15px] leading-normal"
-              >
-                Ya puede navegar sus nuevos datos.
-              </AlertDialogDescription>
-              <AlertDialogCancel class="bg-secondary text-foreground hover:bg-backgorund/80 text-xs inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-semibold leading-none focus:shadow-[0_0_0_2px] focus:outline-none">
-                Cerrar
-              </AlertDialogCancel>
-            </div>
+           
           </div>
         </div>
         <AlertDialogCancel class="fixed top-0 m-3 right-0 z-[999] text-foreground">
@@ -138,14 +115,13 @@ function handleAction() {
 </template>
 
 <style>
-
 .border-animated:before {
   @apply absolute inset-2;
   content: "";
-  background: linear-gradient(90deg, #3b82f6 50%, transparent 50%),
-    linear-gradient(90deg, #3b82f6 50%, transparent 50%),
-    linear-gradient(0deg, #3b82f6 50%, transparent 50%),
-    linear-gradient(0deg, #3b82f6 50%, transparent 50%);
+  background: linear-gradient(90deg, hsl(var(--primary)) 50%, transparent 50%),
+    linear-gradient(90deg, hsl(var(--primary)) 50%, transparent 50%),
+    linear-gradient(0deg, hsl(var(--primary)) 50%, transparent 50%),
+    linear-gradient(0deg, hsl(var(--primary)) 50%, transparent 50%);
   background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
   background-size:
     20px 2px,

@@ -2,8 +2,13 @@
 import { RouterView } from "vue-router";
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 import { useStorage } from "@vueuse/core";
-
+import { ToastAction, ToastDescription, ToastProvider, ToastRoot, ToastTitle, ToastViewport } from 'radix-vue'
 const colorTheme = useStorage('theme');
+
+import { useCounterStore } from "@/stores/counter";
+import { X } from "lucide-vue-next";
+
+const counter = useCounterStore();
 
 const {
   offlineReady,
@@ -46,6 +51,20 @@ async function close() {
         Cerrar
       </button>
     </div>
+    <ToastProvider>
+      <ToastRoot
+        v-model:open="counter.openToast"
+        class="bg-secondary text-foreground rounded-md shadow p-4 gap-2 text-xs grid data-[state=open]:animate-slideIn data-[state=closed]:animate-hide data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] z-[1000] data-[swipe=cancel]:translate-x-0 data-[swipe=cancel]:transition-[transform_200ms_ease-out] data-[swipe=end]:animate-swipeOut"
+      >
+        <ToastTitle class="mb-[5px] font-medium text-foreground">
+          Notificación
+        </ToastTitle>
+        <ToastDescription>
+          {{ counter.openToastDescription }}
+        </ToastDescription>
+      </ToastRoot>
+      <ToastViewport class="[--viewport-padding:_25px] fixed bottom-0 right-0 flex flex-col p-[var(--viewport-padding)] gap-[10px] w-[390px] max-w-[100vw] m-0 list-none z-[2147483647] outline-none" />
+    </ToastProvider>
   </main>
 </template>
 

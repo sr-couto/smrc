@@ -838,6 +838,15 @@ onBeforeUnmount(() => {
   @apply p-4 outline-none placeholder:text-primary min-h-64 font-serif;
 }
 
+.tiptap h1:first-of-type,
+.tiptap h2:first-of-type,
+.tiptap h3:first-of-type,
+.tiptap h4:first-of-type,
+.tiptap h5:first-of-type,
+.tiptap h6:first-of-type {
+  @apply mt-1
+}
+
 .tiptap p code {
   @apply bg-secondary px-1 mx-0.5 rounded py-0.5 text-foreground font-light text-sm
 }

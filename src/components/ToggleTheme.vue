@@ -1,7 +1,5 @@
-<script setup lang="ts">
+<script setup>
 import { useColorMode, useStorage } from "@vueuse/core";
-const counter = useCounterStore();
-import { useCounterStore } from "@/stores/counter";
 import {
   DropdownMenuRoot,
   DropdownMenuContent,

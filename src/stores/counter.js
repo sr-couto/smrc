@@ -15,6 +15,9 @@ export const useCounterStore = defineStore("counter", () => {
   const showProjects = ref(true);
   const shareOptions = ref([])
 
+  const openToast = ref(false)
+  const openToastDescription = ref("")
+
   /**
    * "Restaura el editor estableciendo los valores de `loaded_id`, `project_name`, and `project_body`.
    *
@@ -193,9 +196,17 @@ export const useCounterStore = defineStore("counter", () => {
         update_database(replace_file_name);
         clear_editor();
         searchTerm.value = "";
+        openToast.value = true
+        openToastDescription.value = "Base de datos importada"
       } catch (error) {
+        openToast.value = true
+        openToastDescription.value = "Error al importar la base de datos"
         handleError("Error al importar la base de datos", error);
       }
+    } else {
+      console.log("Import aborted");
+      openToast.value = true
+      openToastDescription.value = "Importacion Abortada"
     }
   }
 
@@ -289,5 +300,7 @@ export const useCounterStore = defineStore("counter", () => {
     delete_project,
     auto_save,
     clear_editor,
+    openToast,
+    openToastDescription
   };
 });
