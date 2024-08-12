@@ -35,14 +35,15 @@ function onDrop(files) {
   >
     <div
       :class="isOverDropZone ? ' border-animated ' : '  border-animated  '"
-      class="dropZone bg-secondary/80  w-full z-[999] duration-100"
+      class="dropZone bg-secondary/80 w-full z-[999] duration-100"
     >
       <div
         class="flex flex-col items-center justify-center w-full h-40 duration-100 min-w-64"
-        :class="isOverDropZone
-          ? '!border-primary bg-primary/10 hover:border-red-600'
-          : ''
-          "
+        :class="
+          isOverDropZone
+            ? '!border-primary bg-primary/10 hover:border-red-600'
+            : ''
+        "
         v-auto-animate
       >
         <div
@@ -96,7 +97,7 @@ function onDrop(files) {
     0px 0px,
     400px 155px,
     0px 70px,
-    445px  0px;
+    445px 0px;
   padding: 0;
   animation: border-dance 14s infinite linear;
 }
@@ -107,7 +108,7 @@ function onDrop(files) {
       0px 0px,
       300px 155px,
       0px 150px,
-      445px  0px;
+      445px 0px;
   }
 
   100% {
@@ -115,7 +116,7 @@ function onDrop(files) {
       300px 0px,
       0px 155px,
       0px 0px,
-      445px  150px;
+      445px 150px;
   }
 }
 </style>

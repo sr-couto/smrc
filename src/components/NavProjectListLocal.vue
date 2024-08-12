@@ -3,7 +3,13 @@ import { useCounterStore } from "@/stores/counter";
 import { ArrowRight, Check, CircleX, Pencil, Plus } from "lucide-vue-next";
 import { storeToRefs } from "pinia";
 import { computed, ref, watch } from "vue";
-import { useFocus, useMagicKeys, refDebounced, breakpointsTailwind, useBreakpoints } from "@vueuse/core";
+import {
+  useFocus,
+  useMagicKeys,
+  refDebounced,
+  breakpointsTailwind,
+  useBreakpoints,
+} from "@vueuse/core";
 import {
   ScrollAreaRoot,
   ScrollAreaScrollbar,
@@ -19,14 +25,14 @@ const CtrlShiftX = keys["ctrl+shift+x"];
 const { allItems, loaded_id, searchTerm, file_name } = storeToRefs(counter);
 const debounced = refDebounced(searchTerm, 300);
 
-const breakpoints = useBreakpoints(breakpointsTailwind)
+const breakpoints = useBreakpoints(breakpointsTailwind);
 
-const largerThanLg = breakpoints.greater('lg')
+const largerThanLg = breakpoints.greater("lg");
 
 const editing = ref(false);
 
 function editTitle() {
-  editing.value = !editing.value
+  editing.value = !editing.value;
 }
 
 const input = ref(file_name);
@@ -41,7 +47,16 @@ function new_document() {
     counter.clear_editor();
   } else {
     counter.clear_editor();
-    counter.showProjects = false
+    counter.showProjects = false;
+  }
+}
+
+function set_document(id) {
+  if (largerThanLg.value === true) {
+    counter.set_project(id)
+  } else {
+    counter.set_project(id)
+    counter.showProjects = false;
   }
 }
 
@@ -49,10 +64,10 @@ const filteredOptions = computed(() =>
   debounced.value === ""
     ? allItems.value
     : allItems.value.filter((item) => {
-      return item.project_data?.name
-        .toLowerCase()
-        .includes(debounced.value.toLowerCase());
-    }),
+        return item.project_data?.name
+          .toLowerCase()
+          .includes(debounced.value.toLowerCase());
+      }),
 );
 
 function handleOpenChange() {
@@ -64,23 +79,17 @@ watch(CtrlShiftX, (v) => {
 });
 </script>
 <template>
-  <div class="h-full ">
-    <div class="flex justify-center items-center text-sm border-l border-secondary">
+  <div class="h-full @container">
+    <div
+      class="flex justify-center items-center text-sm border-l border-secondary"
+    >
       <button
         v-if="!editing"
         @click="editTitle()"
         class="flex h-8 pl-1 items-center w-full justify-between gap-1"
       >
-        <span
-          
-          v-if="!file_name"
-        >
-          Sin titulo
-        </span>
-        <span
-          
-          v-else
-        >
+        <span v-if="!file_name"> Sin titulo </span>
+        <span v-else>
           {{ file_name }}
         </span>
         <span
@@ -96,14 +105,14 @@ watch(CtrlShiftX, (v) => {
         <input
           type="text"
           @keyup.enter="editTitle()"
-          class="h-8 pl-1 outline-none text-sm w-full  bg-primary text-primary-foreground border-secondary"
+          class="h-8 pl-1 outline-none text-sm w-full bg-primary text-primary-foreground border-secondary"
           v-model="input"
         >
         <button
           class="size-8 flex justify-center items-center shrink-0 bg-primary/80 hover:bg-primary/90 focus-visible:ring-2 outline-none ring-primary-foreground"
           @click="editTitle()"
         >
-          <Check class="size-4" />
+          <Check class="size-4 text-primary-foreground" />
         </button>
       </div>
     </div>
@@ -144,9 +153,10 @@ watch(CtrlShiftX, (v) => {
               v-if="counter.loaded_id !== null"
               @click="new_document()"
               class="flex items-center mb-0.5 justify-start gap-2 text-sm w-full text-left duration-100 focus-within:ring-1 ring-primary"
-              :class="counter.loaded_id !== null
-                ? 'text-secondary-foreground  '
-                : 'text-primary pointer-events-none'
+              :class="
+                counter.loaded_id !== null
+                  ? 'text-secondary-foreground  '
+                  : 'text-primary pointer-events-none'
               "
             >
               <Plus class="size-4" />
@@ -159,7 +169,7 @@ watch(CtrlShiftX, (v) => {
               class="flex items-center mb-0.5 justify-start gap-2 disabled:animate-pulse text-sm w-full text-primary text-left duration-100 focus-within:ring-1 ring-primary"
             >
               <Plus class="size-4" />
-              <p class="w-56 truncate">
+              <p class="w-full truncate">
                 Creando {{ counter.project_name }}
               </p>
             </button>
@@ -172,10 +182,10 @@ watch(CtrlShiftX, (v) => {
               <button
                 class="flex py-0.5 w-full items-center outline-none justify-start gap-2 text-sm text-left duration-100 focus-within:ring-1 ring-primary"
                 :class="loaded_id === item.id ? 'text-primary' : ''"
-                @click="counter.set_project(item.id)"
+                @click="set_document(item.id)"
               >
-                <ArrowRight class="size-4" />
-                <p class="w-72 truncate">
+                <ArrowRight class="size-4 shrink-0  " />
+                <p class="@sm:max-w-full max-w-80 line-clamp-1">
                   {{ item.project_data.name }}
                 </p>
               </button>

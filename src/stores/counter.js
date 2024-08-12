@@ -4,6 +4,7 @@ import { db } from "@/db";
 import { liveQuery } from "dexie";
 import { useObservable } from "@vueuse/rxjs";
 import { exportDB, importInto } from "dexie-export-import";
+import { toast } from 'vue-sonner'
 
 export const useCounterStore = defineStore("counter", () => {
   const status = ref("LOADING");
@@ -13,10 +14,8 @@ export const useCounterStore = defineStore("counter", () => {
   const project_body = ref("");
   const searchTerm = ref("");
   const showProjects = ref(true);
-  const shareOptions = ref([])
+  const shareOptions = ref([]);
 
-  const openToast = ref(false)
-  const openToastDescription = ref("")
 
   /**
    * "Restaura el editor estableciendo los valores de `loaded_id`, `project_name`, and `project_body`.
@@ -150,8 +149,10 @@ export const useCounterStore = defineStore("counter", () => {
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
+      toast.success('Base de datos exportada');
       return blob;
     } catch (error) {
+      toast.error('Error al exportar la base de datos');
       handleError("Error al exportar la base de datos", error);
     }
   }
@@ -184,7 +185,7 @@ export const useCounterStore = defineStore("counter", () => {
    */
   async function import_database(file) {
     // check if file is a json file
-  
+
     const replace_file_name = file.name.replace(".json", "");
     const confirmationMessage = file_name.value
       ? `¿Desea reemplazar la DB ${file_name.value} con la información de ${replace_file_name}?`
@@ -196,17 +197,14 @@ export const useCounterStore = defineStore("counter", () => {
         update_database(replace_file_name);
         clear_editor();
         searchTerm.value = "";
-        openToast.value = true
-        openToastDescription.value = "Base de datos importada"
+        toast.success('Base de datos importada')
       } catch (error) {
-        openToast.value = true
-        openToastDescription.value = "Error al importar la base de datos"
+        toast.success('Error al importar la base de datos')
         handleError("Error al importar la base de datos", error);
       }
     } else {
       console.log("Import aborted");
-      openToast.value = true
-      openToastDescription.value = "Importacion Abortada"
+      toast.warning('Importacion Abortada')
     }
   }
 
@@ -299,8 +297,6 @@ export const useCounterStore = defineStore("counter", () => {
     update_project,
     delete_project,
     auto_save,
-    clear_editor,
-    openToast,
-    openToastDescription
+    clear_editor
   };
 });

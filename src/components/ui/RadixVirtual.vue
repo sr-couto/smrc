@@ -15,13 +15,15 @@ import {
   ListboxRoot,
   ListboxVirtualizer,
 } from "radix-vue";
-import { HoverCardArrow, HoverCardContent, HoverCardPortal, HoverCardRoot, HoverCardTrigger } from 'radix-vue'
-
 
 import { ref, computed } from "vue";
-import { Check, ChevronDown, CirclePlus, Delete, RotateCcw, X } from 'lucide-vue-next'
+import {
+  Check,
+  ChevronDown,
+  RotateCcw,
+  X,
+} from "lucide-vue-next";
 
-const hoverState = ref(false)
 
 const props = defineProps({
   modelValue: {
@@ -32,42 +34,21 @@ const props = defineProps({
   items: {
     type: Object,
     default() {
-      return {}
-    }
+      return {};
+    },
   },
-  optionLabel: {
-    type: String,
-    required: false,
-    default: ""
-  },
-  optionValue: {
-    type: String,
-    default: "",
-  },
-  loading: {
-    type: Boolean,
-    default: false,
-  },
-  required: {
-    type: Boolean,
-    default: false,
-  },
-  debug: {
-    type: Boolean,
-    default: false,
-  },
+
 });
 
-
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(["update:modelValue"]);
 
 const selected = computed({
   get() {
     return props.modelValue;
   },
   set(value) {
-    emit('update:modelValue', value);
-  }
+    emit("update:modelValue", value);
+  },
 });
 
 // const selectedPeople = ref();
@@ -78,9 +59,8 @@ const filteredOptions = computed(() =>
     ? props.items
     : props.items.filter((person) => {
       return person.toLowerCase().includes(searchTerm.value.toLowerCase());
-    })
+    }),
 );
-
 </script>
 <template>
   <fieldset
@@ -95,7 +75,7 @@ const filteredOptions = computed(() =>
         >
           <div
             v-if="selected"
-            class="flex text-xs  w-full justify-between items-center gap-2"
+            class="flex text-xs w-full justify-between items-center gap-2"
           >
             <span class="shrink-0">{{ selected }}</span>
             <ChevronDown class="size-4 shrink-0" />
@@ -115,12 +95,12 @@ const filteredOptions = computed(() =>
           :side-offset="8"
           align="end"
           :align-offset="-8"
-          class=" w-64 lg:max-w-7xl  bg-background shadow-md focus:shadow-lg will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade border border-secondary"
+          class="w-64 lg:max-w-7xl bg-background shadow-md focus:shadow-lg will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade border border-secondary"
         >
           <div class="flex flex-col gap-2.5">
             <ListboxRoot
               v-model="selected"
-              class="flex flex-col w-full gap-1  mx-auto text-foreground "
+              class="flex flex-col w-full gap-1 mx-auto text-foreground"
             >
               <div class="w-64">
                 <svg
@@ -139,10 +119,12 @@ const filteredOptions = computed(() =>
                 <ListboxFilter
                   v-model="searchTerm"
                   placeholder="Buscar..."
-                  class="w-full selection:bg-primary p-1 font-mono text-xs h-8 pl-10 text-foreground bg-background border border-secondary  outline-none placeholder:text-foreground/20"
+                  class="w-full selection:bg-primary p-1 font-mono text-xs h-8 pl-10 text-foreground bg-background border border-secondary outline-none placeholder:text-foreground/20"
                 />
               </div>
-              <ListboxContent class="w-full overflow-auto overflow-x-hidden bg-background scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-secondary-foreground scrollbar-track-secondary h-[202px]">
+              <ListboxContent
+                class="w-full overflow-auto overflow-x-hidden bg-background scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-secondary-foreground scrollbar-track-secondary h-[202px]"
+              >
                 <ListboxVirtualizer
                   v-slot="{ option }"
                   :options="filteredOptions"
@@ -150,7 +132,7 @@ const filteredOptions = computed(() =>
                 >
                   <ListboxItem
                     :value="option"
-                    class=" w-64 flex items-center pl-9 px-3 h-8 leading-none relative text-foreground select-none outline-none data-[highlighted]:ring-primary data-[highlighted]:ring-1 focus:ring-primary focus:ring-1 data-[state=checked]:text-primary data-[disabled]:opacity-50 data-[highlighted]:bg-secondary"
+                    class="w-64 flex items-center pl-9 px-3 h-8 leading-none relative text-foreground select-none outline-none data-[highlighted]:ring-primary data-[highlighted]:ring-1 focus:ring-primary focus:ring-1 data-[state=checked]:text-primary data-[disabled]:opacity-50 data-[highlighted]:bg-secondary"
                   >
                     <ListboxItemIndicator class="absolute left-2 inline-flex items-center justify-center">
                       <Check class="size-5" />
@@ -168,13 +150,13 @@ const filteredOptions = computed(() =>
               aria-label="Reset search"
               @click="searchTerm = ''"
               v-if="searchTerm.length !== 0"
-              class="absolute focus:bg-blue-300 inline-flex items-center cursor-pointer justify-center text-foreground  outline-none size-7 top-[2px] right-8 hover:bg-background bg-background"
+              class="absolute focus:bg-blue-300 inline-flex items-center cursor-pointer justify-center text-foreground outline-none size-7 top-[2px] right-8 hover:bg-background bg-background"
             >
               <RotateCcw class="size-4" />
             </button>
           </Transition>
           <PopoverClose
-            class="absolute focus:bg-blue-300 inline-flex items-center justify-center cursor-pointer text-foreground  outline-none size-7 top-[2px] right-0 hover:bg-background bg-background"
+            class="absolute focus:bg-blue-300 inline-flex items-center justify-center cursor-pointer text-foreground outline-none size-7 top-[2px] right-0 hover:bg-background bg-background"
             aria-label="Close"
           >
             <X class="size-4" />
@@ -201,7 +183,6 @@ const filteredOptions = computed(() =>
 .v-leave-to {
   opacity: 0;
 }
-
 
 .btn {
   @apply flex items-center w-full justify-start gap-1 px-2 h-6 text-xs bg-secondary font-normal text-primary transition-colors border border-secondary/20 dark:text-white ring-secondary ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;

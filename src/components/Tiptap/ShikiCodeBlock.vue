@@ -3,7 +3,9 @@
     class="code-block"
     spellcheck="false"
   >
-    <div class="flex absolute items-center justify-end z-40 p-1 translate-y-1 -translate-x-1 top-0 right-0 gap-1">
+    <div
+      class="flex absolute items-center justify-end z-40 p-1 translate-y-1 -translate-x-1 top-0 right-0 gap-1"
+    >
       <RadixVirtual
         v-model="selectedLanguage"
         :items="languages"
@@ -14,11 +16,11 @@
       >
         <ClipboardCheck
           v-if="copyText === 'Copied'"
-          class="size-4 text-primary "
+          class="size-4 text-primary"
         />
         <Clipboard
           v-else
-          class="size-4  "
+          class="size-4"
         />
       </button>
     </div>
@@ -27,20 +29,18 @@
 </template>
 
 <script>
-import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
-import {
-  bundledLanguages,
-} from 'shiki'
-import RadixVirtual from '@/components/ui/RadixVirtual.vue';
-import { Clipboard, ClipboardCheck } from 'lucide-vue-next';
-
+import { NodeViewContent, nodeViewProps, NodeViewWrapper } from "@tiptap/vue-3";
+import { bundledLanguages } from "shiki";
+import RadixVirtual from "@/components/ui/RadixVirtual.vue";
+import { Clipboard, ClipboardCheck } from "lucide-vue-next";
 
 export default {
   components: {
     NodeViewWrapper,
     NodeViewContent,
     RadixVirtual,
-    Clipboard, ClipboardCheck
+    Clipboard,
+    ClipboardCheck,
   },
 
   props: nodeViewProps,
@@ -48,31 +48,27 @@ export default {
   data() {
     return {
       languages: Object.keys(bundledLanguages),
-      copyText: 'Copy',
-    }
+      copyText: "Copy",
+    };
   },
 
   computed: {
     selectedLanguage: {
       get() {
-        return this.node.attrs.language
+        return this.node.attrs.language;
       },
       set(language) {
-        this.updateAttributes({ language })
+        this.updateAttributes({ language });
       },
     },
   },
   methods: {
-    copyToClipboard(
-      uuid,
-      successful = () => null,
-      failure = () => null
-    ) {
+    copyToClipboard(uuid, successful = () => null, failure = () => null) {
       const clipboard = navigator.clipboard;
       let value = this.node.content.content[0].text;
       if (clipboard !== undefined && clipboard !== "undefined") {
         navigator.clipboard.writeText(value).then(successful, failure);
-        this.copyText = 'Copied'
+        this.copyText = "Copied";
       } else {
         if (document.execCommand) {
           const el = document.createElement("textarea");
@@ -83,23 +79,23 @@ export default {
           el.setSelectionRange(0, value.length);
 
           if (document.execCommand("copy")) {
-            this.copyText = 'Copied' // popper?
+            this.copyText = "Copied"; // popper?
             // successful();
           }
 
           el.remove();
         } else {
-          this.copyText = 'Error!';
-          alert('Error!')
+          this.copyText = "Error!";
+          alert("Error!");
           // failure();
         }
       }
       setTimeout(() => {
-        this.copyText = 'copy'
+        this.copyText = "copy";
       }, 1000);
     },
-  }
-}
+  },
+};
 </script>
 
 <style>

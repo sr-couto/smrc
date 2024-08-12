@@ -115,18 +115,24 @@ watch(project_body, (v) => {
                     v-model="counter.project_name"
                     class="w-full h-10 p-2 text-lg outline-none bg-background text-primary border-secondary border focus-within:border-primary placeholder:text-foreground/50"
                   >
-                  <button
-                    v-show="!counter.loaded_id"
-                    @click="counter.create_project()"
-                    class="h-10 px-3 shrink-0 text-xs"
-                    :disabled="counter.project_name === ''"
-                    :class="counter.project_name
-                      ? 'bg-primary text-primary-foreground '
-                      : 'opacity-50 bg-secondary  pointer-events-none'
-                    "
+                  <Tooltip
+                    name="Menú"
+                    shortcut="Enter"
+                    side="left"
                   >
-                    Crear
-                  </button>
+                    <button
+                      v-show="!counter.loaded_id"
+                      @click="counter.create_project()"
+                      class="h-10 px-3 shrink-0 text-xs"
+                      :disabled="counter.project_name === ''"
+                      :class="counter.project_name
+                        ? 'bg-primary text-primary-foreground '
+                        : 'opacity-50 bg-secondary  pointer-events-none'
+                      "
+                    >
+                      Crear
+                    </button>
+                  </Tooltip>
                 </div>
               </Editor>
             </div>

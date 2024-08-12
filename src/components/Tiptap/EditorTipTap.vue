@@ -241,7 +241,9 @@
               name="Alineación de texto"
               side="bottom"
             >
-              <button class="bg-secondary size-8 justify-center items-center flex">
+              <button
+                class="bg-secondary size-8 justify-center items-center flex"
+              >
                 <template v-if="editor.isActive({ textAlign: 'center' })">
                   <AlignCenter class="size-6" />
                 </template>
@@ -311,7 +313,9 @@
             <DropdownMenuItem
               @click="editor.chain().focus().setTextAlign('justify').run()"
               class="hover:bg-secondary-foreground/10 p-2 cursor-pointer items-center flex gap-2 justify-between pr-3"
-              :class="{ 'is-active': editor.isActive({ textAlign: 'justify' }) }"
+              :class="{
+                'is-active': editor.isActive({ textAlign: 'justify' }),
+              }"
             >
               <div class="flex justify-start p-1 items-center gap-3">
                 <AlignJustify class="size-4" />
@@ -445,113 +449,12 @@
         </Tooltip>
       </div>
     </div>
-    <!-- <bubble-menu
-      class="bubble-menu"
-      :tippy-options="{ animation: false, maxWidth: 'none', }"
-      :editor="editor"
-      v-if="editor"
-    >
-      <button
-        @click="
-          editor
-            .chain()
-            .focus()
-            .setImage({ size: 'small' })
-            .run()
-          "
-        :class="{
-          'is-active': editor.isActive('custom-image', {
-            size: 'small'
-          })
-        }"
-      >
-        SM
-      </button>
-      <button
-        @click="
-          editor
-            .chain()
-            .focus()
-            .setImage({ size: 'medium' })
-            .run()
-          "
-        :class="{
-          'is-active': editor.isActive('custom-image', {
-            size: 'medium'
-          })
-        }"
-      >
-        MD
-      </button>
-      <button
-        @click="
-          editor
-            .chain()
-            .focus()
-            .setImage({ size: 'large' })
-            .run()
-          "
-        :class="{
-          'is-active': editor.isActive('custom-image', {
-            size: 'large'
-          })
-        }"
-      >
-        XL
-      </button>
-      <button
-        @click="
-          editor
-            .chain()
-            .focus()
-            .setImage({ float: 'left' })
-            .run()
-          "
-        :class="{
-          'is-active': editor.isActive('custom-image', {
-            float: 'left'
-          })
-        }"
-      >
-        <AlignLeft class="size-4" />
-      </button>
-      <button
-        @click="
-          editor
-            .chain()
-            .focus()
-            .setImage({ float: 'none' })
-            .run()
-          "
-        :class="{
-          'is-active': editor.isActive('custom-image', {
-            float: 'none'
-          })
-        }"
-      >
-        <AlignCenter class="size-4" />
-      </button>
-      <button
-        @click="
-          editor
-            .chain()
-            .focus()
-            .setImage({ float: 'right' })
-            .run()
-          "
-        :class="{
-          'is-active': editor.isActive('custom-image', {
-            float: 'right'
-          })
-        }"
-      >
-        <AlignRight class="size-4" />
-      </button>
-    </bubble-menu> -->
     <div>
       <ScrollAreaRoot
         class="w-full border border-secondary"
-        :class="editorToolbar ? 'h-[calc(100vh-9.25rem)]' : 'h-[calc(100vh-6.75rem)]'"
+        :class="
+          editorToolbar ? 'h-[calc(100vh-9.25rem)]' : 'h-[calc(100vh-6.75rem)]'
+        "
         style="--scrollbar-size: 10px"
       >
         <ScrollAreaViewport class="w-full h-full">
@@ -604,10 +507,8 @@ import {
   AlignCenter,
   AlignRight,
   AlignJustify,
-  Globe,
   Link2,
   Unlink2,
-  Maximize,
   Video,
 } from "lucide-vue-next";
 import {
@@ -616,7 +517,6 @@ import {
   ScrollAreaThumb,
   ScrollAreaViewport,
 } from "radix-vue";
-
 import {
   DropdownMenuRoot,
   DropdownMenuContent,
@@ -625,7 +525,7 @@ import {
 } from "radix-vue";
 
 import { ref, watch, onMounted, onBeforeUnmount } from "vue";
-import { useStorage } from '@vueuse/core'
+import { useStorage } from "@vueuse/core";
 import { Editor, EditorContent, VueNodeViewRenderer } from "@tiptap/vue-3";
 
 import Tooltip from "@/components/ui/Tooltip.vue";
@@ -635,21 +535,21 @@ import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
-import Typography from '@tiptap/extension-typography'
+import Typography from "@tiptap/extension-typography";
 import Placeholder from "@tiptap/extension-placeholder";
-import TextAlign from '@tiptap/extension-text-align'
-import Link from '@tiptap/extension-link'
+import TextAlign from "@tiptap/extension-text-align";
+import Link from "@tiptap/extension-link";
 // import Iframe from "@/components/Tiptap/iframe.ts";
 // import ExternalVideo from '@/components/Tiptap/external-video.js'
-import Youtube from '@tiptap/extension-youtube'
-import CodeBlockShiki from 'tiptap-extension-code-block-shiki'
-import ShikiCodeBlock from '@/components/Tiptap/ShikiCodeBlock.vue'
+import Youtube from "@tiptap/extension-youtube";
+import CodeBlockShiki from "tiptap-extension-code-block-shiki";
+import ShikiCodeBlock from "@/components/Tiptap/ShikiCodeBlock.vue";
 
 import { useCounterStore } from "@/stores/counter";
 const counter = useCounterStore();
 
 const editor = ref(null);
-const editorToolbar = useStorage('editorToolbar', true);
+const editorToolbar = useStorage("editorToolbar", true);
 
 const props = defineProps({
   modelValue: {
@@ -680,39 +580,38 @@ onMounted(() => {
       // Iframe,
       Link.configure({
         openOnClick: true,
-        defaultProtocol: 'https',
+        defaultProtocol: "https",
         autolink: true,
         linkOnPaste: true,
         HTMLAttributes: {
           target: "_blank",
           rel: "noopener",
-          class: "px-1 underline-offset-2 text-primary cursor-pointer hover:text-primary/80",
+          class:
+            "px-1 underline-offset-2 text-primary cursor-pointer hover:text-primary/80",
         },
       }),
       // ExternalVideo,
       TextAlign.configure({
-        types: ['heading', 'paragraph'],
+        types: ["heading", "paragraph"],
       }),
       Placeholder.configure({
         placeholder: "Escribir algo …",
       }),
       Youtube.configure({
         controls: true,
-        ccLanguage: 'es',
+        ccLanguage: "es",
         nocookie: true,
       }),
-      CodeBlockShiki
-        .extend({
-          addNodeView() {
-            return VueNodeViewRenderer(ShikiCodeBlock)
-          },
-        })
-        .configure({
-          HTMLAttributes: {
-            spellcheck: "false"
-          },
-          defaultTheme: 'houston',
-        }),
+      CodeBlockShiki.extend({
+        addNodeView() {
+          return VueNodeViewRenderer(ShikiCodeBlock);
+        },
+      }).configure({
+        HTMLAttributes: {
+          spellcheck: "false",
+        },
+        defaultTheme: "houston",
+      }),
     ],
     content: props.modelValue,
     onUpdate: () => {
@@ -761,42 +660,37 @@ function addImageBase64(event) {
 // }
 
 function addVideo() {
-  const url = prompt('Enter YouTube URL')
+  const url = prompt("Enter YouTube URL");
   editor.value.commands.setYoutubeVideo({
     src: url,
     width: Math.max(320, parseInt(640, 10)) || 640,
     height: Math.max(180, parseInt(480, 10)) || 480,
-  })
+  });
 }
 
 function setLink() {
-  const previousUrl = editor.value.getAttributes('link').href
-  const url = window.prompt('URL', previousUrl)
+  const previousUrl = editor.value.getAttributes("link").href;
+  const url = window.prompt("URL", previousUrl);
 
   // cancelled
   if (url === null) {
-    return
+    return;
   }
 
   // empty
-  if (url === '') {
-    editor.value
-      .chain()
-      .focus()
-      .extendMarkRange('link')
-      .unsetLink()
-      .run()
+  if (url === "") {
+    editor.value.chain().focus().extendMarkRange("link").unsetLink().run();
 
-    return
+    return;
   }
 
   // update link
   editor.value
     .chain()
     .focus()
-    .extendMarkRange('link')
+    .extendMarkRange("link")
     .setLink({ href: url })
-    .run()
+    .run();
 }
 
 watch(
@@ -807,10 +701,8 @@ watch(
       return;
     }
     editor.value.commands.setContent(value, false);
-  }
+  },
 );
-
-
 
 onBeforeUnmount(() => {
   editor.value.destroy();
@@ -844,11 +736,11 @@ onBeforeUnmount(() => {
 .tiptap h4:first-of-type,
 .tiptap h5:first-of-type,
 .tiptap h6:first-of-type {
-  @apply mt-1
+  @apply mt-1;
 }
 
 .tiptap p code {
-  @apply bg-secondary px-1 mx-0.5 rounded py-0.5 text-foreground font-light text-sm
+  @apply bg-secondary px-1 mx-0.5 rounded py-0.5 text-foreground ring-1 ring-primary/40 font-light text-sm;
 }
 
 .tiptap .iframe-wrapper {
@@ -860,19 +752,17 @@ onBeforeUnmount(() => {
 }
 
 .tiptap iframe:before {
-  content: "Cargando iframe"
+  content: "Cargando iframe";
 }
 
 .tiptap img {
-  @apply mx-auto
+  @apply mx-auto;
 }
 
 .tiptap code::after,
 .tiptap code::before {
   display: none;
 }
-
-
 
 html.dark .shiki,
 html.dark .shiki span {
@@ -894,16 +784,16 @@ html.dark .shiki span {
 
 /* Bubble menu */
 .bubble-menu {
-  @apply bg-secondary border border-secondary p-1 flex text-xs gap-2 items-center
+  @apply bg-secondary border border-secondary p-1 flex text-xs gap-2 items-center;
 }
 
 .bubble-menu button {
   background-color: unset;
-  @apply h-8 px-2
+  @apply h-8 px-2;
 }
 
 .bubble-menu button:hover {
-  @apply bg-background
+  @apply bg-background;
 }
 
 .bubble-menu.is-active {
@@ -915,7 +805,7 @@ html.dark .shiki span {
 }
 
 .tiptap [data-youtube-video] {
-  @apply max-w-6xl mx-auto
+  @apply max-w-6xl mx-auto;
 }
 
 .tiptap [data-youtube-video] iframe {
@@ -933,9 +823,8 @@ html.dark .shiki span {
 
 .tiptap .ProseMirror-selectednode {
   /* outline: 3px solid #68cef8; */
-  @apply ring-2 ring-primary
+  @apply ring-2 ring-primary;
 }
-
 
 .video-wrapper {
   position: relative;

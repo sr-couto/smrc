@@ -1,5 +1,5 @@
 <script setup>
-import { Upload, HardDriveUpload, X } from 'lucide-vue-next';
+import { Upload, HardDriveUpload, X } from "lucide-vue-next";
 import {
   AlertDialogCancel,
   AlertDialogContent,
@@ -9,14 +9,14 @@ import {
   AlertDialogRoot,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from 'radix-vue'
+} from "radix-vue";
 
-import { ref } from 'vue'
+import { ref } from "vue";
 
 import { useCounterStore } from "@/stores/counter";
 import { useFileDialog, useTimeoutFn, useDropZone } from "@vueuse/core";
 
-const openDialog = ref(false)
+const openDialog = ref(false);
 const counter = useCounterStore();
 const dropZoneRef = ref();
 const filesData = ref([]);
@@ -33,13 +33,12 @@ onChange((files) => {
       return;
     }
     counter.import_database(files[0]);
-    filesData.value = files
+    filesData.value = files;
     useTimeoutFn(() => {
       filesData.value = [];
     }, 3000);
   }
 });
-
 
 function onDrop(files) {
   if (files) {
@@ -49,13 +48,12 @@ function onDrop(files) {
     }
     counter.import_database(files[0]);
     counter.showProjects = true;
-    filesData.value = files
+    filesData.value = files;
     useTimeoutFn(() => {
       filesData.value = [];
     }, 3000);
   }
 }
-
 </script>
 
 <template>
@@ -74,15 +72,19 @@ function onDrop(files) {
         <div
           ref="dropZoneRef"
           :class="isOverDropZone ? ' border-animated ' : '   '"
-          class="dropZone fixed flex-col font-mono inset-0 text-foreground z-[999] justify-center flex items-center"
+          class="dropZone fixed flex-col font-mono inset-0 text-foreground z-[90] justify-center flex items-center"
         >
           <div
             class="flex flex-col items-center justify-center w-full h-16"
             v-auto-animate
           >
-            <div class="flex flex-col w-full justify-center items-center gap-2 px-3 text-center text-pretty">
+            <div
+              class="flex flex-col w-full justify-center items-center gap-2 px-3 text-center text-pretty"
+            >
               <HardDriveUpload class="size-12" />
-              <AlertDialogTitle class="text-mauve12 m-0 text-[17px] font-semibold">
+              <AlertDialogTitle
+                class="text-mauve12 m-0 text-[17px] font-semibold"
+              >
                 ImportarDB
               </AlertDialogTitle>
               <AlertDialogDescription
@@ -103,10 +105,11 @@ function onDrop(files) {
                 Cancelar
               </AlertDialogCancel>
             </div>
-           
           </div>
         </div>
-        <AlertDialogCancel class="fixed top-0 m-3 right-0 z-[999] text-foreground">
+        <AlertDialogCancel
+          class="fixed top-0 m-3 right-0 z-[999] text-foreground"
+        >
           <X />
         </AlertDialogCancel>
       </AlertDialogContent>

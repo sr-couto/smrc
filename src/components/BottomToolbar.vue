@@ -21,7 +21,7 @@ onChange((files) => {
     class="fixed bottom-0 left-0 right-0 z-[60] text-xs flex items-center justify-between h-12 border-t bg-background border-secondary"
   >
     <div
-      class="grid grid-cols-2 gap-[1px] bg-secondary min-w-32 sm:min-w-80 border-r border-secondary"
+      class="grid @container grid-cols-2 gap-[1px] bg-secondary min-w-32 sm:min-w-80 border-r border-secondary"
     >
       <DialogImportDB />
       <DialogShareDB />

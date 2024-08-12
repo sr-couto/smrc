@@ -10,20 +10,20 @@ import {
 import { SunMedium, Moon } from "lucide-vue-next";
 import Tooltip from "./ui/Tooltip.vue";
 import { onMounted } from "vue";
+
 const mode = useColorMode();
 
-const colorTheme = useStorage('theme', "theme-rose");
+const colorTheme = useStorage("theme", "theme-rose");
 
 const toggleColorTheme = (theme) => {
-  document.body.classList.remove(colorTheme.value)
-  document.body.classList.add(theme)
+  document.body.classList.remove(colorTheme.value);
+  document.body.classList.add(theme);
   colorTheme.value = theme;
 };
 
 onMounted(() => {
   toggleColorTheme(colorTheme.value);
 });
-
 </script>
 
 <template>
@@ -31,7 +31,9 @@ onMounted(() => {
     <DropdownMenuTrigger>
       <Tooltip name="Modo de color">
         <button class="bg-secondary size-8 justify-center items-center flex">
-          <Moon class="size-4 rotate-0 scale-100 transition-all dark:-rotate-90 duration-300 dark:scale-0" />
+          <Moon
+            class="size-4 rotate-0 scale-100 transition-all dark:-rotate-90 duration-300 dark:scale-0"
+          />
           <SunMedium
             class="absolute size-4 rotate-90 scale-0 transition-all dark:rotate-0 duration-300 dark:scale-100"
           />
@@ -41,7 +43,7 @@ onMounted(() => {
     </DropdownMenuTrigger>
     <DropdownMenuContent
       align="end"
-      class="bg-secondary w-32 grid text-xs z-10"
+      class="bg-secondary w-40 grid text-xs z-10"
     >
       <DropdownMenuGroup>
         <DropdownMenuItem
@@ -79,6 +81,10 @@ onMounted(() => {
         <DropdownMenuItem
           @click="toggleColorTheme('theme-yellow')"
           class="size-4 bg-yellow-600 rounded-full cursor-pointer"
+        />
+        <DropdownMenuItem
+          @click="toggleColorTheme('theme-violet')"
+          class="size-4 bg-violet-600 rounded-full cursor-pointer"
         />
       </DropdownMenuGroup>
     </DropdownMenuContent>

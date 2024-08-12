@@ -8,15 +8,15 @@ import {
   DialogRoot,
   DialogTitle,
   DialogTrigger,
-} from 'radix-vue'
-import { CircleHelp, Download, X } from 'lucide-vue-next';
-import { onMounted, ref, watch } from 'vue';
+} from "radix-vue";
+import { Download, X } from "lucide-vue-next";
+import { onMounted, ref, watch } from "vue";
 import { useCounterStore } from "@/stores/counter";
 const counter = useCounterStore();
-import { storeToRefs } from 'pinia';
-const source = ref('Hello')
-import { useClipboard, refDebounced } from '@vueuse/core'
-const { text, copy, copied, isSupported } = useClipboard({ source })
+import { storeToRefs } from "pinia";
+const source = ref("Hello");
+import { useClipboard, refDebounced } from "@vueuse/core";
+const { copy, copied, isSupported } = useClipboard({ source });
 
 const { file_name } = storeToRefs(counter);
 
@@ -35,7 +35,7 @@ watch(debounced, (v) => {
 
 onMounted(() => {
   counter.share_database();
-})
+});
 </script>
 
 <template>
@@ -48,12 +48,14 @@ onMounted(() => {
       <span class="hidden sm:inline-flex">ExportarDB</span>
     </DialogTrigger>
     <DialogPortal>
-      <DialogOverlay class="bg-secondary/90 data-[state=open]:animate-overlayShow fixed inset-0 z-[90]" />
+      <DialogOverlay
+        class="bg-secondary/90 data-[state=open]:animate-overlayShow fixed inset-0 z-[90]"
+      />
       <DialogContent
         class="data-[state=open]:animate-contentShow font-mono fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[650px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-background p-3 md:p-[25px] shadow focus:outline-none z-[9000]"
       >
         <DialogClose
-          class="text-foreground hover:bg-secondary/80 hover:text-foreground focus:shadow absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center   focus:outline-none"
+          class="text-foreground hover:bg-secondary/80 hover:text-foreground focus:shadow absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center focus:outline-none"
           aria-label="Close"
         >
           <X class="size-4" />
@@ -67,11 +69,11 @@ onMounted(() => {
         <div class="flex gap-2 mb-2">
           <input
             type="text"
-            class="h-8 border  w-full bg-background text-foreground border-border"
+            class="h-8 border w-full bg-background text-foreground border-border"
             v-model="input"
           >
           <button
-            class="ml-auto px-5 bg-secondary/20 border border-secondary shrink-0 text-xs font-medium  text-foreground hover:bg-secondary/80 hover:text-foreground focus:shadow-[0_0_0_2px] focus:outline-none"
+            class="ml-auto px-5 bg-secondary/20 border border-secondary shrink-0 text-xs font-medium text-foreground hover:bg-secondary/80 hover:text-foreground focus:shadow-[0_0_0_2px] focus:outline-none"
             @click="counter.export_database(input.value)"
           >
             Exportar DB
@@ -110,7 +112,9 @@ onMounted(() => {
             </ScrollAreaScrollbar>
           </ScrollAreaRoot>
         </div> -->
-        <div class="mt-3 text-xs text-foreground flex justify-between items-center">
+        <div
+          class="mt-3 text-xs text-foreground flex justify-between items-center"
+        >
           <DialogClose as-child>
             <button
               class="bg-secondary text-foreground hover:bg-backgorund/80 text-xs inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-semibold leading-none focus:shadow-[0_0_0_2px] focus:outline-none"
@@ -130,10 +134,7 @@ onMounted(() => {
               >
                 <!-- by default, `copied` will be reset in 1.5s -->
                 <span v-if="!copied">Copiar JSON</span>
-                <span
-                  
-                  v-else
-                >Json Copiado!</span>
+                <span v-else>Json Copiado!</span>
               </button>
             </div>
             <p v-else>

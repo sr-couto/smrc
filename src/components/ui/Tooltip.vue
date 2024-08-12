@@ -46,10 +46,7 @@ const props = defineProps({
           >
             {{ props.shortcut }}
           </kbd>
-          <TooltipArrow
-            class="fill-secondary"
-            :width="8"
-          />
+          <TooltipArrow class="fill-secondary" :width="8" />
         </TooltipContent>
       </TooltipPortal>
     </TooltipRoot>
