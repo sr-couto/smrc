@@ -65,24 +65,24 @@ const filteredOptions = computed(() =>
 <template>
   <fieldset
     v-if="!props.loading"
-    class="w-full flex flex-col relative font-mono"
+    class="relative flex flex-col w-full font-mono"
   >
     <PopoverRoot>
       <div class="btn">
         <PopoverTrigger
-          class="flex items-center relative justify-start w-full gap-2"
+          class="relative flex items-center justify-start w-full gap-2"
           aria-label="Update dimensions"
         >
           <div
             v-if="selected"
-            class="flex text-xs w-full justify-between items-center gap-2"
+            class="flex items-center justify-between w-full gap-2 text-xs"
           >
-            <span class="shrink-0">{{ selected }}</span>
+            <span class="shrink-0 text-foreground">{{ selected }}</span>
             <ChevronDown class="size-4 shrink-0" />
           </div>
           <div
             v-else
-            class="flex text-xs w-full justify-between items-center gap-2"
+            class="flex items-center justify-between w-full gap-2 text-xs"
           >
             <span>Auto</span>
             <ChevronDown class="size-4 shrink-0" />
@@ -119,7 +119,7 @@ const filteredOptions = computed(() =>
                 <ListboxFilter
                   v-model="searchTerm"
                   placeholder="Buscar..."
-                  class="w-full selection:bg-primary p-1 font-mono text-xs h-8 pl-10 text-foreground bg-background border border-secondary outline-none placeholder:text-foreground/20"
+                  class="w-full h-8 p-1 pl-10 font-mono text-xs border outline-none selection:bg-primary text-foreground bg-background border-secondary placeholder:text-foreground/20"
                 />
               </div>
               <ListboxContent
@@ -134,10 +134,10 @@ const filteredOptions = computed(() =>
                     :value="option"
                     class="w-64 flex items-center pl-9 px-3 h-8 leading-none relative text-foreground select-none outline-none data-[highlighted]:ring-primary data-[highlighted]:ring-1 focus:ring-primary focus:ring-1 data-[state=checked]:text-primary data-[disabled]:opacity-50 data-[highlighted]:bg-secondary"
                   >
-                    <ListboxItemIndicator class="absolute left-2 inline-flex items-center justify-center">
+                    <ListboxItemIndicator class="absolute inline-flex items-center justify-center left-2">
                       <Check class="size-5" />
                     </ListboxItemIndicator>
-                    <p class="leading-5 text-pretty text-xs font-mono">
+                    <p class="font-mono text-xs leading-5 text-pretty">
                       {{ option }}
                     </p>
                   </ListboxItem>

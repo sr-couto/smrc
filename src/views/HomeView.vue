@@ -40,7 +40,7 @@ watch(project_body, (v) => {
 <template>
   <div class="flex w-full h-screen overflow-y-hidden">
     <header
-      class="fixed lg:sticky top-0 z-50 flex flex-col justify-start h-screen border-r bg-background border-secondary"
+      class="fixed top-0 z-50 flex flex-col justify-start h-screen border-r lg:sticky bg-background border-secondary"
       :class="counter.showProjects ? 'min-w-80' : ' '"
     >
       <div
@@ -72,7 +72,7 @@ watch(project_body, (v) => {
         <button
           @click="counter.showProjects = !counter.showProjects"
           v-show="!counter.showProjects"
-          class="absolute inset-0 top-28 z-10"
+          class="absolute inset-0 z-10 top-28"
         />
       </div>
       <NavProjectListLocal v-show="counter.showProjects" />
@@ -84,9 +84,9 @@ watch(project_body, (v) => {
     <button
       @click="counter.showProjects = !counter.showProjects"
       v-show="counter.showProjects"
-      class="fixed inset-0 bg-background/90 lg:hidden z-40"
+      class="fixed inset-0 z-40 bg-background/90 lg:hidden"
     />
-    <div class="w-full pl-8 lg:pl-0 min-h-screen bg-background group">
+    <div class="w-full min-h-screen pl-8 lg:pl-0 bg-background group">
       <SplitterGroup
         direction="horizontal"
         auto-save-id="splitter"
@@ -96,7 +96,7 @@ watch(project_body, (v) => {
           :style="`flex: ${layout[1]} 1 0px; overflow: hidden;`"
           class="hidden md:flex"
         />
-        <SplitterPanel :min-size="30">
+        <SplitterPanel :min-size="60">
           <div class="h-full mx-auto ring-1 md:w-auto ring-secondary">
             <div
               :key="counter.loaded_id"
@@ -106,14 +106,14 @@ watch(project_body, (v) => {
                 v-model="counter.project_body"
                 toolbar
               >
-                <div class="flex gap-1 w-full items-center justify-between">
+                <div class="flex items-center justify-between w-full gap-1">
                   <input
                     type="text"
                     placeholder="Sin titulo"
                     autocomplete="off"
                     @keyup.enter="counter.create_project()"
                     v-model="counter.project_name"
-                    class="w-full h-10 p-2 text-lg outline-none bg-background text-primary border-secondary border focus-within:border-primary placeholder:text-foreground/50"
+                    class="w-full h-10 p-2 text-lg border outline-none bg-background text-primary border-secondary focus-within:border-primary placeholder:text-foreground/50"
                   >
                   <Tooltip
                     name="Menú"
@@ -123,12 +123,12 @@ watch(project_body, (v) => {
                     <button
                       v-show="!counter.loaded_id"
                       @click="counter.create_project()"
-                      class="h-10 px-3 shrink-0 text-xs"
                       :disabled="counter.project_name === ''"
                       :class="counter.project_name
                         ? 'bg-primary text-primary-foreground '
                         : 'opacity-50 bg-secondary  pointer-events-none'
                       "
+                      class="h-10 px-3 text-xs shrink-0"
                     >
                       Crear
                     </button>

@@ -30,12 +30,12 @@ onMounted(() => {
   <DropdownMenuRoot>
     <DropdownMenuTrigger>
       <Tooltip name="Modo de color">
-        <button class="bg-secondary size-8 justify-center items-center flex">
+        <button class="flex items-center justify-center bg-secondary size-8">
           <Moon
-            class="size-4 rotate-0 scale-100 transition-all dark:-rotate-90 duration-300 dark:scale-0"
+            class="transition-all duration-300 scale-100 rotate-0 size-4 dark:-rotate-90 dark:scale-0"
           />
           <SunMedium
-            class="absolute size-4 rotate-90 scale-0 transition-all dark:rotate-0 duration-300 dark:scale-100"
+            class="absolute transition-all duration-300 scale-0 rotate-90 size-4 dark:rotate-0 dark:scale-100"
           />
           <span class="sr-only">Modo de color</span>
         </button>
@@ -43,48 +43,53 @@ onMounted(() => {
     </DropdownMenuTrigger>
     <DropdownMenuContent
       align="end"
-      class="bg-secondary w-40 grid text-xs z-10"
+      class="z-10 grid w-40 text-xs bg-secondary"
     >
       <DropdownMenuGroup>
         <DropdownMenuItem
           @click="mode = 'light'"
-          class="hover:bg-secondary-foreground/10 p-2 cursor-pointer"
+          class="p-2 cursor-pointer hover:bg-secondary-foreground/10"
         >
           Claro
         </DropdownMenuItem>
         <DropdownMenuItem
           @click="mode = 'dark'"
-          class="hover:bg-secondary-foreground/10 p-2 cursor-pointer"
+          class="p-2 cursor-pointer hover:bg-secondary-foreground/10"
         >
           Oscuro
         </DropdownMenuItem>
         <DropdownMenuItem
           @click="mode = 'auto'"
-          class="hover:bg-secondary-foreground/10 p-2 cursor-pointer"
+          class="p-2 cursor-pointer hover:bg-secondary-foreground/10"
         >
           Sistema
         </DropdownMenuItem>
       </DropdownMenuGroup>
-      <DropdownMenuGroup class="bg-secondary p-3 w-full flex justify-between">
+      <DropdownMenuGroup class="flex justify-between w-full p-3 bg-secondary">
         <DropdownMenuItem
           @click="toggleColorTheme('theme-rose')"
-          class="size-4 bg-rose-600 rounded-full cursor-pointer"
+          class="rounded-full outline-none cursor-pointer size-4 bg-rose-600 hover:ring-2 focus-visible:ring-2 ring-rose-500/50 ring-offset-1 "
+          :class="colorTheme === 'theme-rose' ? ' !ring-primary/50 ring-4 !ring-offset-1': ''"
         />
         <DropdownMenuItem
           @click="toggleColorTheme('theme-blue')"
-          class="size-4 bg-blue-600 rounded-full cursor-pointer"
+          class="bg-blue-600 rounded-full outline-none cursor-pointer size-4 hover:ring-2 focus-visible:ring-2 ring-blue-500/50 ring-offset-1 "
+          :class="colorTheme === 'theme-blue' ? ' !ring-primary/50 ring-4 !ring-offset-1': ''"
         />
         <DropdownMenuItem
           @click="toggleColorTheme('theme-green')"
-          class="size-4 bg-green-600 rounded-full cursor-pointer"
+          class="bg-green-600 rounded-full outline-none cursor-pointer size-4 hover:ring-2 focus-visible:ring-2 ring-green-500/50 ring-offset-1 "
+          :class="colorTheme === 'theme-green' ? ' !ring-primary/50 ring-4 !ring-offset-1': ''"
         />
         <DropdownMenuItem
           @click="toggleColorTheme('theme-yellow')"
-          class="size-4 bg-yellow-600 rounded-full cursor-pointer"
+          class="bg-yellow-600 rounded-full outline-none cursor-pointer size-4 hover:ring-2 focus-visible:ring-2 ring-yellow-500/50 ring-offset-1 "
+          :class="colorTheme === 'theme-yellow' ? ' !ring-primary/50 ring-4 !ring-offset-1': ''"
         />
         <DropdownMenuItem
           @click="toggleColorTheme('theme-violet')"
-          class="size-4 bg-violet-600 rounded-full cursor-pointer"
+          class="rounded-full outline-none cursor-pointer size-4 bg-violet-600 hover:ring-2 focus-visible:ring-2 ring-violet-500/50 ring-offset-1 "
+          :class="colorTheme === 'theme-violet' ? ' !ring-primary/50 ring-4 !ring-offset-1': ''"
         />
       </DropdownMenuGroup>
     </DropdownMenuContent>

@@ -20,7 +20,7 @@ import Tooltip from "./ui/Tooltip.vue";
       side="left"
     >
       <DialogTrigger
-        class="bg-secondary size-8 justify-center items-center flex"
+        class="flex items-center justify-center bg-secondary size-8"
       >
         <CircleHelp class="size-4" />
       </DialogTrigger>
@@ -35,11 +35,11 @@ import Tooltip from "./ui/Tooltip.vue";
         <DialogTitle class="text-foreground m-0 text-[17px] font-semibold">
           Acerca de esta app
         </DialogTitle>
-        <DialogDescription class="mb-5 text-foreground text-base">
+        <DialogDescription class="mb-5 text-base text-foreground">
           Base de datos local
         </DialogDescription>
-        <article class="prose dark:prose-invert h-64 -mx-6 px-6 sm:h-auto overflow-y-auto">
-          <p class="text-foreground mt-3 mb-5 text-sm leading-normal">
+        <article class="h-64 px-6 -mx-6 overflow-y-auto prose dark:prose-invert sm:h-auto">
+          <p class="mt-3 mb-5 text-sm leading-normal text-foreground">
             Esta aplicación usa
             <a
               href="https://developer.mozilla.org/es/docs/Web/API/IndexedDB_API/Using_IndexedDB"
@@ -49,26 +49,26 @@ import Tooltip from "./ui/Tooltip.vue";
             quedan almacenados en la sesión de ese navegador (Al limpiar los datos
             del navegador estos se perderán).
           </p>
-          <p class="text-foreground mt-2 mb-5 text-sm leading-normal">
+          <p class="mt-2 mb-5 text-sm leading-normal text-foreground">
             Por eso existe la posibilidad de exportar e importar la
             IndexedDB en formato JSON.
           </p>
-          <p class="text-foreground mt-2 mb-5 text-sm leading-normal">
+          <p class="mt-2 mb-5 text-sm leading-normal text-foreground">
             Asignale un nombre a la base de datos y comenza a crear elementos con texto enriquecido.
             Agrega bloques de código con resaltado de sintaxis, pega directamente videos de youtube o imágenes via URL o guardadas en la DB como Base64.
           </p>
           <h4>Tecnologias utilizadas</h4>
-          <p class="text-foreground mt-2 mb-5 text-sm leading-normal">
+          <p class="mt-2 mb-5 text-sm leading-normal text-foreground">
             Tambien se guardaran en el
             preferencias del layout y el editor de texto.
           </p>
         </article>
         <div class="mt-[25px] flex justify-between">
           <div
-            class="text-foreground opacity-50 text-xs gap-2 font-mono font-semibold flex justify-start items-center"
+            class="flex items-center justify-start gap-2 font-mono text-xs font-semibold opacity-50 text-foreground"
           >
             <TentTree class="size-5 text-primary" />
-            <span>0.0.2</span>
+            <span>0.0.3</span>
           </div>
           <DialogClose as-child>
             <button

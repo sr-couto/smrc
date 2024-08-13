@@ -6,19 +6,19 @@
   >
     <div
       v-if="toolbar"
-      class="sticky z-20 top-0 bg-background py-1"
+      class="sticky top-0 z-20 py-1 bg-background"
     >
       <div
-        class="control-group max-w-full mx-auto w-full flex md:flex-row flex-col flex-wrap @lg:flex-nowrap items-center gap-1 relative"
+        class="control-group max-w-full mx-auto w-full flex @lg:flex-row flex-wrap @lg:flex-nowrap items-center gap-1 relative"
       >
         <slot />
-        <div class="flex w-full md:w-auto justify-start gap-1">
+        <div class="flex justify-start gap-1 md:w-auto">
           <Tooltip
             name="Deshacer"
             side="bottom"
           >
             <button
-              class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
+              class="flex items-center justify-center border outline-none size-10 focus-visible:border-primary border-secondary"
               @click="editor.chain().focus().undo().run()"
               :disabled="!editor.can().chain().focus().undo().run()"
             >
@@ -30,7 +30,7 @@
             side="bottom"
           >
             <button
-              class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
+              class="flex items-center justify-center border outline-none size-10 focus-visible:border-primary border-secondary"
               @click="editor.chain().focus().redo().run()"
               :disabled="!editor.can().chain().focus().redo().run()"
             >
@@ -42,7 +42,7 @@
             side="bottom"
           >
             <button
-              class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
+              class="flex items-center justify-center border outline-none size-10 focus-visible:border-primary border-secondary"
               @click="editorToolbar = !editorToolbar"
             >
               <SquarePilcrow class="size-5" />
@@ -55,7 +55,7 @@
                 side="bottom"
               >
                 <span
-                  class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
+                  class="flex items-center justify-center border outline-none size-10 focus-visible:border-primary border-secondary"
                 >
                   <ImagePlus class="size-5" />
                 </span>
@@ -64,14 +64,14 @@
             <DropdownMenuContent
               align="end"
               side="bottom"
-              class="bg-secondary w-44 grid text-xs z-10"
+              class="z-50 grid text-xs bg-secondary w-44"
             >
               <DropdownMenuItem
                 as-child
-                class="hover:bg-secondary-foreground/10 p-2 cursor-pointer flex gap-2 justify-between pr-3 relative"
+                class="relative flex justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
               >
                 <label
-                  class="hover:bg-secondary-foreground/10 p-2 cursor-pointer flex gap-2 justify-between pr-3"
+                  class="flex justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
                   for="img-uploader"
                   id="uploader"
                 >
@@ -80,7 +80,7 @@
                     id="img-uploader"
                     type="file"
                     accept="image/jpeg"
-                    class="inset-0 absolute opacity-0"
+                    class="absolute inset-0 opacity-0"
                     @change="addImageBase64"
                   >
                 </label>
@@ -88,7 +88,7 @@
 
               <DropdownMenuItem
                 @click="addImage"
-                class="hover:bg-secondary-foreground/10 p-2 cursor-pointer justify-between pr-3"
+                class="justify-between p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
               >
                 Url
               </DropdownMenuItem>
@@ -100,7 +100,7 @@
           >
             <button
               @click="addVideo"
-              class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
+              class="flex items-center justify-center border outline-none size-10 focus-visible:border-primary border-secondary"
             >
               <Video class="size-5" />
             </button>
@@ -111,18 +111,108 @@
           >
             <button
               @click="addIframe"
-              class="size-10 focus-visible:border-primary outline-none flex justify-center items-center border border-secondary"
+              class="flex items-center justify-center border outline-none size-10 focus-visible:border-primary border-secondary"
             >
               <Globe class="size-5" />
             </button>
           </Tooltip> -->
         </div>
       </div>
-
       <div
         class="button-group bg-background justify-start m-0 mr-auto pr-[1px] pt-1 w-full flex gap-1 flex-wrap"
         v-if="editorToolbar"
       >
+        <DropdownMenuRoot>
+          <DropdownMenuTrigger class="flex items-center !min-w-20 !text-xs md:!min-w-44 !justify-start bg-secondary !max-w-max px-2 shrink-0">
+            <template v-if="editor.isActive('heading', {level: 1 })">
+              <span class="hidden mr-1 md:inline-flex">Título nivel 1</span> (H1)
+            </template>
+            <template v-else-if="editor.isActive('heading', {level: 2 })">
+              <span class="hidden mr-1 md:inline-flex">Título nivel 2</span> (H2)
+            </template>
+            <template v-else-if="editor.isActive('heading', {level: 3 })">
+              <span class="hidden mr-1 md:inline-flex">Título nivel 3</span> (H3)
+            </template>
+            <template v-else-if="editor.isActive('heading', {level: 4 })">
+              <span class="hidden mr-1 md:inline-flex">Título nivel 4</span> (H4)
+            </template>
+            <template v-else-if="editor.isActive('heading', {level: 5 })">
+              <span class="hidden mr-1 md:inline-flex">Título nivel 5</span> (H5)
+            </template>
+            <template v-else-if="editor.isActive('heading', {level: 6 })">
+              <span class="hidden mr-1 md:inline-flex">Título nivel 6</span> (H6)
+            </template>
+            <template v-else-if="editor.isActive('codeBlock')">
+              Código
+            </template>
+            <template v-else>
+              Párrafo
+            </template>
+            <span class="sr-only">Alineación de texto</span>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="start"
+            side="bottom"
+            class="z-10 grid text-xs border w-44 bg-background border-secondary"
+          >
+            <DropdownMenuItem
+              @click="editor.chain().focus().toggleHeading({level: 6 }).run()"
+              :class="{'is-active': editor.isActive('paragraph') }"
+              class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
+            >
+              Párrafo
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              @click="editor.chain().focus().toggleHeading({level: 1 }).run()"
+              :class="{'is-active': editor.isActive('heading', {level: 1 }) }"
+              class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
+            >
+              Titulo 1
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              @click="editor.chain().focus().toggleHeading({level: 2 }).run()"
+              :class="{'is-active': editor.isActive('heading', {level: 2 }) }"
+              class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
+            >
+              Titulo 2
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              @click="editor.chain().focus().toggleHeading({level: 3 }).run()"
+              :class="{'is-active': editor.isActive('heading', {level: 3 }) }"
+              class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
+            >
+              Titulo 3
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              @click="editor.chain().focus().toggleHeading({level: 4 }).run()"
+              :class="{'is-active': editor.isActive('heading', {level: 4 }) }"
+              class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
+            >
+              Titulo 4
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              @click="editor.chain().focus().toggleHeading({level: 5 }).run()"
+              :class="{'is-active': editor.isActive('heading', {level: 5 }) }"
+              class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
+            >
+              Titulo 5
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              @click="editor.chain().focus().toggleHeading({level: 6 }).run()"
+              :class="{'is-active': editor.isActive('heading', {level: 6 }) }"
+              class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
+            >
+              Titulo 6 
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              @click="editor.chain().focus().toggleCodeBlock().run()"
+              :class="{'is-active': editor.isActive('codeBlock') }"
+              class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
+            >
+              Código
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenuRoot>
         <Tooltip
           name="Negrita"
           shortcut="Ctrl B"
@@ -175,75 +265,15 @@
             <Code />
           </button>
         </Tooltip>
-        <Tooltip
-          name="Párrafo"
-          side="bottom"
-          shortcut="Ctrl Alt 0"
-        >
-          <button
-            @click="editor.chain().focus().setParagraph().run()"
-            :class="{ 'is-active': editor.isActive('paragraph') }"
-          >
-            P
-          </button>
-        </Tooltip>
-        <Tooltip
-          name="Titulo 1"
-          side="bottom"
-          shortcut="Ctrl Alt 1"
-        >
-          <button
-            @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-            :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
-          >
-            H1
-          </button>
-        </Tooltip>
-        <Tooltip
-          name="Titulo 2"
-          side="bottom"
-          shortcut="Ctrl Alt 2"
-        >
-          <button
-            @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-            :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
-          >
-            H2
-          </button>
-        </Tooltip>
-        <Tooltip
-          name="Titulo 3"
-          side="bottom"
-          shortcut="Ctrl Alt 3"
-        >
-          <button
-            @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-            :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
-          >
-            H3
-          </button>
-        </Tooltip>
-        <Tooltip
-          name="Titulo 4"
-          side="bottom"
-          shortcut="Ctrl Alt 4"
-        >
-          <button
-            @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
-            :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
-          >
-            H4
-          </button>
-        </Tooltip>
+        
+       
         <DropdownMenuRoot>
           <DropdownMenuTrigger>
             <Tooltip
               name="Alineación de texto"
               side="bottom"
             >
-              <button
-                class="bg-secondary size-8 justify-center items-center flex"
-              >
+              <button class="flex items-center justify-center bg-secondary size-8">
                 <template v-if="editor.isActive({ textAlign: 'center' })">
                   <AlignCenter class="size-6" />
                 </template>
@@ -263,14 +293,14 @@
           <DropdownMenuContent
             align="start"
             side="bottom"
-            class="bg-secondary w-64 grid text-xs z-10"
+            class="z-10 grid w-64 text-xs bg-secondary"
           >
             <DropdownMenuItem
               @click="editor.chain().focus().setTextAlign('left').run()"
-              class="hover:bg-secondary-foreground/10 p-2 items-center cursor-pointer flex gap-2 justify-between pr-3"
+              class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
               :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }"
             >
-              <div class="flex justify-start p-1 items-center gap-3">
+              <div class="flex items-center justify-start gap-3 p-1">
                 <AlignLeft class="size-4" />
                 <span>Izquierda</span>
               </div>
@@ -282,10 +312,10 @@
             </DropdownMenuItem>
             <DropdownMenuItem
               @click="editor.chain().focus().setTextAlign('center').run()"
-              class="hover:bg-secondary-foreground/10 p-2 cursor-pointer items-center flex gap-2 justify-between pr-3"
+              class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
               :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }"
             >
-              <div class="flex justify-start p-1 items-center gap-3">
+              <div class="flex items-center justify-start gap-3 p-1">
                 <AlignCenter class="size-4" />
                 <span>Centro</span>
               </div>
@@ -297,10 +327,10 @@
             </DropdownMenuItem>
             <DropdownMenuItem
               @click="editor.chain().focus().setTextAlign('right').run()"
-              class="hover:bg-secondary-foreground/10 p-2 cursor-pointer items-center flex gap-2 justify-between pr-3"
+              class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
               :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }"
             >
-              <div class="flex justify-start p-1 items-center gap-3">
+              <div class="flex items-center justify-start gap-3 p-1">
                 <AlignRight class="size-4" />
                 <span>Derecha</span>
               </div>
@@ -312,12 +342,12 @@
             </DropdownMenuItem>
             <DropdownMenuItem
               @click="editor.chain().focus().setTextAlign('justify').run()"
-              class="hover:bg-secondary-foreground/10 p-2 cursor-pointer items-center flex gap-2 justify-between pr-3"
+              class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
               :class="{
                 'is-active': editor.isActive({ textAlign: 'justify' }),
               }"
             >
-              <div class="flex justify-start p-1 items-center gap-3">
+              <div class="flex items-center justify-start gap-3 p-1">
                 <AlignJustify class="size-4" />
                 <span>Justificado</span>
               </div>
@@ -329,7 +359,7 @@
             </DropdownMenuItem>
             <DropdownMenuItem
               @click="editor.chain().focus().unsetTextAlign().run()"
-              class="hover:bg-secondary-foreground/10 p-2 cursor-pointer flex items-center justify-between pr-3"
+              class="flex items-center justify-between p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
             >
               <span>Sin alineación</span>
               <kbd
@@ -452,14 +482,13 @@
     <div>
       <ScrollAreaRoot
         class="w-full border border-secondary"
-        :class="
-          editorToolbar ? 'h-[calc(100vh-9.25rem)]' : 'h-[calc(100vh-6.75rem)]'
+        :class="editorToolbar ? 'h-[calc(100vh-9.25rem)]' : 'h-[calc(100vh-6.75rem)]'
         "
         style="--scrollbar-size: 10px"
       >
         <ScrollAreaViewport class="w-full h-full">
           <div
-            class="prose dark:prose-invert max-w-full mx-auto"
+            class="max-w-full mx-auto prose dark:prose-invert"
             spellcheck="false"
           >
             <editor-content :editor="editor" />
@@ -473,14 +502,6 @@
             class="flex-1 bg-primary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]"
           />
         </ScrollAreaScrollbar>
-        <!-- <ScrollAreaScrollbar
-          class="flex select-none touch-none p-0.5 bg-secondary transition-colors duration-[160ms] ease-out hover:bg-background data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
-          orientation="horizontal"
-        >
-          <ScrollAreaThumb
-            class="flex-1 bg-primary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]"
-          />
-        </ScrollAreaScrollbar> -->
       </ScrollAreaRoot>
     </div>
   </div>
@@ -711,7 +732,7 @@ onBeforeUnmount(() => {
 
 <style>
 .button-group button {
-  @apply border border-secondary focus-within:border-primary min-w-9 flex-1 outline-none h-9 max-w-9 text-sm focus-visible:border-primary flex justify-center items-center duration-100;
+  @apply border border-secondary focus-within:border-primary min-w-9 flex-1 outline-none h-9 2xl:max-w-8 max-w-[100%] text-sm focus-visible:border-primary flex justify-center items-center duration-100;
 }
 
 .control-group button {
@@ -740,7 +761,7 @@ onBeforeUnmount(() => {
 }
 
 .tiptap p code {
-  @apply bg-secondary px-1 mx-0.5 rounded py-0.5 text-foreground ring-1 ring-primary/40 font-light text-sm;
+  @apply bg-primary/20 px-1 mx-0.5 rounded py-0.5 text-foreground ring-1 ring-primary/30 font-light text-sm;
 }
 
 .tiptap .iframe-wrapper {
@@ -810,35 +831,34 @@ html.dark .shiki span {
 
 .tiptap [data-youtube-video] iframe {
   @apply w-full h-64 @lg:h-96 @lg:aspect-video aspect-square;
-  /* aspect-ratio: 16/9; */
-}
+    /* aspect-ratio: 16/9; */
+  }
 
-.tiptap img {
-  width: 100%;
-  height: auto;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
+  .tiptap img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-.tiptap .ProseMirror-selectednode {
-  /* outline: 3px solid #68cef8; */
-  @apply ring-2 ring-primary;
-}
+  .tiptap .ProseMirror-selectednode {
+    /* outline: 3px solid #68cef8; */
+    @apply ring-2 ring-primary;
+  }
 
-.video-wrapper {
-  position: relative;
-  padding-bottom: 56.25%;
-  padding-top: 10px;
-  height: 0;
-  overflow: hidden;
-}
+  .video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 10px;
+    height: 0;
+    overflow: hidden;
+  }
 
-.video-wrapper iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-</style>
+  .video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }</style>
