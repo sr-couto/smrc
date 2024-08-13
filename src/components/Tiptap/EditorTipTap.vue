@@ -123,7 +123,7 @@
         v-if="editorToolbar"
       >
         <DropdownMenuRoot>
-          <DropdownMenuTrigger class="flex items-center !min-w-20 !text-xs md:!min-w-44 !justify-start bg-secondary !max-w-max px-2 shrink-0">
+          <DropdownMenuTrigger class="flex items-center !min-w-20 !text-xs md:!min-w-48 !justify-between bg-secondary !max-w-max px-2 shrink-0">
             <template v-if="editor.isActive('heading', {level: 1 })">
               <span class="hidden mr-1 md:inline-flex">Título nivel 1</span> (H1)
             </template>
@@ -149,6 +149,7 @@
               Párrafo
             </template>
             <span class="sr-only">Alineación de texto</span>
+            <ChevronDown class="size-4 shrink-0" />
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="start"
@@ -531,6 +532,7 @@ import {
   Link2,
   Unlink2,
   Video,
+  ChevronDown,
 } from "lucide-vue-next";
 import {
   ScrollAreaRoot,
@@ -732,7 +734,7 @@ onBeforeUnmount(() => {
 
 <style>
 .button-group button {
-  @apply border border-secondary focus-within:border-primary min-w-9 flex-1 outline-none h-9 2xl:max-w-8 max-w-[100%] text-sm focus-visible:border-primary flex justify-center items-center duration-100;
+  @apply border border-secondary focus-within:border-primary outline-none h-9 min-w-9 text-sm focus-visible:border-primary flex justify-center items-center duration-100;
 }
 
 .control-group button {
@@ -826,11 +828,16 @@ html.dark .shiki span {
 }
 
 .tiptap [data-youtube-video] {
-  @apply max-w-6xl mx-auto;
+  @apply max-w-3xl mx-auto bg-primary/20 relative;
+}
+
+.tiptap [data-youtube-video]::before {
+  content: "";
+  @apply absolute inset-0 bg-primary/10 mix-blend-multiply z-10 animate-pulse;
 }
 
 .tiptap [data-youtube-video] iframe {
-  @apply w-full h-64 @lg:h-96 @lg:aspect-video aspect-square;
+  @apply w-full h-64 @lg:h-96 @lg:aspect-video aspect-square relative z-20;
     /* aspect-ratio: 16/9; */
   }
 
@@ -853,6 +860,7 @@ html.dark .shiki span {
     padding-top: 10px;
     height: 0;
     overflow: hidden;
+    
   }
 
   .video-wrapper iframe {

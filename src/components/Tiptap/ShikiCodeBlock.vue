@@ -4,19 +4,20 @@
     spellcheck="false"
   >
     <div
-      class="flex absolute items-center justify-end z-40 p-1 translate-y-1 -translate-x-1 top-0 right-0 gap-1"
+      class="absolute top-0 right-0 z-40 flex items-center justify-end gap-1 -translate-x-1 -translate-y-4"
     >
       <RadixVirtual
         v-model="selectedLanguage"
         :items="languages"
       />
       <button
-        class="size-6 bg-secondary flex shrink-0 justify-center items-center hover:opacity-70"
+        class="flex items-center justify-center duration-100 size-6 bg-secondary shrink-0"
+        :class="copyText === 'Copied' ? '!bg-primary' : ''"
         @click="copyToClipboard()"
       >
         <ClipboardCheck
           v-if="copyText === 'Copied'"
-          class="size-4 text-primary"
+          class="size-4 text-primary-foreground"
         />
         <Clipboard
           v-else

@@ -94,10 +94,10 @@ watch(project_body, (v) => {
       >
         <div
           :style="`flex: ${layout[1]} 1 0px; overflow: hidden;`"
-          class="hidden md:flex"
+          class="hidden lg:flex"
         />
-        <SplitterPanel :min-size="60">
-          <div class="h-full mx-auto ring-1 md:w-auto ring-secondary">
+        <SplitterPanel :min-size="78">
+          <div class="h-full mx-auto ring-1 lg:w-auto ring-secondary">
             <div
               :key="counter.loaded_id"
               class="w-full mx-auto"
@@ -139,12 +139,12 @@ watch(project_body, (v) => {
           </div>
         </SplitterPanel>
         <SplitterResizeHandle
-          class=" hidden md:flex justify-center items-center w-2 border-l border-secondary data-[state=hover]:border-primary/10 duration-100"
+          class=" hidden lg:flex justify-center items-center w-2 border-l-2 border-secondary data-[state=hover]:border-primary/10 duration-100"
         />
         <SplitterPanel
-          :max-size="40"
+          :max-size="22"
           @resize="resize = $event"
-          class="hidden md:flex"
+          class="hidden lg:flex"
         />
       </SplitterGroup>
       <BottomToolbar />
