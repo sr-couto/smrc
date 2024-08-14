@@ -95,7 +95,7 @@ watch(CtrlShiftX, (v) => {
         <span
           class="flex items-center justify-center duration-300 border size-8 shrink-0 bg-secondary hover:border-primary border-secondary"
         >
-          <Pencil class="size-4 text-primary-foreground" />
+          <Pencil class="size-4 text-primary" />
         </span>
       </button>
       <div
