@@ -119,28 +119,30 @@
         </div>
       </div>
       <div
-        class="button-group bg-background justify-start m-0 mr-auto pr-[1px] pt-1 w-full flex gap-1 flex-wrap"
+        class="button-group "
         v-if="editorToolbar"
       >
         <DropdownMenuRoot>
-          <DropdownMenuTrigger class="flex items-center !min-w-20 !text-xs md:!min-w-48 !justify-between bg-secondary !max-w-max px-2 shrink-0">
-            <template v-if="editor.isActive('heading', {level: 1 })">
-              <span class="hidden mr-1 md:inline-flex">Título nivel 1</span> (H1)
+          <DropdownMenuTrigger
+            class="headingSelector flex items-center !text-xs !justify-between w-full bg-secondary px-2"
+          >
+            <template v-if="editor.isActive('heading', { level: 1 })">
+              Título nivel 1 (H1)
             </template>
-            <template v-else-if="editor.isActive('heading', {level: 2 })">
-              <span class="hidden mr-1 md:inline-flex">Título nivel 2</span> (H2)
+            <template v-else-if="editor.isActive('heading', { level: 2 })">
+              Título nivel 2 (H2)
             </template>
-            <template v-else-if="editor.isActive('heading', {level: 3 })">
-              <span class="hidden mr-1 md:inline-flex">Título nivel 3</span> (H3)
+            <template v-else-if="editor.isActive('heading', { level: 3 })">
+              Título nivel 3 (H3)
             </template>
-            <template v-else-if="editor.isActive('heading', {level: 4 })">
-              <span class="hidden mr-1 md:inline-flex">Título nivel 4</span> (H4)
+            <template v-else-if="editor.isActive('heading', { level: 4 })">
+              Título nivel 4 (H4)
             </template>
-            <template v-else-if="editor.isActive('heading', {level: 5 })">
-              <span class="hidden mr-1 md:inline-flex">Título nivel 5</span> (H5)
+            <template v-else-if="editor.isActive('heading', { level: 5 })">
+              Título nivel 5 (H5)
             </template>
-            <template v-else-if="editor.isActive('heading', {level: 6 })">
-              <span class="hidden mr-1 md:inline-flex">Título nivel 6</span> (H6)
+            <template v-else-if="editor.isActive('heading', { level: 6 })">
+              Título nivel 6 (H6)
             </template>
             <template v-else-if="editor.isActive('codeBlock')">
               Código
@@ -157,57 +159,57 @@
             class="z-10 grid text-xs border w-44 bg-background border-secondary"
           >
             <DropdownMenuItem
-              @click="editor.chain().focus().toggleHeading({level: 6 }).run()"
-              :class="{'is-active': editor.isActive('paragraph') }"
+              @click="editor.chain().focus().toggleHeading({ level: 6 }).run()"
+              :class="{ 'is-active': editor.isActive('paragraph') }"
               class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
             >
               Párrafo
             </DropdownMenuItem>
             <DropdownMenuItem
-              @click="editor.chain().focus().toggleHeading({level: 1 }).run()"
-              :class="{'is-active': editor.isActive('heading', {level: 1 }) }"
+              @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+              :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
               class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
             >
               Titulo 1
             </DropdownMenuItem>
             <DropdownMenuItem
-              @click="editor.chain().focus().toggleHeading({level: 2 }).run()"
-              :class="{'is-active': editor.isActive('heading', {level: 2 }) }"
+              @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+              :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
               class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
             >
               Titulo 2
             </DropdownMenuItem>
             <DropdownMenuItem
-              @click="editor.chain().focus().toggleHeading({level: 3 }).run()"
-              :class="{'is-active': editor.isActive('heading', {level: 3 }) }"
+              @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+              :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
               class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
             >
               Titulo 3
             </DropdownMenuItem>
             <DropdownMenuItem
-              @click="editor.chain().focus().toggleHeading({level: 4 }).run()"
-              :class="{'is-active': editor.isActive('heading', {level: 4 }) }"
+              @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
+              :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
               class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
             >
               Titulo 4
             </DropdownMenuItem>
             <DropdownMenuItem
-              @click="editor.chain().focus().toggleHeading({level: 5 }).run()"
-              :class="{'is-active': editor.isActive('heading', {level: 5 }) }"
+              @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
+              :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
               class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
             >
               Titulo 5
             </DropdownMenuItem>
             <DropdownMenuItem
-              @click="editor.chain().focus().toggleHeading({level: 6 }).run()"
-              :class="{'is-active': editor.isActive('heading', {level: 6 }) }"
+              @click="editor.chain().focus().toggleHeading({ level: 6 }).run()"
+              :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }"
               class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
             >
-              Titulo 6 
+              Titulo 6
             </DropdownMenuItem>
             <DropdownMenuItem
               @click="editor.chain().focus().toggleCodeBlock().run()"
-              :class="{'is-active': editor.isActive('codeBlock') }"
+              :class="{ 'is-active': editor.isActive('codeBlock') }"
               class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
             >
               Código
@@ -266,15 +268,15 @@
             <Code />
           </button>
         </Tooltip>
-        
-       
+
+
         <DropdownMenuRoot>
           <DropdownMenuTrigger>
             <Tooltip
               name="Alineación de texto"
               side="bottom"
             >
-              <button class="flex items-center justify-center bg-secondary size-8">
+              <button class="flex items-center justify-center w-full bg-secondary">
                 <template v-if="editor.isActive({ textAlign: 'center' })">
                   <AlignCenter class="size-6" />
                 </template>
@@ -294,7 +296,7 @@
           <DropdownMenuContent
             align="start"
             side="bottom"
-            class="z-10 grid w-64 text-xs bg-secondary"
+            class="z-50 grid w-64 text-xs bg-secondary"
           >
             <DropdownMenuItem
               @click="editor.chain().focus().setTextAlign('left').run()"
@@ -562,6 +564,10 @@ import Typography from "@tiptap/extension-typography";
 import Placeholder from "@tiptap/extension-placeholder";
 import TextAlign from "@tiptap/extension-text-align";
 import Link from "@tiptap/extension-link";
+import Table from '@tiptap/extension-table'
+import TableCell from '@tiptap/extension-table-cell'
+import TableHeader from '@tiptap/extension-table-header'
+import TableRow from '@tiptap/extension-table-row'
 // import Iframe from "@/components/Tiptap/iframe.ts";
 // import ExternalVideo from '@/components/Tiptap/external-video.js'
 import Youtube from "@tiptap/extension-youtube";
@@ -613,6 +619,12 @@ onMounted(() => {
             "px-1 underline-offset-2 text-primary cursor-pointer hover:text-primary/80",
         },
       }),
+      Table.configure({
+        resizable: true,
+      }),
+      TableRow,
+      TableHeader,
+      TableCell,
       // ExternalVideo,
       TextAlign.configure({
         types: ["heading", "paragraph"],
@@ -733,6 +745,28 @@ onBeforeUnmount(() => {
 </script>
 
 <style>
+.button-group {
+  @apply bg-background grid;
+  grid-template-columns: 36px repeat(auto-fill, 36px);
+}
+
+.headingSelector {
+  grid-column: 1 / 8;
+}
+
+@media (max-width: 724px) {
+  .button-group {
+    grid-template-columns: repeat(auto-fill, 14.28%)
+  }
+}
+
+@container (max-width: 4rem) {
+  .headingSelector {
+    grid-column: 1;
+  }
+
+}
+
 .button-group button {
   @apply border border-secondary focus-within:border-primary outline-none h-9 min-w-9 text-sm focus-visible:border-primary flex justify-center items-center duration-100;
 }
@@ -841,6 +875,64 @@ html.dark .shiki span {
     /* aspect-ratio: 16/9; */
   }
 
+  .tiptap table {
+    border-collapse: collapse;
+    margin: 0;
+    overflow: hidden;
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  .tiptap td,
+  .tiptap th {
+    border: 1px solid var(--gray-3);
+    box-sizing: border-box;
+    min-width: 1em;
+    padding: 6px 8px;
+    position: relative;
+    vertical-align: top;
+
+  }
+
+  .tiptap th {
+    background-color: var(--gray-1);
+    font-weight: bold;
+    text-align: left;
+  }
+
+  .tiptap .selectedCell:after {
+    background: var(--gray-2);
+    content: "";
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 2;
+  }
+
+  .tiptap .column-resize-handle {
+    background-color: var(--purple);
+    bottom: -2px;
+    pointer-events: none;
+    position: absolute;
+    right: -2px;
+    top: 0;
+    width: 4px;
+  }
+
+
+  .tiptap .tableWrapper {
+    margin: 1.5rem 0;
+    overflow-x: auto;
+  }
+
+  .tiptap.resize-cursor {
+    cursor: ew-resize;
+    cursor: col-resize;
+  }
+
   .tiptap img {
     width: 100%;
     height: auto;
@@ -860,7 +952,7 @@ html.dark .shiki span {
     padding-top: 10px;
     height: 0;
     overflow: hidden;
-    
+
   }
 
   .video-wrapper iframe {

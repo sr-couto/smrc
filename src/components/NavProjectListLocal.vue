@@ -81,35 +81,35 @@ watch(CtrlShiftX, (v) => {
 <template>
   <div class="h-full @container">
     <div
-      class="flex justify-center items-center text-sm border-l border-secondary"
+      class="flex items-center justify-center text-sm border-l border-secondary"
     >
       <button
         v-if="!editing"
         @click="editTitle()"
-        class="flex h-8 pl-1 items-center w-full justify-between gap-1"
+        class="flex items-center justify-between w-full h-8 gap-1 pl-1"
       >
         <span v-if="!file_name"> Sin titulo </span>
         <span v-else>
           {{ file_name }}
         </span>
         <span
-          class="size-8 flex justify-center items-center border shrink-0 bg-primary hover:border-primary duration-300 border-secondary"
+          class="flex items-center justify-center duration-300 border size-8 shrink-0 bg-secondary hover:border-primary border-secondary"
         >
           <Pencil class="size-4 text-primary-foreground" />
         </span>
       </button>
       <div
         v-if="editing"
-        class="flex h-8 items-center w-full justify-between"
+        class="flex items-center justify-between w-full h-8"
       >
         <input
           type="text"
           @keyup.enter="editTitle()"
-          class="h-8 pl-1 outline-none text-sm w-full bg-primary text-primary-foreground border-secondary"
+          class="w-full h-8 pl-1 text-sm outline-none bg-primary text-primary-foreground border-secondary"
           v-model="input"
         >
         <button
-          class="size-8 flex justify-center items-center shrink-0 bg-primary/80 hover:bg-primary/90 focus-visible:ring-2 outline-none ring-primary-foreground"
+          class="flex items-center justify-center outline-none size-8 shrink-0 bg-primary/80 hover:bg-primary/90 focus-visible:ring-2 ring-primary-foreground"
           @click="editTitle()"
         >
           <Check class="size-4 text-primary-foreground" />
@@ -150,30 +150,17 @@ watch(CtrlShiftX, (v) => {
         <ScrollAreaViewport class="w-full h-full rounded">
           <div class="py-1 px-0.5">
             <button
-              v-if="counter.loaded_id !== null"
               @click="new_document()"
-              class="flex items-center mb-0.5 justify-start gap-2 text-sm w-full text-left duration-100 focus-within:ring-1 ring-primary"
+              class="flex items-center mb-0.5 justify-start gap-2 text-sm w-full text-left  duration-100 focus-within:ring-1 ring-primary"
               :class="
                 counter.loaded_id !== null
-                  ? 'text-secondary-foreground  '
-                  : 'text-primary pointer-events-none'
+                  ? 'text-primary  '
+                  : 'text-primary/70 pointer-events-none'
               "
             >
               <Plus class="size-4" />
               <span>Crear</span>
             </button>
-            <button
-              v-else
-              @click="counter.create_project()"
-              :disabled="counter.project_name === ''"
-              class="flex items-center mb-0.5 justify-start gap-2 disabled:animate-pulse text-sm w-full text-primary text-left duration-100 focus-within:ring-1 ring-primary"
-            >
-              <Plus class="size-4" />
-              <p class="w-full truncate">
-                Creando {{ counter.project_name }}
-              </p>
-            </button>
-
             <div
               v-for="item in filteredOptions"
               :key="item.id"
@@ -184,14 +171,14 @@ watch(CtrlShiftX, (v) => {
                 :class="loaded_id === item.id ? 'text-primary' : ''"
                 @click="set_document(item.id)"
               >
-                <ArrowRight class="size-4 shrink-0  " />
+                <ArrowRight class="size-4 shrink-0 " />
                 <p class="@sm:max-w-full max-w-80 line-clamp-1">
                   {{ item.project_data.name }}
                 </p>
               </button>
             </div>
             <div
-              class="flex justify-center items-center w-full py-5 mt-2 bg-secondary/20"
+              class="flex items-center justify-center w-full py-5 mt-2 bg-secondary/20"
               v-if="filteredOptions?.length === 0"
             >
               <span class="text-xs text-secondary-foreground/30">Sin resultados</span>
