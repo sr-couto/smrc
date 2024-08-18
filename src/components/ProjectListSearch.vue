@@ -16,20 +16,20 @@ import {
   ScrollAreaThumb,
   ScrollAreaViewport,
 } from "radix-vue";
+import Tooltip from "./ui/Tooltip.vue";
 
 const focusSearch = ref();
-const { focused } = useFocus(focusSearch);
-const keys = useMagicKeys();
-const counter = useCounterStore();
-const CtrlShiftX = keys["ctrl+shift+x"];
-const { allItems, loaded_id, searchTerm, file_name } = storeToRefs(counter);
-const debounced = refDebounced(searchTerm, 300);
-
-const breakpoints = useBreakpoints(breakpointsTailwind);
-
-const largerThanLg = breakpoints.greater("lg");
-
 const editing = ref(false);
+const { focused } = useFocus(focusSearch);
+const counter = useCounterStore();
+const { allItems, loaded_id, searchTerm, file_name } = storeToRefs(counter);
+
+const keys = useMagicKeys();
+const CtrlShiftX = keys["ctrl+shift+x"];
+
+const debounced = refDebounced(searchTerm, 300);
+const breakpoints = useBreakpoints(breakpointsTailwind);
+const largerThanLg = breakpoints.greater("lg");
 
 function editTitle() {
   editing.value = !editing.value;
@@ -81,7 +81,7 @@ watch(CtrlShiftX, (v) => {
 <template>
   <div class="h-full @container">
     <div
-      class="flex items-center justify-center text-sm border-l border-secondary"
+      class="flex items-center justify-center text-sm border-l bg-secondary/80 hover:bg-secondary/50 mb-0.5 border-secondary"
     >
       <button
         v-if="!editing"
@@ -92,11 +92,16 @@ watch(CtrlShiftX, (v) => {
         <span v-else>
           {{ file_name }}
         </span>
-        <span
-          class="flex items-center justify-center duration-300 border size-8 shrink-0 bg-secondary hover:border-primary border-secondary"
+        <Tooltip
+          name="Editar título"
+          side="right"
         >
-          <Pencil class="size-4 text-primary" />
-        </span>
+          <span
+            class="flex items-center justify-center duration-300 border size-8 shrink-0 bg-secondary hover:border-primary border-secondary"
+          >
+            <Pencil class="size-4 text-primary" />
+          </span>
+        </Tooltip>
       </button>
       <div
         v-if="editing"
@@ -154,7 +159,7 @@ watch(CtrlShiftX, (v) => {
               class="flex items-center mb-0.5 justify-start gap-2 text-sm w-full text-left  duration-100 focus-within:ring-1 ring-primary"
               :class="
                 counter.loaded_id !== null
-                  ? 'text-primary  '
+                  ? 'text-foreground  '
                   : 'text-primary/70 pointer-events-none'
               "
             >

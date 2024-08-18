@@ -57,9 +57,9 @@ function onDrop(files) {
 </script>
 
 <template>
-  <AlertDialogRoot v-model:open="openDialog">
+  <AlertDialogRoot v-model:open="counter.showImportModal">
     <AlertDialogTrigger
-      class="px-2 h-12 items-center justify-center gap-2 text-xs flex bg-background hover:bg-background/50 focus-visible:bg-background/50 outline-none"
+      class="flex items-center justify-center h-12 gap-2 px-2 text-xs border outline-none border-secondary bg-background hover:bg-background/50 focus-visible:border-primary focus-visible:bg-primary/10"
     >
       <Upload class="size-4" />
       <span class="hidden sm:inline-flex">ImportarDB</span>
@@ -78,13 +78,9 @@ function onDrop(files) {
             class="flex flex-col items-center justify-center w-full h-16"
             v-auto-animate
           >
-            <div
-              class="flex flex-col w-full justify-center items-center gap-2 px-3 text-center text-pretty"
-            >
+            <div class="flex flex-col items-center justify-center w-full gap-2 px-3 text-center text-pretty">
               <HardDriveUpload class="size-12" />
-              <AlertDialogTitle
-                class="text-mauve12 m-0 text-[17px] font-semibold"
-              >
+              <AlertDialogTitle class="text-mauve12 m-0 text-[17px] font-semibold">
                 ImportarDB
               </AlertDialogTitle>
               <AlertDialogDescription
@@ -95,7 +91,7 @@ function onDrop(files) {
               <button
                 type="button"
                 @click="open()"
-                class="text-sm mb-4 underline text-primary underline-offset-2"
+                class="mb-4 text-sm underline text-primary underline-offset-2"
               >
                 Seleccionar archivo JSON
               </button>
@@ -107,9 +103,7 @@ function onDrop(files) {
             </div>
           </div>
         </div>
-        <AlertDialogCancel
-          class="fixed top-0 m-3 right-0 z-[999] text-foreground"
-        >
+        <AlertDialogCancel class="fixed top-0 m-3 right-0 z-[999] text-foreground">
           <X />
         </AlertDialogCancel>
       </AlertDialogContent>

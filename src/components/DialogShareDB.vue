@@ -41,7 +41,7 @@ onMounted(() => {
 <template>
   <DialogRoot>
     <DialogTrigger
-      class="px-2 h-12 items-center justify-center gap-2 text-xs flex bg-background hover:bg-background/50 focus-visible:bg-background/50 outline-none"
+      class="flex items-center justify-center h-12 gap-2 px-2 text-xs border outline-none border-secondary bg-background hover:bg-background/50 focus-visible:border-primary focus-visible:bg-primary/10"
       aria-label="Update dimensions"
     >
       <Download class="size-4" />
@@ -63,13 +63,13 @@ onMounted(() => {
         <DialogTitle class="text-foreground m-0 text-[17px] font-semibold">
           ExportarDB
         </DialogTitle>
-        <DialogDescription class="mt-3 text-foreground text-sm">
+        <DialogDescription class="mt-3 text-sm text-foreground">
           Nombre del archivo
         </DialogDescription>
         <div class="flex gap-2 mb-2">
           <input
             type="text"
-            class="h-8 border w-full bg-background text-foreground border-border"
+            class="w-full h-8 border bg-background text-foreground border-border"
             v-model="input"
           >
           <button
@@ -80,17 +80,17 @@ onMounted(() => {
           </button>
         </div>
         <!-- <div
-          class="overflow-y-auto overflow-x-hidden h-96"
+          class="overflow-x-hidden overflow-y-auto h-96"
           :class="copied ? 'ring-2 ring-primary' : ''"
         >
           <ScrollAreaRoot
-            class="w-full h-96 rounded overflow-hidden"
+            class="w-full overflow-hidden rounded h-96"
             style="--scrollbar-size: 10px"
           >
             <ScrollAreaViewport class="w-full h-full rounded">
               <div class="">
                 <pre
-                  class="text-xs overflow-y-auto font-normal overflow-x-auto text-foreground/80 text-nowrap bg-secondary md:w-full  p-2"
+                  class="p-2 overflow-x-auto overflow-y-auto text-xs font-normal text-foreground/80 text-nowrap bg-secondary md:w-full"
                 >{{ counter.shareOptions }}</pre>
               </div>
             </ScrollAreaViewport>
@@ -113,7 +113,7 @@ onMounted(() => {
           </ScrollAreaRoot>
         </div> -->
         <div
-          class="mt-3 text-xs text-foreground flex justify-between items-center"
+          class="flex items-center justify-between mt-3 text-xs text-foreground"
         >
           <DialogClose as-child>
             <button

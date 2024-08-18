@@ -5,6 +5,7 @@ import vue from '@vitejs/plugin-vue'
 import tailwind from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
 import { VitePWA } from 'vite-plugin-pwa'
+import vueDevTools from 'vite-plugin-vue-devtools'
 
 export default defineConfig({
   css: {
@@ -16,7 +17,8 @@ export default defineConfig({
     vue(),
     VitePWA({
       registerType: 'prompt',
-    })
+    }),
+    vueDevTools(),
   ],
   resolve: {
     alias: {

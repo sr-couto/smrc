@@ -10,6 +10,8 @@ import {
 import { SunMedium, Moon } from "lucide-vue-next";
 import Tooltip from "./ui/Tooltip.vue";
 import { onMounted } from "vue";
+import { useCounterStore } from "@/stores/counter";
+const counter = useCounterStore();
 
 const mode = useColorMode();
 
@@ -29,8 +31,11 @@ onMounted(() => {
 <template>
   <DropdownMenuRoot>
     <DropdownMenuTrigger>
-      <Tooltip name="Modo de color">
-        <button class="flex items-center justify-center bg-secondary size-8">
+      <Tooltip
+        name="Modo de color"
+        :side="counter.showProjects ? 'bottom' : 'right'"
+      >
+        <span class="flex items-center justify-center bg-secondary size-8">
           <Moon
             class="transition-all duration-300 scale-100 rotate-0 size-4 dark:-rotate-90 dark:scale-0"
           />
@@ -38,7 +43,7 @@ onMounted(() => {
             class="absolute transition-all duration-300 scale-0 rotate-90 size-4 dark:rotate-0 dark:scale-100"
           />
           <span class="sr-only">Modo de color</span>
-        </button>
+        </span>
       </Tooltip>
     </DropdownMenuTrigger>
     <DropdownMenuContent

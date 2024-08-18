@@ -14,6 +14,7 @@ export const useCounterStore = defineStore("counter", () => {
   const project_body = ref("");
   const searchTerm = ref("");
   const showProjects = ref(true);
+  const showImportModal = ref(false);
   const shareOptions = ref([]);
 
 
@@ -195,16 +196,25 @@ export const useCounterStore = defineStore("counter", () => {
         await clearDatabase();
         await importInto(db, file, {});
         update_database(replace_file_name);
+        showImportModal.value = false
         clear_editor();
         searchTerm.value = "";
-        toast.success('Base de datos importada')
+        toast.success('Base de datos importada', {
+          style: {
+            background: "#ecfdf3",
+            color: "#008a2e"
+          },
+          class: 'my-toast',
+          descriptionClass: 'my-toast-description'
+        })
+        
       } catch (error) {
-        toast.success('Error al importar la base de datos')
+        toast.error('Error al importar la base de datos')
         handleError("Error al importar la base de datos", error);
       }
     } else {
-      console.log("Import aborted");
-      toast.warning('Importacion Abortada')
+      console.log("Import cancel");
+      toast.warning('Importación cancelada')
     }
   }
 
@@ -297,6 +307,7 @@ export const useCounterStore = defineStore("counter", () => {
     update_project,
     delete_project,
     auto_save,
-    clear_editor
+    clear_editor,
+    showImportModal
   };
 });

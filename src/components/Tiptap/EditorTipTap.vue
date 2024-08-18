@@ -2,17 +2,17 @@
   <div
     v-if="editor"
     v-auto-animate
-    class="px-1 @container grid md:pr-2"
+    class="px-1 @container grid md:pr-2 w-full"
   >
     <div
       v-if="toolbar"
       class="sticky top-0 z-20 py-1 bg-background"
     >
       <div
-        class="control-group max-w-full mx-auto w-full flex @lg:flex-row flex-wrap @lg:flex-nowrap items-center gap-1 relative"
+        class="control-group max-w-full mx-auto w-full flex @3xl:flex-row flex-wrap @3xl:flex-nowrap items-start gap-1 relative"
       >
         <slot />
-        <div class="flex justify-start gap-1 md:w-auto">
+        <div class="flex justify-start gap-1 mb-1 md:w-auto">
           <Tooltip
             name="Deshacer"
             side="bottom"
@@ -43,6 +43,7 @@
           >
             <button
               class="flex items-center justify-center border outline-none size-10 focus-visible:border-primary border-secondary"
+              :class="editorToolbar ? 'bg-primary text-primary-foreground' : ''"
               @click="editorToolbar = !editorToolbar"
             >
               <SquarePilcrow class="size-5" />
@@ -119,7 +120,7 @@
         </div>
       </div>
       <div
-        class="button-group "
+        class="button-group"
         v-if="editorToolbar"
       >
         <DropdownMenuRoot>
@@ -269,14 +270,15 @@
           </button>
         </Tooltip>
 
-
         <DropdownMenuRoot>
           <DropdownMenuTrigger>
             <Tooltip
               name="Alineación de texto"
               side="bottom"
             >
-              <button class="flex items-center justify-center w-full bg-secondary">
+              <button
+                class="flex items-center justify-center w-full bg-secondary"
+              >
                 <template v-if="editor.isActive({ textAlign: 'center' })">
                   <AlignCenter class="size-6" />
                 </template>
@@ -485,7 +487,8 @@
     <div>
       <ScrollAreaRoot
         class="w-full border border-secondary"
-        :class="editorToolbar ? 'h-[calc(100vh-9.25rem)]' : 'h-[calc(100vh-6.75rem)]'
+        :class="
+          editorToolbar ? 'h-[calc(100vh-9.25rem)]' : 'h-[calc(100vh-6.75rem)]'
         "
         style="--scrollbar-size: 10px"
       >
@@ -564,18 +567,14 @@ import Typography from "@tiptap/extension-typography";
 import Placeholder from "@tiptap/extension-placeholder";
 import TextAlign from "@tiptap/extension-text-align";
 import Link from "@tiptap/extension-link";
-import Table from '@tiptap/extension-table'
-import TableCell from '@tiptap/extension-table-cell'
-import TableHeader from '@tiptap/extension-table-header'
-import TableRow from '@tiptap/extension-table-row'
-// import Iframe from "@/components/Tiptap/iframe.ts";
-// import ExternalVideo from '@/components/Tiptap/external-video.js'
+import Table from "@tiptap/extension-table";
+import TableCell from "@tiptap/extension-table-cell";
+import TableHeader from "@tiptap/extension-table-header";
+import TableRow from "@tiptap/extension-table-row";
 import Youtube from "@tiptap/extension-youtube";
 import CodeBlockShiki from "tiptap-extension-code-block-shiki";
+// import Heading  from "@/components/Tiptap/Heading.js";
 import ShikiCodeBlock from "@/components/Tiptap/ShikiCodeBlock.vue";
-
-import { useCounterStore } from "@/stores/counter";
-const counter = useCounterStore();
 
 const editor = ref(null);
 const editorToolbar = useStorage("editorToolbar", true);
@@ -607,6 +606,7 @@ onMounted(() => {
       }),
       Typography,
       // Iframe,
+      // Heading,
       Link.configure({
         openOnClick: true,
         defaultProtocol: "https",
@@ -622,6 +622,14 @@ onMounted(() => {
       Table.configure({
         resizable: true,
       }),
+      // ResizableMedia.configure({
+      //   inline: true,
+      //   allowBase64: true,
+      // }),
+      // Image.configure({
+      //   allowBase64: true,
+      //   inline: true,
+      // }),
       TableRow,
       TableHeader,
       TableCell,
@@ -658,18 +666,43 @@ onMounted(() => {
 function addImage() {
   const url = window.prompt("Ingresar URL de la imagen");
   if (url) {
-    editor.value.chain().focus().setImage({ src: url }).run();
+    editor.value?.commands.setMedia({
+      src: url,
+      "media-type": "img",
+
+      alt: "Something else",
+      title: "Something",
+      width: "800",
+      height: "400",
+    });
   }
 }
+
+// const addImage = () => editor.value?.commands.setMedia({
+//   src: 'https://source.unsplash.com/8xznAGy4HcY/800x400',
+//   'media-type': 'img',
+
+//   alt: 'Something else',
+//   title: 'Something',
+//   width: '800',
+//   height: '400',
+// })
 
 function addImageBase64(event) {
   const file = event.target.files[0];
   if (file) {
     const reader = new FileReader();
-
     reader.onload = (e) => {
       const dataURL = e.target.result;
-      editor.value.chain().focus().setImage({ src: dataURL }).run();
+      editor.value?.commands.setMedia({
+        src: dataURL,
+        "media-type": "img",
+
+        alt: "Something else",
+        title: "Something",
+        width: "800",
+        height: "400",
+      });
     };
 
     reader.readAsDataURL(file);
@@ -736,7 +769,7 @@ watch(
       return;
     }
     editor.value.commands.setContent(value, false);
-  },
+  }
 );
 
 onBeforeUnmount(() => {
@@ -746,29 +779,18 @@ onBeforeUnmount(() => {
 
 <style>
 .button-group {
-  @apply bg-background grid;
-  grid-template-columns: 36px repeat(auto-fill, 36px);
+  @apply bg-background flex flex-wrap w-full;
 }
 
 .headingSelector {
-  grid-column: 1 / 8;
-}
-
-@media (max-width: 724px) {
-  .button-group {
-    grid-template-columns: repeat(auto-fill, 14.28%)
-  }
-}
-
-@container (max-width: 4rem) {
-  .headingSelector {
-    grid-column: 1;
-  }
-
+  /* grid-column: 1 / 8; */
+  max-width: 14rem;
+  min-width: 14rem !important;
 }
 
 .button-group button {
-  @apply border border-secondary focus-within:border-primary outline-none h-9 min-w-9 text-sm focus-visible:border-primary flex justify-center items-center duration-100;
+  @apply border border-secondary focus-within:border-primary outline-none h-9 min-w-9 max-w-10 xl:max-w-14 text-sm focus-visible:border-primary flex justify-center items-center duration-100;
+  flex: 1;
 }
 
 .control-group button {
@@ -794,6 +816,10 @@ onBeforeUnmount(() => {
 .tiptap h5:first-of-type,
 .tiptap h6:first-of-type {
   @apply mt-1;
+}
+
+.tiptap p {
+  @apply break-all
 }
 
 .tiptap p code {
@@ -872,93 +898,91 @@ html.dark .shiki span {
 
 .tiptap [data-youtube-video] iframe {
   @apply w-full h-64 @lg:h-96 @lg:aspect-video aspect-square relative z-20;
-    /* aspect-ratio: 16/9; */
-  }
+  /* aspect-ratio: 16/9; */
+}
 
-  .tiptap table {
-    border-collapse: collapse;
-    margin: 0;
-    overflow: hidden;
-    table-layout: fixed;
-    width: 100%;
-  }
+.tiptap table {
+  border-collapse: collapse;
+  margin: 0;
+  overflow: hidden;
+  table-layout: fixed;
+  width: 100%;
+}
 
-  .tiptap td,
-  .tiptap th {
-    border: 1px solid var(--gray-3);
-    box-sizing: border-box;
-    min-width: 1em;
-    padding: 6px 8px;
-    position: relative;
-    vertical-align: top;
+.tiptap td,
+.tiptap th {
+  border: 1px solid var(--gray-3);
+  box-sizing: border-box;
+  min-width: 1em;
+  padding: 6px 8px;
+  position: relative;
+  vertical-align: top;
+}
 
-  }
+.tiptap th {
+  background-color: var(--gray-1);
+  font-weight: bold;
+  text-align: left;
+}
 
-  .tiptap th {
-    background-color: var(--gray-1);
-    font-weight: bold;
-    text-align: left;
-  }
+.tiptap .selectedCell:after {
+  background: var(--gray-2);
+  content: "";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+}
 
-  .tiptap .selectedCell:after {
-    background: var(--gray-2);
-    content: "";
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    pointer-events: none;
-    position: absolute;
-    z-index: 2;
-  }
+.tiptap .column-resize-handle {
+  background-color: var(--purple);
+  bottom: -2px;
+  pointer-events: none;
+  position: absolute;
+  right: -2px;
+  top: 0;
+  width: 4px;
+}
 
-  .tiptap .column-resize-handle {
-    background-color: var(--purple);
-    bottom: -2px;
-    pointer-events: none;
-    position: absolute;
-    right: -2px;
-    top: 0;
-    width: 4px;
-  }
+.tiptap .tableWrapper {
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
 
+.tiptap.resize-cursor {
+  cursor: ew-resize;
+  cursor: col-resize;
+}
 
-  .tiptap .tableWrapper {
-    margin: 1.5rem 0;
-    overflow-x: auto;
-  }
+.tiptap img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-  .tiptap.resize-cursor {
-    cursor: ew-resize;
-    cursor: col-resize;
-  }
+.tiptap .ProseMirror-selectednode {
+  /* outline: 3px solid #68cef8; */
+  @apply ring-2 ring-primary;
+}
 
-  .tiptap img {
-    width: 100%;
-    height: auto;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 10px;
+  height: 0;
+  overflow: hidden;
+}
 
-  .tiptap .ProseMirror-selectednode {
-    /* outline: 3px solid #68cef8; */
-    @apply ring-2 ring-primary;
-  }
-
-  .video-wrapper {
-    position: relative;
-    padding-bottom: 56.25%;
-    padding-top: 10px;
-    height: 0;
-    overflow: hidden;
-
-  }
-
-  .video-wrapper iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }</style>
+.video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>
