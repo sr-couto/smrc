@@ -47,7 +47,8 @@ onMounted(() => {
       </Tooltip>
     </DropdownMenuTrigger>
     <DropdownMenuContent
-      align="end"
+      :align="counter.showProjects ? 'end' : 'center'"
+      :side="counter.showProjects ? 'bottom' : 'right'"
       class="z-10 grid w-40 text-xs bg-secondary"
     >
       <DropdownMenuGroup>

@@ -50,7 +50,7 @@ watch(project_body, (v) => {
                 @keyup.enter="counter.create_project()"
                 v-model="counter.project_name"
                 style="field-sizing: content"
-                class="w-full px-2 py-1.5 overflow-visible text-lg border outline-none create_project bg-background text-primary resize-none border-secondary focus-within:border-primary placeholder:text-foreground/50"
+                class="w-full px-2 py-1.5 min-h-10 overflow-visible border outline-none create_project bg-background text-primary resize-none border-secondary focus-within:border-primary placeholder:text-foreground/50"
               />
               <button
                 v-show="!counter.loaded_id"

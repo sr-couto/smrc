@@ -17,7 +17,7 @@ const counter = useCounterStore();
     <button
       @click="counter.showProjects = !counter.showProjects"
       v-show="counter.showProjects"
-      class="fixed inset-0 z-40 bg-background/90 lg:hidden"
+      class="fixed inset-0 z-40 bg-background/10 lg:hidden"
     />
   </div>
 </template>

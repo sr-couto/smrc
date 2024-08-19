@@ -6,7 +6,7 @@
   >
     <div
       v-if="toolbar"
-      class="sticky top-0 z-20 py-1 bg-background"
+      class="sticky top-0 z-30 py-1 bg-background"
     >
       <div
         class="control-group max-w-full mx-auto w-full flex @3xl:flex-row flex-wrap @3xl:flex-nowrap items-start gap-1 relative"
@@ -443,23 +443,6 @@
             <Minus />
           </button>
         </Tooltip>
-
-        <Tooltip
-          name="Quitar marcas"
-          side="bottom"
-        >
-          <button @click="editor.chain().focus().unsetAllMarks().run()">
-            <RemoveFormatting />
-          </button>
-        </Tooltip>
-        <Tooltip
-          name="Limpiar nodos"
-          side="bottom"
-        >
-          <button @click="editor.chain().focus().clearNodes().run()">
-            <Eraser />
-          </button>
-        </Tooltip>
         <Tooltip
           name="Añadir link"
           side="bottom"
@@ -480,6 +463,22 @@
             :disabled="!editor.isActive('link')"
           >
             <Unlink2 class="-rotate-45" />
+          </button>
+        </Tooltip>
+        <Tooltip
+          name="Quitar marcas"
+          side="bottom"
+        >
+          <button @click="editor.chain().focus().unsetAllMarks().run()">
+            <RemoveFormatting />
+          </button>
+        </Tooltip>
+        <Tooltip
+          name="Limpiar nodos"
+          side="bottom"
+        >
+          <button @click="editor.chain().focus().clearNodes().run()">
+            <Eraser />
           </button>
         </Tooltip>
       </div>
@@ -815,7 +814,7 @@ onBeforeUnmount(() => {
 .tiptap h4:first-of-type,
 .tiptap h5:first-of-type,
 .tiptap h6:first-of-type {
-  @apply mt-1;
+  @apply mt-4;
 }
 
 .tiptap p {
