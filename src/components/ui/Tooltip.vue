@@ -24,21 +24,29 @@ const props = defineProps({
     default: "right",
     required: false,
   },
+  align: {
+    type: String,
+    default: "center",
+    required: false,
+  },
 });
 </script>
 
 <template>
   <TooltipProvider>
-    <TooltipRoot :delay-duration="0">
+    <TooltipRoot
+      :delay-duration="400"
+    >
       <TooltipTrigger as-child>
         <slot />
       </TooltipTrigger>
       <TooltipPortal>
         <TooltipContent
           :side="props.side"
-          class="data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade select-none  bg-primary px-1.5 py-1.5 will-change-[transform,opacity] flex gap-2 items-center justify-center"
+          class="data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade select-none  bg-primary px-2.5 py-1.5 will-change-[transform,opacity] flex gap-2 items-center justify-center"
           :class="props.shortcut ? 'flex-col' : ' '"
-          :side-offset="5"
+          :side-offset="0"
+          :align="props.align"
         >
           <span class="font-mono text-xs font-medium text-primary-foreground">{{ props.name }}</span>
           <kbd
@@ -49,7 +57,7 @@ const props = defineProps({
           </kbd>
           <TooltipArrow
             class="fill-primary"
-            :width="15"
+            :width="21"
           />
         </TooltipContent>
       </TooltipPortal>

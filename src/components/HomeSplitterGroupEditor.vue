@@ -2,7 +2,7 @@
 import { ref, watch } from "vue";
 import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from "radix-vue";
 import { storeToRefs } from "pinia";
-import { ArrowRightToLine } from "lucide-vue-next";
+import { ArrowRightToLine, Delete, X } from "lucide-vue-next";
 import { useCounterStore } from "@/stores/counter";
 import Editor from "@/components/Tiptap/EditorTipTap.vue";
 import Tooltip from "@/components/ui/Tooltip.vue";
@@ -42,16 +42,26 @@ watch(project_body, (v) => {
             v-model="counter.project_body"
             toolbar
           >
-            <div class="flex items-start justify-between w-full gap-1">
+            <div class="flex items-center justify-between w-full gap-1">
               <textarea
                 placeholder="Sin titulo"
                 autocomplete="off"
                 spellcheck="false"
-                @keyup.enter="counter.create_project()"
                 v-model="counter.project_name"
                 style="field-sizing: content"
-                class="w-full px-2 py-1.5 min-h-10 overflow-visible border outline-none create_project bg-background text-primary resize-none border-secondary focus-within:border-primary placeholder:text-foreground/50"
+                class="w-full px-2 py-1 overflow-visible border outline-none resize-none min-h-9 create_project bg-background text-primary border-secondary focus-within:border-primary placeholder:text-foreground/50"
               />
+              <button
+                v-show="counter.project_name !== ''"
+                @click="counter.clear_editor()"
+                :class="counter.project_name
+                  ? 'bg-secondary text-secondary-foreground '
+                  : 'opacity-50 bg-secondary  pointer-events-none'
+                "
+                class="px-3 text-xs h-9 shrink-0"
+              >
+                <Delete class="size-4" />
+              </button>
               <button
                 v-show="!counter.loaded_id"
                 @click="counter.create_project()"
@@ -60,7 +70,7 @@ watch(project_body, (v) => {
                   ? 'bg-primary text-primary-foreground '
                   : 'opacity-50 bg-secondary  pointer-events-none'
                 "
-                class="h-10 px-3 text-xs shrink-0"
+                class="px-3 text-xs h-9 shrink-0"
               >
                 Crear
               </button>

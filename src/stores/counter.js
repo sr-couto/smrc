@@ -207,7 +207,6 @@ export const useCounterStore = defineStore("counter", () => {
           class: 'my-toast',
           descriptionClass: 'my-toast-description'
         })
-        
       } catch (error) {
         toast.error('Error al importar la base de datos')
         handleError("Error al importar la base de datos", error);
@@ -285,7 +284,7 @@ export const useCounterStore = defineStore("counter", () => {
     status.value = "ERROR";
   }
 
-  const allItems = useObservable(liveQuery(() => db.projects.toArray()));
+  const allItems = useObservable(liveQuery(() => db.projects.reverse().toArray()));
 
   return {
     loaded_id,

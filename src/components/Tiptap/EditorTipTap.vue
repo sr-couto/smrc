@@ -9,20 +9,33 @@
       class="sticky top-0 z-30 py-1 bg-background"
     >
       <div
-        class="control-group max-w-full mx-auto w-full flex @3xl:flex-row flex-wrap @3xl:flex-nowrap items-start gap-1 relative"
+        class="control-group max-w-full mx-auto w-full flex @3xl:flex-row flex-wrap @xl:flex-nowrap items-start gap-1 relative"
       >
+        <!--
+          Esto es un slot de vue, permite inyectar contenido en esta
+          posición desde el componente padre, es decir, desde el lugar 
+          donde se llama a este componente.
+        -->
         <slot />
+        <!--
+          Comienza las opciones de
+          - deshacer
+          - rehacer
+          - Mostrar formato de texto,
+          - Agregar imágenes 
+          - Insertar video
+        -->
         <div class="flex justify-start gap-1 mb-1 md:w-auto">
           <Tooltip
             name="Deshacer"
             side="bottom"
           >
             <button
-              class="flex items-center justify-center border outline-none size-10 focus-visible:border-primary border-secondary"
+              class="flex items-center justify-center border outline-none size-9 focus-visible:border-primary border-secondary"
               @click="editor.chain().focus().undo().run()"
               :disabled="!editor.can().chain().focus().undo().run()"
             >
-              <Undo2 class="size-5" />
+              <Undo2 class="size-4" />
             </button>
           </Tooltip>
           <Tooltip
@@ -30,11 +43,11 @@
             side="bottom"
           >
             <button
-              class="flex items-center justify-center border outline-none size-10 focus-visible:border-primary border-secondary"
+              class="flex items-center justify-center border outline-none size-9 focus-visible:border-primary border-secondary"
               @click="editor.chain().focus().redo().run()"
               :disabled="!editor.can().chain().focus().redo().run()"
             >
-              <Redo2 class="size-5" />
+              <Redo2 class="size-4" />
             </button>
           </Tooltip>
           <Tooltip
@@ -42,11 +55,11 @@
             side="bottom"
           >
             <button
-              class="flex items-center justify-center border outline-none size-10 focus-visible:border-primary border-secondary"
+              class="flex items-center justify-center border outline-none size-9 focus-visible:border-primary border-secondary"
               :class="editorToolbar ? 'bg-primary text-primary-foreground' : ''"
               @click="editorToolbar = !editorToolbar"
             >
-              <SquarePilcrow class="size-5" />
+              <SquarePilcrow class="size-4" />
             </button>
           </Tooltip>
           <DropdownMenuRoot>
@@ -56,9 +69,9 @@
                 side="bottom"
               >
                 <span
-                  class="flex items-center justify-center border outline-none size-10 focus-visible:border-primary border-secondary"
+                  class="flex items-center justify-center border outline-none size-9 focus-visible:border-primary border-secondary"
                 >
-                  <ImagePlus class="size-5" />
+                  <ImagePlus class="size-4" />
                 </span>
               </Tooltip>
             </DropdownMenuTrigger>
@@ -101,9 +114,9 @@
           >
             <button
               @click="addVideo"
-              class="flex items-center justify-center border outline-none size-10 focus-visible:border-primary border-secondary"
+              class="flex items-center justify-center border outline-none size-9 focus-visible:border-primary border-secondary"
             >
-              <Video class="size-5" />
+              <Video class="size-4" />
             </button>
           </Tooltip>
           <!-- <Tooltip
@@ -112,13 +125,16 @@
           >
             <button
               @click="addIframe"
-              class="flex items-center justify-center border outline-none size-10 focus-visible:border-primary border-secondary"
+              class="flex items-center justify-center border outline-none size-9 focus-visible:border-primary border-secondary"
             >
-              <Globe class="size-5" />
+              <Globe class="size-4" />
             </button>
           </Tooltip> -->
         </div>
       </div>
+      <!--
+        Opciones de formato de texto
+      -->
       <div
         class="button-group"
         v-if="editorToolbar"
@@ -483,32 +499,30 @@
         </Tooltip>
       </div>
     </div>
-    <div>
-      <ScrollAreaRoot
-        class="w-full border border-secondary"
-        :class="
-          editorToolbar ? 'h-[calc(100vh-9.25rem)]' : 'h-[calc(100vh-6.75rem)]'
-        "
-        style="--scrollbar-size: 10px"
-      >
-        <ScrollAreaViewport class="w-full h-full">
-          <div
-            class="max-w-full mx-auto prose dark:prose-invert"
-            spellcheck="false"
-          >
-            <editor-content :editor="editor" />
-          </div>
-        </ScrollAreaViewport>
-        <ScrollAreaScrollbar
-          class="flex select-none touch-none p-0.5 bg-secondary transition-colors duration-[160ms] ease-out hover:bg-background data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
-          orientation="vertical"
+    <ScrollAreaRoot
+      class="w-full border border-secondary"
+      :class="
+        editorToolbar ? 'h-[calc(100vh-9.25rem)]' : 'h-[calc(100vh-6.75rem)]'
+      "
+      style="--scrollbar-size: 10px"
+    >
+      <ScrollAreaViewport class="w-full h-full">
+        <div
+          class="max-w-full mx-auto prose dark:prose-invert"
+          spellcheck="false"
         >
-          <ScrollAreaThumb
-            class="flex-1 bg-primary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]"
-          />
-        </ScrollAreaScrollbar>
-      </ScrollAreaRoot>
-    </div>
+          <editor-content :editor="editor" />
+        </div>
+      </ScrollAreaViewport>
+      <ScrollAreaScrollbar
+        class="flex select-none touch-none p-0.5 bg-secondary transition-colors duration-[160ms] ease-out hover:bg-background data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+        orientation="vertical"
+      >
+        <ScrollAreaThumb
+          class="flex-1 bg-primary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]"
+        />
+      </ScrollAreaScrollbar>
+    </ScrollAreaRoot>
   </div>
 </template>
 
@@ -575,37 +589,67 @@ import CodeBlockShiki from "tiptap-extension-code-block-shiki";
 // import Heading  from "@/components/Tiptap/Heading.js";
 import ShikiCodeBlock from "@/components/Tiptap/ShikiCodeBlock.vue";
 
+// "editor" es una variable de tipo ref que se utiliza para acceder al objeto "Editor" de Tiptap
+// Al principio, su valor es null, ya que no se ha montado todavía el componente
 const editor = ref(null);
+
+// "editorToolbar" es una variable de tipo ref que se utiliza para mostrar u ocultar la barra de herramientas del editor
+// Al principio, su valor es true, lo que significa que la barra de herramientas se mostrará al principio
+// El valor se almacena en el almacenamiento local del navegador, por lo que si el usuario cierra la pestaña y vuelve a abrirla, el valor se mantendrá
 const editorToolbar = useStorage("editorToolbar", true);
 
+
+// Props es un objeto que nos permite recibir datos desde el componente padre
+// En este caso, recibimos un string llamado "modelValue" que será el contenido del editor
+// Si no se proporciona un valor, se usará una cadena vacía
+// Tambien recibimos un valor booleano llamado "toolbar" que indica si se muestra la barra de herramientas del editor
+// Por defecto, la barra de herramientas está oculta
+// Los comentarios en español explican brevemente que hace cada línea
 const props = defineProps({
   modelValue: {
-    type: String,
-    default: "",
+    type: String, // El tipo de dato que se espera recibir
+    default: "", // El valor por defecto si no se proporciona ninguno
   },
   toolbar: {
-    type: Boolean,
-    default: false,
+    type: Boolean, // El tipo de dato que se espera recibir
+    default: false, // El valor por defecto si no se proporciona ninguno
   },
 });
 
+// Esta funcion emite un evento que se puede escuchar en el padre
+// se utiliza para comunicar que el valor del editor ha cambiado
+// El padre puede escuchar este evento y actualizar su estado
 const emit = defineEmits(["update:modelValue"]);
 
+// Este bloque de código se ejecuta cuando el componente se monta en la aplicación.
+// En esta función se crea una nueva instancia del editor de texto
+// y se le asigna las extensiones que se utilizarán.
+// la propiedad "extensions" es un array de objetos que especifican las extensiones del editor
+// Cada objeto tiene una propiedad "configure" que se utiliza para configurar la extensión
+// La propiedad "content" se utiliza para establecer el contenido inicial del editor
+// la propiedad "onUpdate" se utiliza para escuchar los cambios en el editor y actualizar el valor en el padre
 onMounted(() => {
   editor.value = new Editor({
     extensions: [
-      Color.configure({ types: [TextStyle.name, ListItem.name] }),
-      TextStyle.configure({ types: [ListItem.name] }),
-      StarterKit.configure({
+       // Esto configura un editor básico sin el bloque de código ya que lo agregaremos luego
+       StarterKit.configure({
         codeBlock: false,
       }),
+      // Funcionalidad de color en el editor
+      Color.configure({ types: [TextStyle.name, ListItem.name] }),
+      // Esto permite aplicar estilos de texto a los elementos de la lista
+      TextStyle.configure({ types: [ListItem.name] }),
+      // Funcionalidad de imagenes en el editor
       Image.configure({
         allowBase64: true,
         inline: true,
+        HTMLAttributes: {
+          class: "max-w-xl w-full my-6",
+        },
       }),
+      // Esto agrega funcionalidad de estilo tipográfico en el editor
       Typography,
-      // Iframe,
-      // Heading,
+      // Funcionalidad de enlaces en el editor
       Link.configure({
         openOnClick: true,
         defaultProtocol: "https",
@@ -618,34 +662,31 @@ onMounted(() => {
             "px-1 underline-offset-2 text-primary cursor-pointer hover:text-primary/80",
         },
       }),
+      // Funcionalidad de tablas en el editor
       Table.configure({
         resizable: true,
       }),
-      // ResizableMedia.configure({
-      //   inline: true,
-      //   allowBase64: true,
-      // }),
-      // Image.configure({
-      //   allowBase64: true,
-      //   inline: true,
-      // }),
       TableRow,
       TableHeader,
       TableCell,
-      // ExternalVideo,
+      // Funcionalidad de alineación de texto en el editor
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
+      // Esto muestra un texto de placeholder en el editor
       Placeholder.configure({
         placeholder: "Escribir algo …",
       }),
+      // Funcionalidad de videos de youtube en el editor
       Youtube.configure({
         controls: true,
         ccLanguage: "es",
         nocookie: true,
       }),
+      // Funcionalidad de bloques de código en el editor
       CodeBlockShiki.extend({
         addNodeView() {
+          // Esta función devuelve un componente Vue para mostrar el bloque de código
           return VueNodeViewRenderer(ShikiCodeBlock);
         },
       }).configure({
@@ -655,79 +696,47 @@ onMounted(() => {
         defaultTheme: "houston",
       }),
     ],
+    // Esta línea establece el contenido inicial del editor a partir del valor
+    // pasado como propiedad al componente.
     content: props.modelValue,
     onUpdate: () => {
+      // Esta función se ejecuta cada vez que el usuario actualiza el contenido del editor
+      // y se utiliza para actualizar el valor en el padre
       emit("update:modelValue", editor.value.getHTML());
     },
   });
 });
 
+/**
+ * Esta función solicita al usuario que ingrese una URL de imagen. 
+ * Luego, si el usuario ingresa una URL válida, la función agrega 
+ * una imagen al editor de texto utilizando el método setImage(). 
+ * setImage() es una función proporcionada por la biblioteca tiptap.js.
+ * Esta función toma un objeto con una propiedad "src" que se establece 
+ * en la URL de la imagen. El método focus() se utiliza para asegurarse 
+ * de que el cursor esté posicionado en el editor antes de agregar la imagen. 
+ * Finalmente, el método run() se llama para ejecutar la transacción. 
+ * 
+ * NOTA: Esta función no realiza ninguna validación de la URL ingresada. 
+ * Si el usuario ingresa una URL inválida, la imagen no se agregará.
+ */
 function addImage() {
   const url = window.prompt("Ingresar URL de la imagen");
   if (url) {
-    editor.value?.commands.setMedia({
-      src: url,
-      "media-type": "img",
-
-      alt: "Something else",
-      title: "Something",
-      width: "800",
-      height: "400",
-    });
+     editor.value.chain().focus().setImage({ src: url }).run();
   }
 }
 
-// const addImage = () => editor.value?.commands.setMedia({
-//   src: 'https://source.unsplash.com/8xznAGy4HcY/800x400',
-//   'media-type': 'img',
-
-//   alt: 'Something else',
-//   title: 'Something',
-//   width: '800',
-//   height: '400',
-// })
-
-function addImageBase64(event) {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const dataURL = e.target.result;
-      editor.value?.commands.setMedia({
-        src: dataURL,
-        "media-type": "img",
-
-        alt: "Something else",
-        title: "Something",
-        width: "800",
-        height: "400",
-      });
-    };
-
-    reader.readAsDataURL(file);
-  }
-}
-
-// function addVideo() {
-//   const url = window.prompt(
-//     'Video URL',
-//     'https://www.youtube.com/embed/iyd8dY8rRtA'
-//   )
-
-//   if (url) {
-//     editor.value.chain().focus().setExternalVideo({ src: url }).run()
-//   }
-// }
-
-// function addIframe() {
-//   const url = window.prompt("Ingresar URL del iframe");
-//   if (url) {
-//     editor.value.chain().focus().setIframe({ src: url }).run();
-//   }
-// }
+// Esta función se encarga de agregar una imagen al editor de texto.
+// Recibe un evento como parámetro, que contiene la imagen seleccionada
+// por el usuario. Luego, utiliza el objeto FileReader para leer el
+// contenido de la imagen y convertirla en una URL de datos.
+// Finalmente, utiliza el método setImage() para agregar la imagen
+// al editor de texto. El método focus() se utiliza para asegurarse
+// de que el cursor esté posicionado en el editor antes de agregar la imagen.
 
 function addVideo() {
-  const url = prompt("Enter YouTube URL");
+  const url = prompt("Ingresar URL del video de Youtube");
   editor.value.commands.setYoutubeVideo({
     src: url,
     width: Math.max(320, parseInt(640, 10)) || 640,
@@ -738,19 +747,15 @@ function addVideo() {
 function setLink() {
   const previousUrl = editor.value.getAttributes("link").href;
   const url = window.prompt("URL", previousUrl);
-
   // cancelled
   if (url === null) {
     return;
   }
-
   // empty
   if (url === "") {
     editor.value.chain().focus().extendMarkRange("link").unsetLink().run();
-
     return;
   }
-
   // update link
   editor.value
     .chain()
@@ -760,20 +765,39 @@ function setLink() {
     .run();
 }
 
-watch(
-  () => props.modelValue,
-  (value) => {
-    const isSame = editor.value.getHTML() === value;
-    if (isSame) {
-      return;
-    }
-    editor.value.commands.setContent(value, false);
-  }
-);
+// Este bloque de código se encarga de sincronizar el valor del editor con
+// el valor que se recibe como parámetro en la propiedad "modelValue".
+// La función "watch" es una función de Vue que se ejecuta cada vez que
+// cambia el valor de la propiedad "modelValue". Luego, se verifica si el
+// contenido del editor es igual al valor que se recibió. Si es así, no se
+// hace nada. Si no es así, se utiliza el método "setContent" para actualizar
+// el contenido del editor con el nuevo valor. El segundo parámetro "false"
+// indica que no se debe reemplazar el contenido seleccionado actualmente.
 
 onBeforeUnmount(() => {
   editor.value.destroy();
 });
+
+
+//
+// Deprecado momentaneamente
+//
+// function addVideo() {
+//   const url = window.prompt(
+//     'Video URL',
+//     'https://www.youtube.com/embed/iyd8dY8rRtA'
+//   )
+//   if (url) {
+//     editor.value.chain().focus().setExternalVideo({ src: url }).run()
+//   }
+// }
+// function addIframe() {
+//   const url = window.prompt("Ingresar URL del iframe");
+//   if (url) {
+//     editor.value.chain().focus().setIframe({ src: url }).run();
+//   }
+// }
+
 </script>
 
 <style>
@@ -818,14 +842,14 @@ onBeforeUnmount(() => {
 }
 
 .tiptap p {
-  @apply break-all
+  @apply break-words;
 }
 
 .tiptap p code {
-  @apply bg-primary/20 px-1 mx-0.5 rounded py-0.5 text-foreground ring-1 ring-primary/30 font-light text-sm;
+  @apply bg-primary/20 break-all px-1 mx-0.5 rounded py-0.5 text-foreground ring-1 ring-primary/30 font-light text-sm;
 }
 
-.tiptap .iframe-wrapper {
+/* .tiptap .iframe-wrapper {
   @apply w-full h-[calc(100vh-9rem)] overflow-hidden m-0 border-2 bg-white border-primary/50 relative;
 }
 
@@ -835,7 +859,7 @@ onBeforeUnmount(() => {
 
 .tiptap iframe:before {
   content: "Cargando iframe";
-}
+} */
 
 .tiptap img {
   @apply mx-auto;
@@ -956,13 +980,13 @@ html.dark .shiki span {
   cursor: col-resize;
 }
 
-.tiptap img {
+/* .tiptap img {
   width: 100%;
   height: auto;
   display: block;
   margin-left: auto;
   margin-right: auto;
-}
+} */
 
 .tiptap .ProseMirror-selectednode {
   /* outline: 3px solid #68cef8; */

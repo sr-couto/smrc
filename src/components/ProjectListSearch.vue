@@ -1,8 +1,16 @@
 <script setup>
 import { useCounterStore } from "@/stores/counter";
-import { ArrowRight, Check, CircleX, Pencil, Plus } from "lucide-vue-next";
+import {
+  ArrowRight,
+  Check,
+  CircleX,
+  FolderPen,
+  Pencil,
+  Plus,
+} from "lucide-vue-next";
 import { storeToRefs } from "pinia";
 import { computed, ref, watch } from "vue";
+import { toast } from "vue-sonner";
 import {
   useFocus,
   useMagicKeys,
@@ -43,6 +51,12 @@ watch(input, (v) => {
 });
 
 function new_document() {
+  if (counter.project_body === "<p></p>") {
+    return toast("Falta crear el artículo.", {
+      description:
+        "Vas a perder los cambios. Agregá un título al articulo y hace click en crear",
+    });
+  }
   if (largerThanLg.value === true) {
     counter.clear_editor();
   } else {
@@ -53,9 +67,9 @@ function new_document() {
 
 function set_document(id) {
   if (largerThanLg.value === true) {
-    counter.set_project(id)
+    counter.set_project(id);
   } else {
-    counter.set_project(id)
+    counter.set_project(id);
     counter.showProjects = false;
   }
 }
@@ -63,11 +77,15 @@ function set_document(id) {
 const filteredOptions = computed(() =>
   debounced.value === ""
     ? allItems.value
-    : allItems.value.filter((item) => {
-        return item.project_data?.name
-          .toLowerCase()
-          .includes(debounced.value.toLowerCase());
-      }),
+    : allItems.value
+        .filter((item) => {
+          return item.project_data?.name
+            .toLowerCase()
+            .includes(debounced.value.toLowerCase());
+        })
+        .sort((a, b) =>
+          a.project_data?.name.localeCompare(b.project_data?.name)
+        )
 );
 
 function handleOpenChange() {
@@ -93,26 +111,24 @@ watch(CtrlShiftX, (v) => {
           {{ file_name }}
         </span>
         <Tooltip
-          name="Editar título"
-          side="right"
+          name="Editar nombre de la base de datos"
+          side="top"
+          align="end"
         >
           <span
             class="flex items-center justify-center duration-300 border size-8 shrink-0 bg-secondary hover:border-primary border-secondary"
           >
-            <Pencil class="size-4 text-primary" />
+            <FolderPen class="size-4 text-primary" />
           </span>
         </Tooltip>
       </button>
-      <div
-        v-if="editing"
-        class="flex items-center justify-between w-full h-8"
-      >
+      <div v-if="editing" class="flex items-center justify-between w-full h-8">
         <input
           type="text"
           @keyup.enter="editTitle()"
           class="w-full h-8 pl-1 text-sm outline-none bg-primary text-primary-foreground border-secondary"
           v-model="input"
-        >
+        />
         <button
           class="flex items-center justify-center outline-none size-8 shrink-0 bg-primary/80 hover:bg-primary/90 focus-visible:ring-2 ring-primary-foreground"
           @click="editTitle()"
@@ -129,7 +145,7 @@ watch(CtrlShiftX, (v) => {
         v-model="searchTerm"
         placeholder="Filtrar [Ctrl+Shift+X]"
         class="w-full h-6 outline-none bg-secondary placeholder:text-xs"
-      >
+      />
       <div class="shrink-0">
         <span
           v-if="!searchTerm"
@@ -139,7 +155,7 @@ watch(CtrlShiftX, (v) => {
         </span>
         <button
           v-else
-          class="flex items-center justify-center h-5 gap-2 px-1 text-xs rounded bg-background"
+          class="flex items-center justify-center h-5 gap-2 px-1 text-xs rounded bg-background hover:bg-secondary/90"
           @click="searchTerm = ''"
         >
           <CircleX class="shrink-0 size-3" />
@@ -156,7 +172,7 @@ watch(CtrlShiftX, (v) => {
           <div class="py-1 px-0.5">
             <button
               @click="new_document()"
-              class="flex items-center mb-0.5 justify-start gap-2 text-sm w-full text-left  duration-100 focus-within:ring-1 ring-primary"
+              class="flex items-center mb-0.5 justify-start gap-2 text-sm w-full text-left duration-100 focus-within:ring-1 ring-primary"
               :class="
                 counter.loaded_id !== null
                   ? 'text-foreground  '
@@ -176,7 +192,7 @@ watch(CtrlShiftX, (v) => {
                 :class="loaded_id === item.id ? 'text-primary' : ''"
                 @click="set_document(item.id)"
               >
-                <ArrowRight class="size-4 shrink-0 " />
+                <ArrowRight class="size-4 shrink-0" />
                 <p class="@sm:max-w-full max-w-80 line-clamp-1">
                   {{ item.project_data.name }}
                 </p>
@@ -186,7 +202,9 @@ watch(CtrlShiftX, (v) => {
               class="flex items-center justify-center w-full py-5 mt-2 bg-secondary/20"
               v-if="filteredOptions?.length === 0"
             >
-              <span class="text-xs text-secondary-foreground/30">Sin resultados</span>
+              <span class="text-xs text-secondary-foreground/30"
+                >Sin resultados</span
+              >
             </div>
           </div>
         </ScrollAreaViewport>
