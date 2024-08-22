@@ -161,9 +161,6 @@
             <template v-else-if="editor.isActive('heading', { level: 6 })">
               Título nivel 6 (H6)
             </template>
-            <template v-else-if="editor.isActive('codeBlock')">
-              Código
-            </template>
             <template v-else>
               Párrafo
             </template>
@@ -224,13 +221,6 @@
             >
               Titulo 6
             </DropdownMenuItem>
-            <DropdownMenuItem
-              @click="editor.chain().focus().toggleCodeBlock().run()"
-              :class="{ 'is-active': editor.isActive('codeBlock') }"
-              class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
-            >
-              Código
-            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenuRoot>
         <Tooltip
@@ -273,14 +263,29 @@
           </button>
         </Tooltip>
         <Tooltip
-          name="Código en linea"
+          name="Codigo en linea"
           side="bottom"
           shortcut="Ctrl E"
         >
           <button
             @click="editor.chain().focus().toggleCode().run()"
             :disabled="!editor.can().chain().focus().toggleCode().run()"
+            class="font-mono !text-base translate-y-[1px]"
             :class="{ 'is-active': editor.isActive('code') }"
+          >
+            <span class="flex items-center justify-center rounded size-6 bg-secondary-foreground/10 text-foreground">
+              A
+            </span>
+          </button>
+        </Tooltip>
+        <Tooltip
+          name="Bloque de Código"
+          side="bottom"
+          shortcut="Ctrl Alt C"
+        >
+          <button
+            @click="editor.chain().focus().toggleCodeBlock().run()"
+            :class="{ 'is-active': editor.isActive('codeBlock') }"
           >
             <Code />
           </button>
@@ -427,18 +432,7 @@
             <ListOrdered />
           </button>
         </Tooltip>
-        <Tooltip
-          name="Código"
-          side="bottom"
-          shortcut="Ctrl Alt C"
-        >
-          <button
-            @click="editor.chain().focus().toggleCodeBlock().run()"
-            :class="{ 'is-active': editor.isActive('codeBlock') }"
-          >
-            <SquareTerminal />
-          </button>
-        </Tooltip>
+        
         <Tooltip
           name="Cita"
           side="bottom"
@@ -551,6 +545,7 @@ import {
   Unlink2,
   Video,
   ChevronDown,
+  Highlighter,
 } from "lucide-vue-next";
 import {
   ScrollAreaRoot,
