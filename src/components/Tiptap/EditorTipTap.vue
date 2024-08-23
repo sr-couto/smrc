@@ -722,6 +722,20 @@ function addImage() {
   }
 }
 
+
+
+function addImageBase64(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataURL = e.target.result;
+      editor.value.chain().focus().setImage({ src: dataURL }).run();
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
 // Esta función se encarga de agregar una imagen al editor de texto.
 // Recibe un evento como parámetro, que contiene la imagen seleccionada
 // por el usuario. Luego, utiliza el objeto FileReader para leer el

@@ -51,17 +51,7 @@ watch(project_body, (v) => {
                 style="field-sizing: content"
                 class="w-full px-2 py-1 overflow-visible border outline-none resize-none min-h-9 create_project bg-background text-primary border-secondary focus-within:border-primary placeholder:text-foreground/50"
               />
-              <button
-                v-show="counter.project_name !== ''"
-                @click="counter.clear_editor()"
-                :class="counter.project_name
-                  ? 'bg-secondary text-secondary-foreground '
-                  : 'opacity-50 bg-secondary  pointer-events-none'
-                "
-                class="px-3 text-xs h-9 shrink-0"
-              >
-                <Delete class="size-4" />
-              </button>
+              
               <button
                 v-show="!counter.loaded_id"
                 @click="counter.create_project()"
