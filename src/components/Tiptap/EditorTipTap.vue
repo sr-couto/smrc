@@ -852,6 +852,7 @@ onBeforeUnmount(() => {
 
 .tiptap p {
   @apply break-words;
+  hyphens: auto;
 }
 
 .tiptap p code {

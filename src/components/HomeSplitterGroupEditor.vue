@@ -69,7 +69,7 @@ watch(project_body, (v) => {
         </div>
       </SplitterPanel>
       <SplitterResizeHandle
-        class=" hidden lg:flex group justify-center items-center w-8 border-l-2 border-secondary data-[state=hover]:border-primary/90 data-[state=hover]:text-primary data-[state=drag]:border-primary/90 duration-100"
+        class="hidden lg:flex group justify-center items-center w-8 border-l-2 border-secondary data-[state=hover]:border-primary/90  data-[state=drag]:border-primary/90 data-[state=hover]:delay-700 data-[state=hover]:border-l-4 duration-300"
       >
         <Tooltip
           :name="panelRef?.isCollapsed ? 'Doble click para eontraer' : 'Doble click para expandir'"
@@ -81,7 +81,7 @@ watch(project_body, (v) => {
             @keyup.enter="panelRef?.isCollapsed ? panelRef?.expand() : panelRef?.collapse()"
             :class="panelRef?.isCollapsed ? 'rotate-180' : ''"
           >
-            <ArrowRightToLine class="text-current duration-100 !cursor-pointer size-4 opacity-90" />
+            <ArrowRightToLine class="delay-75 !cursor-pointer size-4 opacity-90" />
           </button>
         </Tooltip>
       </SplitterResizeHandle>
