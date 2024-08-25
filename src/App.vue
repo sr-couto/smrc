@@ -14,7 +14,10 @@ const mode = useColorMode();
     <RouterView />
   </main>
   <ToastOffline />
-  <Toaster :theme="mode === 'light' ? 'light' : 'dark'" />
+  <Toaster
+    :theme="mode === 'light' ? 'light' : 'dark'"
+    position="bottom-center"
+  />
 </template>
 
 <style scoped>

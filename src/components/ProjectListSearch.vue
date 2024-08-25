@@ -98,13 +98,13 @@ watch(CtrlShiftX, (v) => {
         </span>
         <Tooltip
           name="Editar nombre de la base de datos"
-          side="top"
+          side="bottom"
           align="end"
         >
           <span
             class="flex items-center justify-center duration-300 border size-8 shrink-0 bg-secondary hover:border-primary border-secondary"
           >
-            <FolderPen class="size-4 text-primary" />
+            <FolderPen class="size-4 text-foreground" />
           </span>
         </Tooltip>
       </button>

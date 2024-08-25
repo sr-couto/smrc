@@ -475,5 +475,10 @@
 }
 
 [data-sonner-toast][data-styled=true] {
-  @apply flex-col items-start
+  @apply !bg-secondary
 }
+
+/* 
+[data-sonner-toast][data-styled=true] {
+  @apply flex-col items-start
+} */

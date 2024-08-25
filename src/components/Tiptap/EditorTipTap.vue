@@ -9,7 +9,7 @@
       class="sticky top-0 z-30 py-1 bg-background"
     >
       <div
-        class="control-group max-w-full mx-auto w-full flex @3xl:flex-row flex-wrap @xl:flex-nowrap items-start gap-1 relative"
+        class="control-group max-w-full mx-auto w-full grid @3xl:flex @3xl:flex-row  @3xl:flex-nowrap @3xl:items-start gap-1 relative"
       >
         <!--
           Esto es un slot de vue, permite inyectar contenido en esta
@@ -639,7 +639,7 @@ onMounted(() => {
         allowBase64: true,
         inline: true,
         HTMLAttributes: {
-          class: "max-w-xl w-full my-6",
+          class: "max-w-xl w-full mr-auto my-6",
         },
       }),
       // Esto agrega funcionalidad de estilo tipográfico en el editor
@@ -817,11 +817,12 @@ onBeforeUnmount(() => {
 .headingSelector {
   /* grid-column: 1 / 8; */
   max-width: 14rem;
+  width: 100%;
   min-width: 14rem !important;
 }
 
 .button-group button {
-  @apply border border-secondary focus-within:border-primary outline-none h-9 min-w-9 max-w-10 xl:max-w-14 text-sm focus-visible:border-primary flex justify-center items-center duration-100;
+  @apply border border-secondary focus-within:border-primary outline-none h-9 min-w-9 max-w-9 xl:max-w-14 text-sm focus-visible:border-primary flex justify-center items-center duration-100;
   flex: 1;
 }
 
@@ -855,6 +856,10 @@ onBeforeUnmount(() => {
   hyphens: auto;
 }
 
+.tiptap p a {
+  @apply break-all;
+}
+
 .tiptap p code {
   @apply bg-primary/20 break-all px-1 mx-0.5 rounded py-0.5 text-foreground ring-1 ring-primary/30 font-light text-sm;
 }
@@ -869,11 +874,15 @@ onBeforeUnmount(() => {
 
 .tiptap iframe:before {
   content: "Cargando iframe";
-} */
+}
+
 
 .tiptap img {
   @apply mx-auto;
 }
+
+*/
+
 
 .tiptap code::after,
 .tiptap code::before {
