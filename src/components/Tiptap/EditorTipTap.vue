@@ -1027,4 +1027,8 @@ html.dark .shiki span {
   width: 100%;
   height: 100%;
 }
+
+.tiptap li p {
+  @apply m-0
+}
 </style>

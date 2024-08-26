@@ -119,7 +119,7 @@ const filteredOptions = computed(() =>
                 <ListboxFilter
                   v-model="searchTerm"
                   placeholder="Buscar..."
-                  class="w-full h-8 p-1 pl-10 font-mono text-xs border outline-none selection:bg-primary text-foreground bg-background border-secondary placeholder:text-foreground/20"
+                  class="w-full h-8 p-1 pl-10 font-mono text-xs border outline-none selection:bg-primary selection:text-primary-foreground text-foreground bg-background border-secondary placeholder:text-foreground/20"
                 />
               </div>
               <ListboxContent
