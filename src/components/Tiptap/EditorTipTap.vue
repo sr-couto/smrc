@@ -880,9 +880,17 @@ onBeforeUnmount(() => {
   @apply mt-4;
 }
 
+.tiptap p a span {
+  @apply !text-inherit;
+}
+
 .tiptap p {
   @apply break-words;
   hyphens: auto;
+}
+
+.tiptap img {
+  @apply mx-auto;
 }
 
 .tiptap p a {
@@ -910,9 +918,7 @@ onBeforeUnmount(() => {
 }
 
 
-.tiptap img {
-  @apply mx-auto;
-}
+
 
 */
 

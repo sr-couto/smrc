@@ -15,7 +15,7 @@
           ref="codeHeight"
           spellcheck="false"
         >
-          <pre><code class="text-xs leading-6"><node-view-content /></code></pre>
+          <pre><code class="text-xs leading-6 break-all"><node-view-content /></code></pre>
         </div>
         <div
           v-show="!showFullCode && height > 350"
