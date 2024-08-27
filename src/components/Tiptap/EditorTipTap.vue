@@ -63,7 +63,7 @@
             </button>
           </Tooltip>
           <DropdownMenuRoot>
-            <DropdownMenuTrigger class=" data-[state=open]:!bg-primary">
+            <DropdownMenuTrigger class=" data-[state=open]:!bg-primary data-[state=open]:text-primary-foreground">
               <Tooltip
                 name="Agregar imagen"
                 side="bottom"
@@ -110,8 +110,9 @@
             </DropdownMenuContent>
           </DropdownMenuRoot>
           <Tooltip
-            name="Video"
+            name="Agregar video Youtube"
             side="bottom"
+            :align="'end'"
           >
             <button
               @click="addVideo"
@@ -161,6 +162,12 @@
             </template>
             <template v-else-if="editor.isActive('heading', { level: 6 })">
               Título nivel 6 (H6)
+            </template>
+            <template v-else-if="editor.isActive('bulletList')">
+              Lista desordenada
+            </template>
+            <template v-else-if="editor.isActive('orderedList')">
+              Lista ordenada
             </template>
             <template v-else>
               Párrafo
@@ -221,6 +228,20 @@
               class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
             >
               Titulo 6
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              @click="editor.chain().focus().toggleBulletList().run()"
+              :class="{ 'is-active': editor.isActive('bulletList') }"
+              class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
+            >
+              Lista desordenada
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              @click="editor.chain().focus().toggleOrderedList().run()"
+              :class="{ 'is-active': editor.isActive('orderedList') }"
+              class="flex items-center justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
+            >
+              Lista ordenada
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenuRoot>
@@ -477,16 +498,18 @@
           </button>
         </Tooltip>
         <Tooltip
-          name="Quitar marcas"
+          name="Quitar estilos de linea"
           side="bottom"
+          shortcut="Negrita - Italica - Tachado - Link - Código en linea"
         >
           <button @click="editor.chain().focus().unsetAllMarks().run()">
             <RemoveFormatting />
           </button>
         </Tooltip>
         <Tooltip
-          name="Limpiar nodos"
+          name="Quitar estilos de bloque"
           side="bottom"
+          shortcut="Títulos - Listas - Código en bloque - Cita"
         >
           <button @click="editor.chain().focus().clearNodes().run()">
             <Eraser />
