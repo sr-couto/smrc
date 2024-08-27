@@ -117,7 +117,7 @@ const counter = useCounterStore();
             class="flex items-center justify-start gap-2 font-mono text-xs font-semibold opacity-50 text-foreground"
           >
             <TentTree class="size-5 text-primary" />
-            <span>0.0.4 - Beta</span>
+            <span>0.0.5 - Beta</span>
           </div>
           <DialogClose as-child>
             <button

@@ -4,6 +4,7 @@ import { ArrowRight, Check, CircleX, FolderPen, Pencil, Plus } from "lucide-vue-
 import { storeToRefs } from "pinia";
 import { computed, ref, watch } from "vue";
 import {
+  onClickOutside,
   useFocus,
   useMagicKeys,
   refDebounced,
@@ -18,6 +19,7 @@ import {
 } from "radix-vue";
 import Tooltip from "./ui/Tooltip.vue";
 
+const target = ref(null);
 const focusSearch = ref();
 const editing = ref(false);
 const { focused } = useFocus(focusSearch);
@@ -34,6 +36,10 @@ const largerThanLg = breakpoints.greater("lg");
 function editTitle() {
   editing.value = !editing.value;
 }
+
+onClickOutside(target, () => {
+  editing.value = false;
+});
 
 const input = ref(file_name);
 
@@ -109,6 +115,7 @@ watch(CtrlShiftX, (v) => {
         </Tooltip>
       </button>
       <div
+        ref="target"
         v-if="editing"
         class="flex items-center justify-between w-full h-8"
       >
