@@ -860,6 +860,10 @@ onBeforeUnmount(() => {
   @apply break-all;
 }
 
+.tiptap pre {
+  @apply my-0
+}
+
 .tiptap p code {
   @apply bg-primary/20 break-all px-1 mx-0.5 rounded py-0.5 text-foreground ring-1 ring-primary/30 font-light text-sm;
 }

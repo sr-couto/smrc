@@ -1,10 +1,38 @@
 <template>
   <node-view-wrapper
-    class="code-block"
+    class="code-block group"
     spellcheck="false"
   >
+    <ScrollAreaRoot
+      class="w-full h-full"
+      style="--scrollbar-size: 10px"
+    >
+      <ScrollAreaViewport
+        class="w-full "
+        :class="showFullCode ? 'h-full' : 'max-h-[350px]'"
+      >
+        <div
+          ref="codeHeight"
+          spellcheck="false"
+        >
+          <pre><code class="text-xs leading-6"><node-view-content /></code></pre>
+        </div>
+        <div
+          v-show="!showFullCode && height > 350"
+          class="absolute bottom-0 left-0 right-0 z-10 h-16 pointer-events-none bg-gradient-to-b from-transparent via-transparent to-[#1f2937] dark:to-[#060504]"
+        />
+      </ScrollAreaViewport>
+      <ScrollAreaScrollbar
+        class="flex select-none touch-none p-0.5 bg-secondary transition-colors duration-[160ms] ease-out hover:bg-background data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+        orientation="vertical"
+      >
+        <ScrollAreaThumb
+          class="flex-1 bg-primary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]"
+        />
+      </ScrollAreaScrollbar>
+    </ScrollAreaRoot>
     <div
-      class="absolute top-0 right-0 z-40 flex items-center justify-end gap-1 -translate-x-1 -translate-y-4"
+      class="absolute top-0 right-0 z-40 flex items-center justify-end gap-1 -translate-x-1 -translate-y-1"
     >
       <RadixVirtual
         v-model="selectedLanguage"
@@ -16,16 +44,29 @@
         @click="copyToClipboard()"
       >
         <ClipboardCheck
-          v-if="copyText === 'Copied'"
+          v-show="copyText === 'Copied'"
           class="size-4 text-primary-foreground"
         />
         <Clipboard
+          v-show="copyText !== 'Copied'"
+          class="size-4"
+        />
+      </button>
+      <button
+        class="flex items-center justify-center duration-100 size-6 bg-secondary shrink-0"
+        v-if="height > 350"
+        @click="showFullCode = !showFullCode"
+      >
+        <FoldVertical
+          v-if="showFullCode"
+          class="size-4"
+        />
+        <UnfoldVertical
           v-else
           class="size-4"
         />
       </button>
     </div>
-    <pre><code class="text-xs leading-6"><node-view-content /></code></pre>
   </node-view-wrapper>
 </template>
 
@@ -33,7 +74,16 @@
 import { NodeViewContent, nodeViewProps, NodeViewWrapper } from "@tiptap/vue-3";
 import { bundledLanguages } from "shiki";
 import RadixVirtual from "@/components/ui/RadixVirtual.vue";
-import { Clipboard, ClipboardCheck } from "lucide-vue-next";
+import { Clipboard, ClipboardCheck, FoldVertical, UnfoldVertical } from "lucide-vue-next";
+
+import {
+  ScrollAreaRoot,
+  ScrollAreaScrollbar,
+  ScrollAreaThumb,
+  ScrollAreaViewport,
+} from "radix-vue";
+import { ref } from "vue";
+import { useElementSize } from "@vueuse/core";
 
 export default {
   components: {
@@ -42,6 +92,12 @@ export default {
     RadixVirtual,
     Clipboard,
     ClipboardCheck,
+    UnfoldVertical,
+    FoldVertical,
+    ScrollAreaRoot,
+    ScrollAreaScrollbar,
+    ScrollAreaThumb,
+    ScrollAreaViewport,
   },
 
   props: nodeViewProps,
@@ -50,7 +106,18 @@ export default {
     return {
       languages: Object.keys(bundledLanguages),
       copyText: "Copy",
+      showFullCode: false,
     };
+  },
+
+  setup() {
+    const codeHeight = ref(null)
+    const { width, height } = useElementSize(codeHeight)
+    return {
+      codeHeight,
+      width,
+      height,
+    }
   },
 
   computed: {
@@ -99,16 +166,10 @@ export default {
 };
 </script>
 
+
 <style>
 .tiptap .code-block {
   position: relative;
-}
-
-.tiptap select {
-  @apply bg-background font-mono border border-background top-1 right-1 text-xs p-1 absolute;
-}
-
-.tiptap option {
-  @apply bg-secondary;
+  margin: 1rem 0
 }
 </style>
