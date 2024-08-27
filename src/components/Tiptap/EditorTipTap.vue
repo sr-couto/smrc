@@ -63,7 +63,7 @@
             </button>
           </Tooltip>
           <DropdownMenuRoot>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger class=" data-[state=open]:!bg-primary">
               <Tooltip
                 name="Agregar imagen"
                 side="bottom"
@@ -76,20 +76,21 @@
               </Tooltip>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              align="end"
               side="bottom"
-              class="z-50 grid text-xs bg-secondary w-44"
+              :align="smallerEqualMd ? 'center' : 'end'"
+              class="z-50 grid w-64 grid-cols-2 text-xs gap-0.5 bg-secondary border border-secondary"
             >
               <DropdownMenuItem
                 as-child
-                class="relative flex justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
+                class="relative flex flex-col items-center justify-center h-32 gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10 bg-background"
               >
                 <label
-                  class="flex justify-between gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
+                  class="flex flex-col justify-center gap-2 p-2 !cursor-pointer hover:bg-secondary-foreground/10"
                   for="img-uploader"
                   id="uploader"
                 >
-                  Base64
+                  <ImagePlus class="size-10" />
+                  <span>Base64</span>
                   <input
                     id="img-uploader"
                     type="file"
@@ -99,11 +100,11 @@
                   >
                 </label>
               </DropdownMenuItem>
-
               <DropdownMenuItem
                 @click="addImage"
-                class="justify-between p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10"
+                class="flex flex-col items-center justify-center h-32 gap-2 p-2 cursor-pointer hover:bg-secondary-foreground/10 bg-background"
               >
+                <ImageDown class="size-10" />
                 Url
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -546,6 +547,7 @@ import {
   Video,
   ChevronDown,
   Highlighter,
+  ImageDown,
 } from "lucide-vue-next";
 import {
   ScrollAreaRoot,
@@ -561,7 +563,7 @@ import {
 } from "radix-vue";
 
 import { ref, watch, onMounted, onBeforeUnmount } from "vue";
-import { useStorage } from "@vueuse/core";
+import { useStorage,breakpointsTailwind, useBreakpoints, } from "@vueuse/core";
 import { Editor, EditorContent, VueNodeViewRenderer } from "@tiptap/vue-3";
 
 import Tooltip from "@/components/ui/Tooltip.vue";
@@ -583,6 +585,10 @@ import Youtube from "@tiptap/extension-youtube";
 import CodeBlockShiki from "tiptap-extension-code-block-shiki";
 // import Heading  from "@/components/Tiptap/Heading.js";
 import ShikiCodeBlock from "@/components/Tiptap/ShikiCodeBlock.vue";
+
+
+const breakpoints = useBreakpoints(breakpointsTailwind);
+const smallerEqualMd = breakpoints.smallerOrEqual("md");
 
 // "editor" es una variable de tipo ref que se utiliza para acceder al objeto "Editor" de Tiptap
 // Al principio, su valor es null, ya que no se ha montado todavía el componente
