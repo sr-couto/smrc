@@ -48,7 +48,10 @@ const props = defineProps({
           :side-offset="0"
           :align="props.align"
         >
-          <span class="font-mono text-xs font-medium text-primary-foreground">{{ props.name }}</span>
+          <span
+            v-show="props.name"
+            class="font-mono text-xs font-medium text-primary-foreground"
+          >{{ props.name }}</span>
           <kbd
             v-show="props.shortcut"
             class="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded bg-muted/20 px-1.5 font-mono text-[10px] text-primary-foreground font-extrabold opacity-100"
@@ -57,7 +60,7 @@ const props = defineProps({
           </kbd>
           <TooltipArrow
             class="fill-primary"
-            :width="21"
+            :width="15"
           />
         </TooltipContent>
       </TooltipPortal>

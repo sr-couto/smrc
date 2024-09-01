@@ -19,7 +19,7 @@ whenever(CtrlAltW, () => {
 
 <template>
   <div
-    class="flex items-center justify-between group mb-0.5"
+    class="flex items-center justify-between mb-1 group"
     :class="counter.showProjects ? '' : ' flex-col '"
   >
     <button
@@ -34,7 +34,7 @@ whenever(CtrlAltW, () => {
     </button>
     
     <div
-      class="grid gap-1"
+      class="grid gap-0.5"
       :class="counter.showProjects ? ' grid-cols-3 ' : ' grid-cols-1 '"
     >
       <DialogInfo />
@@ -47,7 +47,7 @@ whenever(CtrlAltW, () => {
         <button
           v-show="counter.showProjects"
           @click="counter.showProjects = !counter.showProjects"
-          class="flex items-center justify-center bg-secondary hover:bg-secondary/80 size-8"
+          class="flex items-center justify-center border border-secondary bg-background hover:bg-secondary/80 size-8"
         >
           <ArrowLeftToLine
             class="size-4"

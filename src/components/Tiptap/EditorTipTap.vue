@@ -143,7 +143,7 @@
       >
         <DropdownMenuRoot>
           <DropdownMenuTrigger
-            class="headingSelector flex items-center !text-xs !justify-between w-full bg-secondary px-2"
+            class="headingSelector flex items-center !text-xs !justify-between w-full bg-secondary/20 px-2"
           >
             <template v-if="editor.isActive('heading', { level: 1 })">
               Título nivel 1 (H1)

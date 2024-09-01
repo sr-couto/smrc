@@ -1,5 +1,6 @@
 <script setup>
 import { useRegisterSW } from "virtual:pwa-register/vue";
+import DialogChangelog from "./DialogChangelog.vue";
 const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW();
 
 async function close() {
@@ -19,26 +20,36 @@ async function close() {
       <span v-if="offlineReady">
         Aplicación lista para trabajar sin conexión
       </span>
-      <span v-else>
-        Hay una nueva versión disponible, haga clic en el botón de recarga
-        para actualizar o en cerrar para dejarla pendiente.
-      </span>
+      <div
+        v-else
+        class="grid gap-3 mb-3"
+      >
+        <h4 class="font-bold">
+          Hay una nueva versión disponible.
+        </h4>
+        <p>
+          Click en recargar para actualizar la app o click en cerrar para dejarla pendiente.
+        </p>
+        <DialogChangelog />
+      </div>
     </div>
-    <button
-      v-if="needRefresh"
-      @click="updateServiceWorker()"
-    >
-      Recargar
-    </button>
-    <button @click="close">
-      Cerrar
-    </button>
+    <div class="grid grid-cols-2 gap-2">
+      <button
+        v-if="needRefresh"
+        @click="updateServiceWorker()"
+      >
+        Recargar
+      </button>
+      <button @click="close">
+        Cerrar
+      </button>
+    </div>
   </div>
 </template>
 
 <style>
 .pwa-toast {
-  @apply bg-secondary font-mono border border-background text-foreground fixed right-0 bottom-11 m-3 p-3 z-[9999] text-left;
+  @apply bg-secondary font-mono border border-background text-foreground fixed right-0 bottom-11 m-3 p-3 z-[9996] text-left;
 }
 .pwa-toast .message {
   margin-bottom: 8px;

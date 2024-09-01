@@ -36,6 +36,7 @@ const largerThanLg = breakpoints.greater("lg");
 
 // const sortOption = ref("name"); // Sort option state
 const sortOption = useStorage("sortItemsBy", "name");
+
 function editTitle() {
   editing.value = !editing.value;
 }
@@ -107,7 +108,7 @@ watch(CtrlShiftX, (v) => {
 <template>
   <div class="h-full @container">
     <div
-      class="flex items-center justify-center text-sm border-l bg-secondary/80 hover:bg-secondary/50 mb-0.5 border-secondary"
+      class="flex items-center justify-center text-sm border group bg-background/80 hover:bg-secondary/50 border-secondary"
     >
       <button
         v-if="!editing"
@@ -124,7 +125,7 @@ watch(CtrlShiftX, (v) => {
           align="end"
         >
           <span
-            class="flex items-center justify-center duration-300 border size-8 shrink-0 bg-secondary hover:border-primary border-secondary"
+            class="flex items-center justify-center duration-100 border border-transparent group-hover:border size-8 shrink-0 bg-background group-hover:border-primary"
           >
             <FolderPen class="size-4 text-foreground" />
           </span>
@@ -137,11 +138,11 @@ watch(CtrlShiftX, (v) => {
       >
         <input
           type="text"
+          ref="focusedEditTitle"
           @keyup.enter="editTitle()"
-          class="w-full h-8 pl-1 text-sm outline-none bg-primary text-primary-foreground border-secondary"
+          class="w-full h-8 pl-1 text-sm border outline-none bg-background text-primary border-secondary"
           v-model="input"
         >
-       
         <button
           class="flex items-center justify-center outline-none size-8 shrink-0 bg-primary/80 hover:bg-primary/90 focus-visible:ring-2 ring-primary-foreground"
           @click="editTitle()"
@@ -151,17 +152,11 @@ watch(CtrlShiftX, (v) => {
       </div>
     </div>
     <div
-      class="relative flex items-center justify-between w-full p-1 text-xs bg-secondary ring-secondary/60 focus-within:ring-secondary"
+      class="relative flex items-center justify-between w-full gap-0.5 py-0.5 text-xs bg-background ring-secondary/60 focus-within:ring-secondary"
     >
-      <input
-        ref="focusSearch"
-        v-model="searchTerm"
-        placeholder="Filtrar [Ctrl+Shift+X]"
-        class="w-full h-6 outline-none bg-secondary placeholder:text-xs"
-      >
       <select
         v-model="sortOption"
-        class="w-16 mx-2 text-xs shrink-0 bg-secondary text-secondary-foreground"
+        class="w-20 text-xs border h-7 border-secondary shrink-0 bg-background text-secondary-foreground"
       >
         <option value="name">
           Nombre
@@ -170,20 +165,31 @@ watch(CtrlShiftX, (v) => {
           Fecha
         </option>
       </select>
-      <div class="shrink-0">
+      <div class="flex items-center justify-between w-full pl-1 border border-r-0 h-7 border-secondary">
+        <Tooltip
+          shortcut="Ctrl+Shift+X"
+          side="top"
+        >
+          <input
+            ref="focusSearch"
+            v-model="searchTerm"
+            placeholder="Filtrar"
+            class="px-1 outline-none bg-background placeholder:text-xs"
+          >
+        </Tooltip>
         <span
           v-if="!searchTerm"
-          class="flex items-center justify-center text-xs rounded bg-background size-5"
+          class="flex items-center justify-center h-full mr-0.5 text-xs w-7"
         >
           {{ allItems?.length }}
         </span>
         <button
           v-else
-          class="flex items-center justify-center h-5 gap-2 px-1 text-xs rounded bg-background hover:bg-secondary/90"
+          class="flex items-center justify-center gap-2 px-2 text-xs h-7 bg-secondary hover:bg-secondary/90"
           @click="searchTerm = ''"
         >
-          <CircleX class="shrink-0 size-3" />
-          <span>{{ filteredOptions.length }}</span>
+          <span class="min-w-3">{{ filteredOptions.length }}</span>
+          <CircleX class="size-3" />
         </button>
       </div>
     </div>
@@ -195,9 +201,6 @@ watch(CtrlShiftX, (v) => {
         <ScrollAreaViewport class="w-full h-full rounded">
           <div
             class="py-1 px-0.5 flex flex-col gap-1"
-            v-auto-animate="{
-              duration: 1000,
-            }"
           >
             <button
               @click="new_document()"
@@ -218,7 +221,8 @@ watch(CtrlShiftX, (v) => {
               :class="item.project_data?.checked ? 'opacity-50 order-9' : ''"
             >
               <button
-                class="flex py-0.5 w-full items-center outline-none justify-start gap-2 text-sm text-left  duration-100 focus-within:ring-1 ring-primary"
+                v-if="!item.project_data?.checked"
+                class="flex py-0.5 rounded w-full items-center outline-none justify-start gap-2 text-sm text-left focus-within:ring-1 ring-primary"
                 :class="loaded_id === item.id ? 'text-primary' : ''"
                 @click="set_document(item.id)"
               >
@@ -233,6 +237,22 @@ watch(CtrlShiftX, (v) => {
                   {{ item.project_data.name }}
                 </p>
               </button>
+              <span
+                v-else
+                class="flex py-0.5 rounded-full w-full items-center outline-none justify-start gap-2 text-sm text-left  duration-100 focus-within:ring-1 pointer-events-none ring-primary"
+                :class="loaded_id === item.id ? 'text-primary' : ''"
+              >
+                <!-- <ArrowRight
+                  class="size-4 shrink-0 "
+                  :class="item.project_data?.checked ? '  text-foreground/50 ' : ''"
+                /> -->
+                <p
+                  class="@sm:max-w-full max-w-80 line-clamp-1"
+                  :class="item.project_data?.checked ? ' line-through decoration-wavy decoration-primary/50 text-foreground/50 decoration-1 ' : ''"
+                >
+                  {{ item.project_data.name }}
+                </p>
+              </span>
               <input
                 type="checkbox"
                 :id="'todo-'+ item.id"
@@ -246,7 +266,7 @@ watch(CtrlShiftX, (v) => {
               >
                 <label
                   :for="'todo-'+ item.id"
-                  class="flex items-center justify-center rounded-full peer-focus:ring-1 peer-focus:ring-primary size-6 shrink-0 peer-checked:border-blue-600 hover:text-primary peer-checked:text-primary hover:bg-secondary"
+                  class="flex items-center justify-center rounded-full mr-0.5 peer-focus:ring-1 peer-focus:ring-primary size-6 shrink-0 peer-checked:border-blue-600 hover:text-primary peer-checked:text-primary hover:bg-secondary"
                 >                           
                   <CircleCheckBig
                     v-if="item.project_data.checked"
@@ -259,7 +279,7 @@ watch(CtrlShiftX, (v) => {
                 </label>
               </Tooltip>
             </div>
-            <!-- <div
+          <!-- <div
               class="flex items-center justify-center w-full py-5 mt-2 bg-secondary/20"
               v-if="filteredOptions?.length === 0"
             >
@@ -275,7 +295,7 @@ watch(CtrlShiftX, (v) => {
             class="flex-1 bg-primary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]"
           />
         </ScrollAreaScrollbar>
-        <!-- <ScrollAreaScrollbar
+      <!-- <ScrollAreaScrollbar
           class="flex select-none touch-none p-0.5 bg-secondary transition-colors duration-[160ms] ease-out hover:bg-background data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
           orientation="horizontal"
         >

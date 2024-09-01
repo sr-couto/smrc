@@ -27,7 +27,7 @@ const counter = useCounterStore();
       :side="counter.showProjects ? 'bottom' : 'right'"
     >
       <DialogTrigger
-        class="flex items-center justify-center bg-secondary hover:bg-secondary/80 size-8"
+        class="flex items-center justify-center border border-secondary hover:bg-secondary/80 bg-background size-8"
       >
         <CircleHelp class="size-4" />
       </DialogTrigger>
@@ -50,7 +50,10 @@ const counter = useCounterStore();
             <article
               class="max-w-full p-3 mx-auto prose dark:prose-invert"
             >
-              <DialogDescription class="mt-3 mb-5 text-sm leading-normal text-foreground">
+              <DialogDescription class="inline-block p-3 mt-3 mb-3 text-sm leading-normal rounded text-foreground bg-primary/20">
+                Esto es una beta, no utilizar más que para realizar pruebas.
+              </DialogDescription>
+              <p class="mt-3 mb-5 text-sm leading-normal text-foreground">
                 Esta aplicación usa la tecnologia 
                 <a
                   href="https://developer.mozilla.org/es/docs/Web/API/IndexedDB_API/Using_IndexedDB"
@@ -59,7 +62,7 @@ const counter = useCounterStore();
                 que existe dentro en los navegadores para almacenar datos. Estos datos
                 quedan almacenados en la sesión de ese navegador (Al limpiar los datos
                 del navegador estos se perderán).
-              </DialogDescription>
+              </p>
               <p class="mt-2 mb-5 text-sm leading-normal text-foreground">
                 Puede exportar e importar la
                 IndexedDB en formato JSON y asi mantener la base de datos localmente.

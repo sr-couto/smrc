@@ -17,6 +17,12 @@ export default defineConfig({
     vue(),
     VitePWA({
       registerType: 'prompt',
+      manifest: {
+        name: 'SMRC',
+        short_name: 'SMRC',
+        description: 'SMRC',
+        theme_color: '#020817'
+      },
       workbox: {
         maximumFileSizeToCacheInBytes: 10000000,
       }

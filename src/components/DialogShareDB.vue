@@ -55,7 +55,7 @@ onMounted(() => {
         class="data-[state=open]:animate-contentShow font-mono fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[650px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-background p-3 md:p-[25px] shadow focus:outline-none z-[9000]"
       >
         <DialogClose
-          class="text-foreground hover:bg-secondary/80 hover:text-foreground focus:shadow absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center focus:outline-none"
+          class="text-foreground hover:bg-secondary/80 hover:text-foreground  absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center focus:outline-none"
           aria-label="Close"
         >
           <X class="size-4" />
@@ -69,11 +69,11 @@ onMounted(() => {
         <div class="flex gap-2 mb-2">
           <input
             type="text"
-            class="w-full h-8 border bg-background text-foreground border-border"
+            class="w-full h-8 px-2 border bg-background text-foreground border-border"
             v-model="input"
           >
           <button
-            class="ml-auto px-5 bg-secondary/20 border border-secondary shrink-0 text-xs font-medium text-foreground hover:bg-secondary/80 hover:text-foreground focus:shadow-[0_0_0_2px] focus:outline-none"
+            class="px-5 ml-auto text-xs font-medium border bg-primary border-secondary shrink-0 text-primary-foreground hover:bg-primary/80 focus:outline-none"
             @click="counter.export_database(input.value)"
           >
             Exportar DB
@@ -113,7 +113,7 @@ onMounted(() => {
           </ScrollAreaRoot>
         </div> -->
         <div
-          class="flex items-center justify-between mt-3 text-xs text-foreground"
+          class="flex items-center justify-end mt-6"
         >
           <DialogClose as-child>
             <button
@@ -122,7 +122,7 @@ onMounted(() => {
               Cerrar ventana
             </button>
           </DialogClose>
-          <div class="flex gap-2 text-xs">
+          <!-- <div class="flex gap-2 text-xs">
             <div
               v-if="isSupported"
               class="flex gap-2"
@@ -132,7 +132,6 @@ onMounted(() => {
                 class="bg-secondary duration-300 text-foreground hover:bg-backgorund/80 text-xs inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-semibold leading-none focus:shadow-[0_0_0_2px] focus:outline-none"
                 :class="copied ? '!bg-primary text-white' : 'text-foreground'"
               >
-                <!-- by default, `copied` will be reset in 1.5s -->
                 <span v-if="!copied">Copiar JSON</span>
                 <span v-else>Json Copiado!</span>
               </button>
@@ -140,7 +139,7 @@ onMounted(() => {
             <p v-else>
               Your browser does not support Clipboard API
             </p>
-          </div>
+          </div> -->
         </div>
       </DialogContent>
     </DialogPortal>
