@@ -170,6 +170,7 @@ export default {
 <style>
 .tiptap .code-block {
   position: relative;
-  margin: 1rem 0
+  margin: 1rem 0;
+  @apply ring-1 ring-secondary/30
 }
 </style>
