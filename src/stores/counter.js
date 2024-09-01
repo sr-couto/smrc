@@ -17,7 +17,6 @@ export const useCounterStore = defineStore("counter", () => {
   const showImportModal = ref(false);
   const shareOptions = ref([]);
 
-
   /**
    * "Restaura el editor estableciendo los valores de `loaded_id`, `project_name`, and `project_body`.
    *
@@ -39,10 +38,11 @@ export const useCounterStore = defineStore("counter", () => {
       status.value = "CHANGING";
       const new_project_id = await db.projects.add({
         date: new Date().toISOString(),
-        createAd: new Date().toISOString(),
+        date_created: new Date().toISOString(),
         project_data: {
           body: project_body.value,
           name: project_name.value,
+          checked: false,
         },
       });
       loaded_id.value = new_project_id;
@@ -69,6 +69,29 @@ export const useCounterStore = defineStore("counter", () => {
       });
     } catch (error) {
       handleError("Error al actualizar el proyecto", error);
+    }
+  }
+
+  /**
+ * Marks a project as checked or unchecked.
+ *
+ * @param {number} id - The ID of the project to be toggled.
+ * @param {boolean} isChecked - The new checked status of the project.
+ * @return {Promise<void>} - A promise that resolves when the project is updated.
+ */
+  async function mark_project_checked(item, isChecked) {
+    try {
+      await db.projects.update(item.id, {
+        date: new Date().toISOString(),
+        project_data: {
+          body: item.project_data.body,
+          name: item.project_data.name,
+          checked: isChecked
+        },
+      });
+      toast(isChecked ? `Proyecto "${item.project_data.name}" marcado como completado` : `Proyecto "${item.project_data.name}" desmarcado`);
+    } catch (error) {
+      handleError("Error al marcar el proyecto", error);
     }
   }
 
@@ -300,6 +323,7 @@ export const useCounterStore = defineStore("counter", () => {
     delete_project,
     auto_save,
     clear_editor,
+    mark_project_checked,
     showImportModal
   };
 });

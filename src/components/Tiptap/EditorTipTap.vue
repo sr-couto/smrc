@@ -894,7 +894,7 @@ onBeforeUnmount(() => {
 }
 
 .tiptap p a {
-  @apply break-all;
+  @apply break-all underline-offset-4 decoration-dotted underline;
 }
 
 .tiptap pre {

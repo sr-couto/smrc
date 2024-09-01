@@ -470,6 +470,10 @@
 }
 
 
+[data-sonner-toast] {
+  @apply !items-start !gap-3
+}
+
 [data-sonner-toast] [data-button] {
     @apply !bg-primary
 }
@@ -477,7 +481,13 @@
 [data-sonner-toast][data-styled=true] {
   @apply !bg-secondary
 }
+[data-sonner-toast] [data-icon] {
+  @apply mt-1
+}
 
+[data-sonner-toast] [data-icon] svg {
+  @apply !w-6 !h-6
+}
 /* 
 [data-sonner-toast][data-styled=true] {
   @apply flex-col items-start

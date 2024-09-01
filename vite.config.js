@@ -17,6 +17,9 @@ export default defineConfig({
     vue(),
     VitePWA({
       registerType: 'prompt',
+      workbox: {
+        maximumFileSizeToCacheInBytes: 10000000,
+      }
     }),
     vueDevTools(),
   ],
@@ -26,6 +29,8 @@ export default defineConfig({
     }
   },
   build: {
+    chunkSizeWarningLimit: 10000,
+    
     rollupOptions: {
       output: {
         manualChunks(id) {

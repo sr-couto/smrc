@@ -1,6 +1,6 @@
 <script setup>
 import { useCounterStore } from "@/stores/counter";
-import { ArrowRight, Check, CircleX, FolderPen, Pencil, Plus } from "lucide-vue-next";
+import { ArrowRight, Check, Circle, CircleCheck, CircleCheckBig, CircleX, FolderPen, Pencil, Plus } from "lucide-vue-next";
 import { storeToRefs } from "pinia";
 import { computed, ref, watch } from "vue";
 import {
@@ -10,6 +10,7 @@ import {
   refDebounced,
   breakpointsTailwind,
   useBreakpoints,
+  useStorage,
 } from "@vueuse/core";
 import {
   ScrollAreaRoot,
@@ -33,6 +34,8 @@ const debounced = refDebounced(searchTerm, 300);
 const breakpoints = useBreakpoints(breakpointsTailwind);
 const largerThanLg = breakpoints.greater("lg");
 
+// const sortOption = ref("name"); // Sort option state
+const sortOption = useStorage("sortItemsBy", "name");
 function editTitle() {
   editing.value = !editing.value;
 }
@@ -66,19 +69,32 @@ function set_document(id) {
   }
 }
 
-const filteredOptions = computed(() =>
-  debounced.value === ""
-    ? allItems.value
-    : allItems.value
-        .filter((item) => {
-          return item.project_data?.name
-            .toLowerCase()
-            .includes(debounced.value.toLowerCase());
-        })
-        .sort((a, b) =>
-          a.project_data?.name.localeCompare(b.project_data?.name)
-        ),
-);
+function toggleCheck(item, isChecked) {
+  counter.mark_project_checked(item, isChecked);
+}
+
+const filteredOptions = computed(() => {
+  if (!Array.isArray(allItems.value)) {
+    return [];
+  }
+  
+  const sortedItems = [...allItems.value].sort((a, b) => {
+    if (sortOption.value === "name") {
+      return a.project_data?.name.localeCompare(b.project_data?.name); 
+    } else if (sortOption.value === "date") {
+      return new Date(a.project_data?.date) - new Date(b.project_data?.date);
+    }
+    return 0;
+  });
+
+  return debounced.value === ""
+    ? sortedItems
+    : sortedItems.filter((item) => {
+        return item.project_data?.name
+          .toLowerCase()
+          .includes(debounced.value.toLowerCase());
+      });
+});
 
 function handleOpenChange() {
   focused.value = true;
@@ -125,6 +141,7 @@ watch(CtrlShiftX, (v) => {
           class="w-full h-8 pl-1 text-sm outline-none bg-primary text-primary-foreground border-secondary"
           v-model="input"
         >
+       
         <button
           class="flex items-center justify-center outline-none size-8 shrink-0 bg-primary/80 hover:bg-primary/90 focus-visible:ring-2 ring-primary-foreground"
           @click="editTitle()"
@@ -142,6 +159,17 @@ watch(CtrlShiftX, (v) => {
         placeholder="Filtrar [Ctrl+Shift+X]"
         class="w-full h-6 outline-none bg-secondary placeholder:text-xs"
       >
+      <select
+        v-model="sortOption"
+        class="w-16 mx-2 text-xs shrink-0 bg-secondary text-secondary-foreground"
+      >
+        <option value="name">
+          Nombre
+        </option>
+        <option value="date">
+          Fecha
+        </option>
+      </select>
       <div class="shrink-0">
         <span
           v-if="!searchTerm"
@@ -165,7 +193,12 @@ watch(CtrlShiftX, (v) => {
         style="--scrollbar-size: 10px"
       >
         <ScrollAreaViewport class="w-full h-full rounded">
-          <div class="py-1 px-0.5">
+          <div
+            class="py-1 px-0.5 flex flex-col gap-1"
+            v-auto-animate="{
+              duration: 1000,
+            }"
+          >
             <button
               @click="new_document()"
               class="flex items-center mb-0.5 justify-start gap-2 text-sm w-full text-left  duration-100 focus-within:ring-1 ring-primary"
@@ -182,24 +215,56 @@ watch(CtrlShiftX, (v) => {
               v-for="item in filteredOptions"
               :key="item.id"
               class="flex flex-row items-center justify-between w-full"
+              :class="item.project_data?.checked ? 'opacity-50 order-9' : ''"
             >
               <button
-                class="flex py-0.5 w-full items-center outline-none justify-start gap-2 text-sm text-left duration-100 focus-within:ring-1 ring-primary"
+                class="flex py-0.5 w-full items-center outline-none justify-start gap-2 text-sm text-left  duration-100 focus-within:ring-1 ring-primary"
                 :class="loaded_id === item.id ? 'text-primary' : ''"
                 @click="set_document(item.id)"
               >
-                <ArrowRight class="size-4 shrink-0 " />
-                <p class="@sm:max-w-full max-w-80 line-clamp-1">
+                <ArrowRight
+                  class="size-4 shrink-0 "
+                  :class="item.project_data?.checked ? '  text-foreground/50 ' : ''"
+                />
+                <p
+                  class="@sm:max-w-full max-w-80 line-clamp-1"
+                  :class="item.project_data?.checked ? ' line-through decoration-wavy decoration-primary/50 text-foreground/50 decoration-1 ' : ''"
+                >
                   {{ item.project_data.name }}
                 </p>
               </button>
+              <input
+                type="checkbox"
+                :id="'todo-'+ item.id"
+                :checked="item.project_data.checked"
+                class="w-0 opacity-0 peer"
+                required=""
+                @change="toggleCheck(item, $event.target.checked)"
+              >
+              <Tooltip
+                :name="item.project_data.checked ? 'Desmarcar' : 'Marcar como completo'"
+              >
+                <label
+                  :for="'todo-'+ item.id"
+                  class="flex items-center justify-center rounded-full peer-focus:ring-1 peer-focus:ring-primary size-6 shrink-0 peer-checked:border-blue-600 hover:text-primary peer-checked:text-primary hover:bg-secondary"
+                >                           
+                  <CircleCheckBig
+                    v-if="item.project_data.checked"
+                    class="size-4 "
+                  />
+                  <Circle
+                    v-else
+                    class="size-4 "
+                  />
+                </label>
+              </Tooltip>
             </div>
-            <div
+            <!-- <div
               class="flex items-center justify-center w-full py-5 mt-2 bg-secondary/20"
               v-if="filteredOptions?.length === 0"
             >
               <span class="text-xs text-secondary-foreground/30">Sin resultados</span>
-            </div>
+            </div> -->
           </div>
         </ScrollAreaViewport>
         <ScrollAreaScrollbar
