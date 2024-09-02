@@ -14,14 +14,32 @@ import {
   ScrollAreaViewport,
 } from "radix-vue";
 import { X } from "lucide-vue-next";
+
+const lastVersion = "0.0.10"
+
+const props = defineProps({
+  button: {
+    type: Boolean,
+    default: false,
+  },
+});
+
 </script>
 
 <template>
   <DialogRoot>
     <DialogTrigger
+      v-show="props.button"
       class="flex items-center justify-center bg-secondary hover:bg-secondary/80"
     >
       Ver registro cambios
+    </DialogTrigger>
+    <DialogTrigger
+      v-show="!props.button"
+      class="flex "
+    >
+      <span class="hidden pr-2 md:inline-flex"> Ver registro de cambios </span> 
+      <span class="text-foreground">{{ lastVersion }} - Beta</span>
     </DialogTrigger>
     <DialogPortal>
       <DialogOverlay
@@ -45,8 +63,14 @@ import { X } from "lucide-vue-next";
                 as="h4"
                 class="mt-3 mb-5 leading-normal text-foreground"
               >
-                Última version 0.0.9
+                Última version {{ lastVersion }}
               </DialogDescription>
+              <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
+                <li>Se accede al changelog desde el dialog de más informacion</li>
+              </ul>
+              <h4 class="mt-3 mb-5 leading-normal text-foreground">
+                0.0.9
+              </h4>
               <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
                 <li>Ahora los check y uncheck son dos arrays distintos</li>
               </ul>

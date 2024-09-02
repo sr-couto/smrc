@@ -16,6 +16,7 @@ import {
 import { CircleHelp, TentTree, X } from "lucide-vue-next";
 import Tooltip from "./ui/Tooltip.vue";
 import { useCounterStore } from "@/stores/counter";
+import DialogChangelog from "./DialogChangelog.vue";
 const counter = useCounterStore();
 
 </script>
@@ -117,10 +118,10 @@ const counter = useCounterStore();
         </ScrollAreaRoot>
         <div class="flex justify-between mt-2 md:mt-3">
           <div
-            class="flex items-center justify-start gap-2 font-mono text-xs font-semibold opacity-50 text-foreground"
+            class="flex items-center justify-start gap-2 font-mono text-xs font-semibold text-foreground"
           >
             <TentTree class="size-5 text-primary" />
-            <span>0.0.9 - Beta</span>
+            <DialogChangelog />
           </div>
           <DialogClose as-child>
             <button

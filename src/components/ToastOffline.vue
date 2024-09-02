@@ -30,7 +30,7 @@ async function close() {
         <p>
           Click en recargar para actualizar la app o click en cerrar para dejarla pendiente.
         </p>
-        <DialogChangelog />
+        <DialogChangelog button />
       </div>
     </div>
     <div class="grid grid-cols-2 gap-2">
