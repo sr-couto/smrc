@@ -300,7 +300,23 @@ export const useCounterStore = defineStore("counter", () => {
     status.value = "ERROR";
   }
 
-  const allItems = useObservable(liveQuery(() => db.projects.reverse().toArray()));
+  const allItemsTodo = useObservable(
+    liveQuery(() => 
+      db.projects
+        .reverse()
+        .toArray()
+        .then(items => items.filter(item => !item.project_data.checked))
+    )
+  );
+
+  const allItemsChecked = useObservable(
+    liveQuery(() => 
+      db.projects
+        .reverse()
+        .toArray()
+        .then(items => items.filter(item => item.project_data.checked))
+    )
+  );
 
   return {
     loaded_id,
@@ -309,7 +325,8 @@ export const useCounterStore = defineStore("counter", () => {
     project_name,
     searchTerm,
     status,
-    allItems,
+    allItemsTodo,
+    allItemsChecked,
     showProjects,
     shareOptions,
     init_database,

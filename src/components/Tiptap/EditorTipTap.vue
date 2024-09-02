@@ -668,7 +668,7 @@ onMounted(() => {
         allowBase64: true,
         inline: true,
         HTMLAttributes: {
-          class: "max-w-xl w-full mr-auto my-6",
+          class: "max-w-2xl w-full mr-auto my-6",
         },
       }),
       // Esto agrega funcionalidad de estilo tipográfico en el editor

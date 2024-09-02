@@ -45,8 +45,14 @@ import { X } from "lucide-vue-next";
                 as="h4"
                 class="mt-3 mb-5 leading-normal text-foreground"
               >
-                Última version 0.0.8
+                Última version 0.0.9
               </DialogDescription>
+              <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
+                <li>Ahora los check y uncheck son dos arrays distintos</li>
+              </ul>
+              <h4 class="mt-3 mb-5 leading-normal text-foreground">
+                0.0.8
+              </h4>
               <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
                 <li>Fix poder marcar check/uncheck al item cuando hay scroll</li>
               </ul>

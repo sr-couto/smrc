@@ -25,7 +25,7 @@ const focusSearch = ref();
 const editing = ref(false);
 const { focused } = useFocus(focusSearch);
 const counter = useCounterStore();
-const { allItems, loaded_id, searchTerm, file_name } = storeToRefs(counter);
+const { allItemsTodo, allItemsChecked, loaded_id, searchTerm, file_name } = storeToRefs(counter);
 
 const keys = useMagicKeys();
 const CtrlShiftX = keys["ctrl+shift+x"];
@@ -75,11 +75,11 @@ function toggleCheck(item, isChecked) {
 }
 
 const filteredOptions = computed(() => {
-  if (!Array.isArray(allItems.value)) {
+  if (!Array.isArray(allItemsTodo.value)) {
     return [];
   }
   
-  const sortedItems = [...allItems.value].sort((a, b) => {
+  const sortedItems = [...allItemsTodo.value].sort((a, b) => {
     if (sortOption.value === "name") {
       return a.project_data?.name.localeCompare(b.project_data?.name); 
     } else if (sortOption.value === "date") {
@@ -181,7 +181,7 @@ watch(CtrlShiftX, (v) => {
           v-if="!searchTerm"
           class="flex items-center justify-center h-full mr-0.5 text-xs w-7"
         >
-          {{ allItems?.length }}
+          {{ allItemsTodo?.length }}
         </span>
         <button
           v-else
@@ -200,7 +200,7 @@ watch(CtrlShiftX, (v) => {
       >
         <ScrollAreaViewport class="w-full h-full rounded">
           <div
-            class="py-1 px-0.5 flex flex-col gap-1"
+            class="py-1 px-0.5 flex flex-col justify-start items-start relative gap-1"
           >
             <button
               @click="new_document()"
@@ -218,41 +218,21 @@ watch(CtrlShiftX, (v) => {
               v-for="item in filteredOptions"
               :key="item.id"
               class="flex flex-row items-center justify-between w-full"
-              :class="item.project_data?.checked ? 'opacity-50 order-9' : ''"
             >
               <button
-                v-if="!item.project_data?.checked"
                 class="flex py-0.5 rounded w-full items-center outline-none justify-start gap-2 text-sm text-left focus-within:ring-1 ring-primary"
                 :class="loaded_id === item.id ? 'text-primary' : ''"
                 @click="set_document(item.id)"
               >
                 <ArrowRight
                   class="size-4 shrink-0 "
-                  :class="item.project_data?.checked ? '  text-foreground/50 ' : ''"
                 />
                 <p
                   class="@sm:max-w-full max-w-80 line-clamp-1"
-                  :class="item.project_data?.checked ? ' line-through decoration-wavy decoration-primary/50 text-foreground/50 decoration-1 ' : ''"
                 >
                   {{ item.project_data.name }}
                 </p>
               </button>
-              <span
-                v-else
-                class="flex py-0.5 rounded-full w-full items-center outline-none justify-start gap-2 text-sm text-left  duration-100 focus-within:ring-1 pointer-events-none ring-primary"
-                :class="loaded_id === item.id ? 'text-primary' : ''"
-              >
-                <!-- <ArrowRight
-                  class="size-4 shrink-0 "
-                  :class="item.project_data?.checked ? '  text-foreground/50 ' : ''"
-                /> -->
-                <p
-                  class="@sm:max-w-full max-w-80 line-clamp-1"
-                  :class="item.project_data?.checked ? ' line-through decoration-wavy decoration-primary/50 text-foreground/50 decoration-1 ' : ''"
-                >
-                  {{ item.project_data.name }}
-                </p>
-              </span>
               <input
                 type="checkbox"
                 :id="'todo-'+ item.id"
@@ -262,18 +242,50 @@ watch(CtrlShiftX, (v) => {
                 @change="toggleCheck(item, $event.target.checked)"
               >
               <Tooltip
-                :name="item.project_data.checked ? 'Desmarcar' : 'Marcar como completo'"
+                name="Marcar como completo"
               >
                 <label
                   :for="'todo-'+ item.id"
                   class="flex items-center justify-center rounded-full relative z-[50] mr-0.5 peer-focus:ring-1 peer-focus:ring-primary size-6 shrink-0 peer-checked:border-blue-600 hover:text-primary peer-checked:text-primary hover:bg-secondary/20"
                 >                           
-                  <CircleCheckBig
-                    v-if="item.project_data.checked"
+                  <Circle
                     class="size-4 "
                   />
-                  <Circle
-                    v-else
+                </label>
+              </Tooltip>
+            </div>
+            <div
+              v-for="item in allItemsChecked"
+              :key="item.id"
+              class="flex flex-row items-center justify-between w-full duration-300 opacity-70"
+              :class="item.project_data.checked ? '' : 'scale-0'"
+            >
+              <span
+                class="flex py-0.5 rounded-full w-full items-center outline-none justify-start gap-2 text-sm text-left focus-within:ring-1 ring-primary"
+                :class="loaded_id === item.id ? 'text-primary' : ''"
+              >
+                <p
+                  class="@sm:max-w-full max-w-80 line-clamp-1 line-through decoration-wavy decoration-primary/50 text-foreground/50 decoration-1"
+                >
+                  {{ item.project_data.name }}
+                </p>
+              </span>
+              <Tooltip
+                name="Desmarcar"
+              >
+                <input
+                  type="checkbox"
+                  :id="'todook-'+ item.id"
+                  :checked="item.project_data.checked"
+                  class="w-0 opacity-0 peer"
+                  required=""
+                  @change="toggleCheck(item, $event.target.checked)"
+                >
+                <label
+                  :for="'todook-'+ item.id"
+                  class="flex items-center justify-center rounded-full relative z-[50] mr-0.5 peer-focus:ring-1 peer-focus:ring-primary size-6 shrink-0 peer-checked:border-blue-600 hover:text-primary peer-checked:text-primary hover:bg-secondary"
+                >                           
+                  <CircleCheckBig
                     class="size-4 "
                   />
                 </label>
