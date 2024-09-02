@@ -41,9 +41,18 @@ import { X } from "lucide-vue-next";
             <article
               class="max-w-full p-3 mx-auto prose dark:prose-invert"
             >
-              <DialogDescription class="mt-3 mb-5 text-sm leading-normal text-foreground">
-                última version 0.0.7
+              <DialogDescription
+                as="h4"
+                class="mt-3 mb-5 leading-normal text-foreground"
+              >
+                Última version 0.0.8
               </DialogDescription>
+              <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
+                <li>Fix poder marcar check/uncheck al item cuando hay scroll</li>
+              </ul>
+              <h4 class="mt-3 mb-5 leading-normal text-foreground">
+                0.0.7
+              </h4>
               <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
                 <li>Se agrega la posibilidad de marcar un items como check.</li>
                 <li>Se agrega ordenado de items por nombre o fecha</li>

@@ -266,7 +266,7 @@ watch(CtrlShiftX, (v) => {
               >
                 <label
                   :for="'todo-'+ item.id"
-                  class="flex items-center justify-center rounded-full mr-0.5 peer-focus:ring-1 peer-focus:ring-primary size-6 shrink-0 peer-checked:border-blue-600 hover:text-primary peer-checked:text-primary hover:bg-secondary"
+                  class="flex items-center justify-center rounded-full relative z-[50] mr-0.5 peer-focus:ring-1 peer-focus:ring-primary size-6 shrink-0 peer-checked:border-blue-600 hover:text-primary peer-checked:text-primary hover:bg-secondary/20"
                 >                           
                   <CircleCheckBig
                     v-if="item.project_data.checked"
