@@ -2,11 +2,11 @@
   <div
     v-if="editor"
     v-auto-animate
-    class="px-1 @container grid md:pr-2 w-full"
+    class="px-0.5 @container grid md:pr-2 w-full"
   >
     <div
       v-if="toolbar"
-      class="sticky top-0 z-30 py-1 bg-background"
+      class="sticky top-0 z-30 py-1 pt-0.5 bg-background"
     >
       <div
         class="control-group max-w-full mx-auto w-full grid @3xl:flex @3xl:flex-row  @3xl:flex-nowrap @3xl:items-start gap-1 relative"
@@ -292,7 +292,7 @@
           <button
             @click="editor.chain().focus().toggleCode().run()"
             :disabled="!editor.can().chain().focus().toggleCode().run()"
-            class="font-mono !text-base translate-y-[1px]"
+            class="font-mono !text-base"
             :class="{ 'is-active': editor.isActive('code') }"
           >
             <span class="flex items-center justify-center rounded size-6 bg-secondary-foreground/10 text-foreground">

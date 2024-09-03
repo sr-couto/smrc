@@ -8,7 +8,7 @@ import { toast } from 'vue-sonner'
 
 export const useCounterStore = defineStore("counter", () => {
   const status = ref("LOADING");
-  const loaded_id = ref(null);
+  const loaded_id = ref("");
   const file_name = ref("");
   const project_name = ref("");
   const project_body = ref("");

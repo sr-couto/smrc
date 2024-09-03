@@ -15,7 +15,7 @@ const counter = useCounterStore();
 
 const mode = useColorMode();
 
-const colorTheme = useStorage("theme", "theme-rose");
+const colorTheme = useStorage("theme", "theme-blue");
 
 const toggleColorTheme = (theme) => {
   document.body.classList.remove(colorTheme.value);
@@ -35,7 +35,10 @@ onMounted(() => {
         name="Modo de color"
         :side="counter.showProjects ? 'bottom' : 'right'"
       >
-        <span class="flex items-center justify-center border border-secondary hover:bg-secondary/80 bg-background size-8">
+        <span
+          class="flex items-center justify-center hover:bg-secondary/80 bg-background size-8"
+          :class="counter.showProjects ? ' border border-secondary ' : '  '"
+        >
           <Moon
             class="transition-all duration-300 scale-100 rotate-0 size-4 dark:-rotate-90 dark:scale-0"
           />

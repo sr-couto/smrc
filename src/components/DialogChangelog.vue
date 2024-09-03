@@ -15,7 +15,7 @@ import {
 } from "radix-vue";
 import { X } from "lucide-vue-next";
 
-const lastVersion = "0.0.10"
+const lastVersion = "0.0.11"
 
 const props = defineProps({
   button: {
@@ -36,10 +36,10 @@ const props = defineProps({
     </DialogTrigger>
     <DialogTrigger
       v-show="!props.button"
-      class="flex "
+      class="flex hover:underline decoration-wavy hover:decoration-primary"
     >
-      <span class="hidden pr-2 md:inline-flex"> Ver registro de cambios </span> 
-      <span class="text-foreground">{{ lastVersion }} - Beta</span>
+      <span class="hidden md:inline-flex "> Ver registro de cambios </span> 
+      &nbsp;{{ lastVersion }} - Beta
     </DialogTrigger>
     <DialogPortal>
       <DialogOverlay
@@ -63,22 +63,33 @@ const props = defineProps({
                 as="h4"
                 class="mt-3 mb-5 leading-normal text-foreground"
               >
-                Última version {{ lastVersion }}
+                {{ lastVersion }} - Última version
               </DialogDescription>
               <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
-                <li>Se accede al changelog desde el dialog de más informacion</li>
+                <li><span class="bg-primary py-0.5 px-1 rounded-full text-xs ">Break</span> Se elimina null por defecto en loaded_id y reemplaza por "".</li>
+                <li>Estilo por defecto del theme ahora es <code>theme-blue</code>.</li>
+                <li>Se agrega Radix Select para ordenar items.</li>
+                <li>Boton crear con mayor jerarquía.</li>
+                <li>Mejores textos de placeholder.</li>
+                <li>Pequeños ajustes visuales imperceptibles.</li>
+              </ul>
+              <h4 class="mt-3 mb-5 leading-normal text-foreground">
+                0.0.10
+              </h4>
+              <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
+                <li>Se accede al changelog desde el dialog de más información.</li>
               </ul>
               <h4 class="mt-3 mb-5 leading-normal text-foreground">
                 0.0.9
               </h4>
               <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
-                <li>Ahora los check y uncheck son dos arrays distintos</li>
+                <li>Ahora los Check y Uncheck son dos arrays distintos</li>
               </ul>
               <h4 class="mt-3 mb-5 leading-normal text-foreground">
                 0.0.8
               </h4>
               <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
-                <li>Fix poder marcar check/uncheck al item cuando hay scroll</li>
+                <li>Fix poder marcar Check/Uncheck al item cuando hay scroll</li>
               </ul>
               <h4 class="mt-3 mb-5 leading-normal text-foreground">
                 0.0.7
@@ -86,6 +97,12 @@ const props = defineProps({
               <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
                 <li>Se agrega la posibilidad de marcar un items como check.</li>
                 <li>Se agrega ordenado de items por nombre o fecha</li>
+              </ul>
+              <h4 class="mt-3 mb-5 leading-normal text-foreground">
+                Menor a 0.0.6
+              </h4>
+              <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
+                <li>Initial commits.</li>
               </ul>
             </article>
           </ScrollAreaViewport>

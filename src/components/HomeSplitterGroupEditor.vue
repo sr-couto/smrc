@@ -44,7 +44,7 @@ watch(project_body, (v) => {
           >
             <div class="flex items-center justify-between w-full gap-1">
               <textarea
-                placeholder="Sin titulo"
+                placeholder="Item sin título"
                 autocomplete="off"
                 spellcheck="false"
                 v-model="counter.project_name"

@@ -3,7 +3,6 @@ import DialogShareDB from "./DialogShareDB.vue";
 import DialogImportDB from "./DialogImportDB.vue";
 import { useCounterStore } from "@/stores/counter.js";
 import { useFileDialog } from "@vueuse/core";
-import { Delete } from "lucide-vue-next";
 
 const counter = useCounterStore();
 
@@ -40,13 +39,11 @@ onChange((files) => {
         Limpiar editor 
       </button> -->
       <button
-        v-show="counter.loaded_id !== null"
         @click="counter.delete_project()"
         class="h-12 px-5 ml-auto hover:bg-primary/5"
         :class="
           counter.loaded_id ? 'text-primary' : 'opacity-50 pointer-events-none'
         "
-        :disabled="counter.loaded_id === null"
       >
         Eliminar documento
       </button>

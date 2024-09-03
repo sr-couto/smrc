@@ -1,6 +1,15 @@
 <script setup>
 import { useCounterStore } from "@/stores/counter";
-import { ArrowRight, Check, Circle, CircleCheck, CircleCheckBig, CircleX, FolderPen, Pencil, Plus } from "lucide-vue-next";
+import {
+  ArrowRight,
+  Check,
+  ChevronDown,
+  Circle,
+  CircleCheckBig,
+  CircleX,
+  FolderPen,
+  Plus,
+} from "lucide-vue-next";
 import { storeToRefs } from "pinia";
 import { computed, ref, watch } from "vue";
 import {
@@ -18,6 +27,24 @@ import {
   ScrollAreaThumb,
   ScrollAreaViewport,
 } from "radix-vue";
+
+import {
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectItemIndicator,
+  SelectItemText,
+  SelectLabel,
+  SelectPortal,
+  SelectRoot,
+  SelectScrollDownButton,
+  SelectScrollUpButton,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+  SelectViewport,
+} from "radix-vue";
+
 import Tooltip from "./ui/Tooltip.vue";
 
 const target = ref(null);
@@ -25,7 +52,8 @@ const focusSearch = ref();
 const editing = ref(false);
 const { focused } = useFocus(focusSearch);
 const counter = useCounterStore();
-const { allItemsTodo, allItemsChecked, loaded_id, searchTerm, file_name } = storeToRefs(counter);
+const { allItemsTodo, allItemsChecked, loaded_id, searchTerm, file_name } =
+  storeToRefs(counter);
 
 const keys = useMagicKeys();
 const CtrlShiftX = keys["ctrl+shift+x"];
@@ -63,9 +91,9 @@ function new_document() {
 
 function set_document(id) {
   if (largerThanLg.value === true) {
-    counter.set_project(id)
+    counter.set_project(id);
   } else {
-    counter.set_project(id)
+    counter.set_project(id);
     counter.showProjects = false;
   }
 }
@@ -78,10 +106,10 @@ const filteredOptions = computed(() => {
   if (!Array.isArray(allItemsTodo.value)) {
     return [];
   }
-  
+
   const sortedItems = [...allItemsTodo.value].sort((a, b) => {
     if (sortOption.value === "name") {
-      return a.project_data?.name.localeCompare(b.project_data?.name); 
+      return a.project_data?.name.localeCompare(b.project_data?.name);
     } else if (sortOption.value === "date") {
       return new Date(a.project_data?.date) - new Date(b.project_data?.date);
     }
@@ -108,14 +136,17 @@ watch(CtrlShiftX, (v) => {
 <template>
   <div class="h-full @container">
     <div
-      class="flex items-center justify-center text-sm border group bg-background/80 hover:bg-secondary/50 border-secondary"
+      class="flex items-center justify-center mx-0.5 text-sm border group bg-background/80 hover:bg-secondary/50 border-secondary"
     >
       <button
         v-if="!editing"
         @click="editTitle()"
         class="flex items-center justify-between w-full h-8 gap-1 pl-1"
       >
-        <span v-if="!file_name"> Sin titulo </span>
+        <span
+          v-if="!file_name"
+          class="opacity-50"
+        > Proyecto sin título </span>
         <span v-else>
           {{ file_name }}
         </span>
@@ -139,6 +170,7 @@ watch(CtrlShiftX, (v) => {
         <input
           type="text"
           ref="focusedEditTitle"
+          placeholder="Escriba un título"
           @keyup.enter="editTitle()"
           class="w-full h-8 pl-1 text-sm border outline-none bg-background text-primary border-secondary"
           v-model="input"
@@ -152,20 +184,11 @@ watch(CtrlShiftX, (v) => {
       </div>
     </div>
     <div
-      class="relative flex items-center justify-between w-full gap-0.5 py-0.5 text-xs bg-background ring-secondary/60 focus-within:ring-secondary"
+      class="relative flex items-center justify-between w-full gap-0.5 p-0.5 text-xs bg-background ring-secondary/60 focus-within:ring-secondary"
     >
-      <select
-        v-model="sortOption"
-        class="w-20 text-xs border h-7 border-secondary shrink-0 bg-background text-secondary-foreground"
+      <div
+        class="flex items-center justify-between w-full pl-1 border h-7 border-secondary"
       >
-        <option value="name">
-          Nombre
-        </option>
-        <option value="date">
-          Fecha
-        </option>
-      </select>
-      <div class="flex items-center justify-between w-full pl-1 border border-r-0 h-7 border-secondary">
         <Tooltip
           shortcut="Ctrl+Shift+X"
           side="top"
@@ -192,6 +215,53 @@ watch(CtrlShiftX, (v) => {
           <CircleX class="size-3" />
         </button>
       </div>
+      <SelectRoot v-model="sortOption">
+        <SelectTrigger
+          class="flex items-center justify-between w-24 px-1 text-xs border h-7 border-secondary shrink-0 bg-background text-secondary-foreground"
+          aria-label="Customise options"
+        >
+          <SelectValue placeholder="Seleccionar" />
+          <ChevronDown class="h-3.5 w-3.5" />
+        </SelectTrigger>
+        <SelectPortal>
+          <SelectContent
+            class="min-w-[160px] bg-background will-change-[opacity,transform] data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade z-[100] font-mono border border-secondary"
+            position="popper"
+            :side-offset="5"
+            align="end"
+          >
+            <SelectViewport class="">
+              <SelectLabel class="p-2 text-xs font-medium text-primary">
+                Ordenar
+              </SelectLabel>
+              <SelectGroup class="p-1">
+                <SelectItem
+                  class="text-sm leading-none text-foreground flex items-center h-8 px-1 py-2 pr-12 relative select-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-secondary/50 data-[highlighted]:text-primary-foreground"
+                  value="name"
+                >
+                  <SelectItemIndicator
+                    class="absolute right-0 w-[25px] inline-flex items-center justify-center"
+                  >
+                    <Check class="size-4" />
+                  </SelectItemIndicator>
+                  <SelectItemText> Nombre </SelectItemText>
+                </SelectItem>
+                <SelectItem
+                  class="text-sm leading-none text-foreground flex items-center h-8 px-1 py-2 pr-12 relative select-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-secondary/50 data-[highlighted]:text-primary-foreground"
+                  value="date"
+                >
+                  <SelectItemIndicator
+                    class="absolute right-0 w-[25px] inline-flex items-center justify-center"
+                  >
+                    <Check class="size-4" />
+                  </SelectItemIndicator>
+                  <SelectItemText> Fecha </SelectItemText>
+                </SelectItem>
+              </SelectGroup>
+            </SelectViewport>
+          </SelectContent>
+        </SelectPortal>
+      </SelectRoot>
     </div>
     <div class="overflow-y-auto overflow-x-hidden h-[calc(100vh-9rem)]">
       <ScrollAreaRoot
@@ -204,15 +274,15 @@ watch(CtrlShiftX, (v) => {
           >
             <button
               @click="new_document()"
-              class="flex items-center mb-0.5 justify-start gap-2 text-sm w-full text-left  duration-100 focus-within:ring-1 ring-primary"
-              :class="
-                counter.loaded_id !== null
-                  ? 'text-foreground  '
-                  : 'text-primary/70 pointer-events-none'
-              "
+              class="flex items-center mb-0.5 justify-center gap-2 text-xs h-7 w-full text-left bg-secondary duration-100 focus-within:ring-1 ring-primary"
+              :class="{
+                '!bg-primary': loaded_id === null,
+                '!bg-primary': loaded_id === '',
+              }"
             >
               <Plus class="size-4" />
-              <span>Crear</span>
+              <span v-show="loaded_id === ''">Creando</span>
+              <span v-show="loaded_id !== ''">Crear</span>
             </button>
             <div
               v-for="item in filteredOptions"
@@ -224,33 +294,25 @@ watch(CtrlShiftX, (v) => {
                 :class="loaded_id === item.id ? 'text-primary' : ''"
                 @click="set_document(item.id)"
               >
-                <ArrowRight
-                  class="size-4 shrink-0 "
-                />
-                <p
-                  class="@sm:max-w-full max-w-80 line-clamp-1"
-                >
+                <ArrowRight class="size-4 shrink-0" />
+                <p class="@sm:max-w-full max-w-80 line-clamp-1">
                   {{ item.project_data.name }}
                 </p>
               </button>
               <input
                 type="checkbox"
-                :id="'todo-'+ item.id"
+                :id="'todo-' + item.id"
                 :checked="item.project_data.checked"
                 class="w-0 opacity-0 peer"
                 required=""
                 @change="toggleCheck(item, $event.target.checked)"
               >
-              <Tooltip
-                name="Marcar como completo"
-              >
+              <Tooltip name="Marcar como completo">
                 <label
-                  :for="'todo-'+ item.id"
+                  :for="'todo-' + item.id"
                   class="flex items-center justify-center rounded-full relative z-[50] mr-0.5 peer-focus:ring-1 peer-focus:ring-primary size-6 shrink-0 peer-checked:border-blue-600 hover:text-primary peer-checked:text-primary hover:bg-secondary/20"
-                >                           
-                  <Circle
-                    class="size-4 "
-                  />
+                >
+                  <Circle class="size-4" />
                 </label>
               </Tooltip>
             </div>
@@ -270,28 +332,24 @@ watch(CtrlShiftX, (v) => {
                   {{ item.project_data.name }}
                 </p>
               </span>
-              <Tooltip
-                name="Desmarcar"
-              >
+              <Tooltip name="Desmarcar">
                 <input
                   type="checkbox"
-                  :id="'todook-'+ item.id"
+                  :id="'todook-' + item.id"
                   :checked="item.project_data.checked"
                   class="w-0 opacity-0 peer"
                   required=""
                   @change="toggleCheck(item, $event.target.checked)"
                 >
                 <label
-                  :for="'todook-'+ item.id"
+                  :for="'todook-' + item.id"
                   class="flex items-center justify-center rounded-full relative z-[50] mr-0.5 peer-focus:ring-1 peer-focus:ring-primary size-6 shrink-0 peer-checked:border-blue-600 hover:text-primary peer-checked:text-primary hover:bg-secondary"
-                >                           
-                  <CircleCheckBig
-                    class="size-4 "
-                  />
+                >
+                  <CircleCheckBig class="size-4" />
                 </label>
               </Tooltip>
             </div>
-          <!-- <div
+            <!-- <div
               class="flex items-center justify-center w-full py-5 mt-2 bg-secondary/20"
               v-if="filteredOptions?.length === 0"
             >
@@ -307,7 +365,7 @@ watch(CtrlShiftX, (v) => {
             class="flex-1 bg-primary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]"
           />
         </ScrollAreaScrollbar>
-      <!-- <ScrollAreaScrollbar
+        <!-- <ScrollAreaScrollbar
           class="flex select-none touch-none p-0.5 bg-secondary transition-colors duration-[160ms] ease-out hover:bg-background data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
           orientation="horizontal"
         >

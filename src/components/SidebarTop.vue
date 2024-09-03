@@ -19,8 +19,8 @@ whenever(CtrlAltW, () => {
 
 <template>
   <div
-    class="flex items-center justify-between mb-1 group"
-    :class="counter.showProjects ? '' : ' flex-col '"
+    class="flex items-center justify-between my-0.5  group"
+    :class="counter.showProjects ? ' mr-0.5 ' : ' flex-col '"
   >
     <button
       @click="counter.showProjects = !counter.showProjects"
@@ -30,7 +30,7 @@ whenever(CtrlAltW, () => {
       <span
         class="text-xs"
         v-show="counter.showProjects"
-      >Menu</span>
+      >Menú</span>
     </button>
     
     <div
