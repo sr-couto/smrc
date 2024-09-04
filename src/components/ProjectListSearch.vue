@@ -187,7 +187,7 @@ watch(CtrlShiftX, (v) => {
       class="relative flex items-center justify-between w-full gap-0.5 p-0.5 text-xs bg-background ring-secondary/60 focus-within:ring-secondary"
     >
       <div
-        class="flex items-center justify-between w-full pl-1 border h-7 border-secondary"
+        class="relative flex items-center justify-between w-full border h-7 border-secondary"
       >
         <Tooltip
           shortcut="Ctrl+Shift+X"
@@ -197,7 +197,7 @@ watch(CtrlShiftX, (v) => {
             ref="focusSearch"
             v-model="searchTerm"
             placeholder="Filtrar"
-            class="px-1 outline-none bg-background placeholder:text-xs"
+            class="h-6 px-1 outline-none bg-background placeholder:text-xs"
           >
         </Tooltip>
         <span
@@ -208,7 +208,7 @@ watch(CtrlShiftX, (v) => {
         </span>
         <button
           v-else
-          class="flex items-center justify-center gap-2 px-2 text-xs h-7 bg-secondary hover:bg-secondary/90"
+          class="absolute top-0 right-0 flex items-center justify-center gap-2 px-2 text-xs h-7 bg-secondary hover:bg-secondary/90"
           @click="searchTerm = ''"
         >
           <span class="min-w-3">{{ filteredOptions.length }}</span>
@@ -217,7 +217,7 @@ watch(CtrlShiftX, (v) => {
       </div>
       <SelectRoot v-model="sortOption">
         <SelectTrigger
-          class="flex items-center justify-between w-24 px-1 text-xs border h-7 border-secondary shrink-0 bg-background text-secondary-foreground"
+          class="flex items-center justify-between w-24 px-1 text-xs border min-w-24 h-7 border-secondary shrink-0 bg-background text-secondary-foreground"
           aria-label="Customise options"
         >
           <SelectValue placeholder="Seleccionar" />
@@ -236,7 +236,7 @@ watch(CtrlShiftX, (v) => {
               </SelectLabel>
               <SelectGroup class="p-1">
                 <SelectItem
-                  class="text-sm leading-none text-foreground flex items-center h-8 px-1 py-2 pr-12 relative select-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-secondary/50 data-[highlighted]:text-primary-foreground"
+                  class="text-xs leading-none text-foreground flex items-center h-8 px-1 py-2 pr-12 relative select-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-secondary/50 data-[highlighted]:text-foreground"
                   value="name"
                 >
                   <SelectItemIndicator
@@ -247,7 +247,7 @@ watch(CtrlShiftX, (v) => {
                   <SelectItemText> Nombre </SelectItemText>
                 </SelectItem>
                 <SelectItem
-                  class="text-sm leading-none text-foreground flex items-center h-8 px-1 py-2 pr-12 relative select-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-secondary/50 data-[highlighted]:text-primary-foreground"
+                  class="text-xs leading-none text-foreground flex items-center h-8 px-1 py-2 pr-12 relative select-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-secondary/50 data-[highlighted]:text-foreground"
                   value="date"
                 >
                   <SelectItemIndicator
@@ -274,10 +274,10 @@ watch(CtrlShiftX, (v) => {
           >
             <button
               @click="new_document()"
-              class="flex items-center mb-0.5 justify-center gap-2 text-xs h-7 w-full text-left bg-secondary duration-100 focus-within:ring-1 ring-primary"
+              class="flex items-center mb-0.5 justify-center gap-2 text-xs h-7 w-full text-left bg-secondary focus-within:ring-1 ring-primary"
               :class="{
-                '!bg-primary': loaded_id === null,
-                '!bg-primary': loaded_id === '',
+                '!bg-primary text-primary-foreground': loaded_id === null,
+                '!bg-primary text-primary-foreground animate-pulse': loaded_id === '',
               }"
             >
               <Plus class="size-4" />

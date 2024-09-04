@@ -4,7 +4,8 @@ import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from "radix-vue";
 import { storeToRefs } from "pinia";
 import { ArrowRightToLine, Delete, X } from "lucide-vue-next";
 import { useCounterStore } from "@/stores/counter";
-import Editor from "@/components/Tiptap/EditorTipTap.vue";
+// import Editor from "@/components/Tiptap/EditorTipTap.vue";
+import { Editor } from "@/components/Tiptap/AsyncTiptap.js";
 import Tooltip from "@/components/ui/Tooltip.vue";
 import BottomToolbar from "@/components/BottomToolbar.vue";
 
@@ -42,7 +43,7 @@ watch(project_body, (v) => {
             v-model="counter.project_body"
             toolbar
           >
-            <div class="flex items-center justify-between w-full gap-1">
+            <div class="flex items-start justify-between w-full gap-1">
               <textarea
                 placeholder="Item sin título"
                 autocomplete="off"
