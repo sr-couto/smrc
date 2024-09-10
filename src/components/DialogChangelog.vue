@@ -15,7 +15,7 @@ import {
 } from "radix-vue";
 import { X } from "lucide-vue-next";
 
-const lastVersion = "0.0.11"
+const lastVersion = "0.0.12"
 
 const props = defineProps({
   button: {
@@ -65,6 +65,14 @@ const props = defineProps({
               >
                 {{ lastVersion }} - Última version
               </DialogDescription>
+              <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
+                <li>Se agrega dependencia medium-zoom.</li>
+                <li>Se actualizan dependencias de Vue, Vite.</li>
+                <li>Fix Dropdown quedaba por debajo de selector de lenguaje en el editor.</li>
+              </ul>
+              <h4 class="mt-3 mb-5 leading-normal text-foreground">
+                0.0.11
+              </h4>
               <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
                 <li><span class="bg-primary py-0.5 px-1 rounded-full text-xs ">Break</span> Se elimina null por defecto en loaded_id y reemplaza por "".</li>
                 <li>Estilo por defecto del theme ahora es <code>theme-blue</code>.</li>

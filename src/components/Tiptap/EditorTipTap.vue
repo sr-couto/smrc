@@ -9,7 +9,7 @@
       class="sticky top-0 z-30 py-1 pt-0.5 bg-background"
     >
       <div
-        class="control-group max-w-full mx-auto w-full grid @3xl:flex @3xl:flex-row  @3xl:flex-nowrap @3xl:items-start gap-1 relative"
+        class="control-group max-w-full mx-auto w-full grid @3xl:flex @3xl:flex-row @3xl:flex-nowrap @3xl:items-start gap-1 relative"
       >
         <!--
           Esto es un slot de vue, permite inyectar contenido en esta
@@ -63,7 +63,9 @@
             </button>
           </Tooltip>
           <DropdownMenuRoot>
-            <DropdownMenuTrigger class=" data-[state=open]:!bg-primary data-[state=open]:text-primary-foreground">
+            <DropdownMenuTrigger
+              class="data-[state=open]:!bg-primary data-[state=open]:text-primary-foreground"
+            >
               <Tooltip
                 name="Agregar imagen"
                 side="bottom"
@@ -295,7 +297,9 @@
             class="font-mono !text-base"
             :class="{ 'is-active': editor.isActive('code') }"
           >
-            <span class="flex items-center justify-center rounded size-6 bg-secondary-foreground/10 text-foreground">
+            <span
+              class="flex items-center justify-center rounded size-6 bg-secondary-foreground/10 text-foreground"
+            >
               A
             </span>
           </button>
@@ -454,7 +458,7 @@
             <ListOrdered />
           </button>
         </Tooltip>
-        
+
         <Tooltip
           name="Cita"
           side="bottom"
@@ -586,7 +590,7 @@ import {
 } from "radix-vue";
 
 import { ref, watch, onMounted, onBeforeUnmount } from "vue";
-import { useStorage,breakpointsTailwind, useBreakpoints, } from "@vueuse/core";
+import { useStorage, breakpointsTailwind, useBreakpoints } from "@vueuse/core";
 import { Editor, EditorContent, VueNodeViewRenderer } from "@tiptap/vue-3";
 
 import Tooltip from "@/components/ui/Tooltip.vue";
@@ -609,6 +613,8 @@ import CodeBlockShiki from "tiptap-extension-code-block-shiki";
 // import Heading  from "@/components/Tiptap/Heading.js";
 import ShikiCodeBlock from "@/components/Tiptap/ShikiCodeBlock.vue";
 
+import mediumZoom from "medium-zoom/dist/pure";
+import "medium-zoom/dist/style.css";
 
 const breakpoints = useBreakpoints(breakpointsTailwind);
 const smallerEqualMd = breakpoints.smallerOrEqual("md");
@@ -621,7 +627,6 @@ const editor = ref(null);
 // Al principio, su valor es true, lo que significa que la barra de herramientas se mostrará al principio
 // El valor se almacena en el almacenamiento local del navegador, por lo que si el usuario cierra la pestaña y vuelve a abrirla, el valor se mantendrá
 const editorToolbar = useStorage("editorToolbar", true);
-
 
 // Props es un objeto que nos permite recibir datos desde el componente padre
 // En este caso, recibimos un string llamado "modelValue" que será el contenido del editor
@@ -655,8 +660,8 @@ const emit = defineEmits(["update:modelValue"]);
 onMounted(() => {
   editor.value = new Editor({
     extensions: [
-       // Esto configura un editor básico sin el bloque de código ya que lo agregaremos luego
-       StarterKit.configure({
+      // Esto configura un editor básico sin el bloque de código ya que lo agregaremos luego
+      StarterKit.configure({
         codeBlock: false,
       }),
       // Funcionalidad de color en el editor
@@ -668,7 +673,8 @@ onMounted(() => {
         allowBase64: true,
         inline: true,
         HTMLAttributes: {
-          class: "max-w-2xl w-full mr-auto my-6",
+          class: "max-w-xl w-full mr-auto my-6",
+          "data-zoomable": "",
         },
       }),
       // Esto agrega funcionalidad de estilo tipográfico en el editor
@@ -723,35 +729,46 @@ onMounted(() => {
     // Esta línea establece el contenido inicial del editor a partir del valor
     // pasado como propiedad al componente.
     content: props.modelValue,
+    onCreate: () => {
+      console.log(mediumZoom);
+      mediumZoom("[data-zoomable]", {
+        margin: 12,
+        background: "hsl(var(--background))",
+        scrollOffset: 0,
+      });
+    },
     onUpdate: () => {
       // Esta función se ejecuta cada vez que el usuario actualiza el contenido del editor
       // y se utiliza para actualizar el valor en el padre
+      mediumZoom("[data-zoomable]", {
+        margin: 12,
+        background: "hsl(var(--background))",
+        scrollOffset: 0,
+      });
       emit("update:modelValue", editor.value.getHTML());
     },
   });
 });
 
 /**
- * Esta función solicita al usuario que ingrese una URL de imagen. 
- * Luego, si el usuario ingresa una URL válida, la función agrega 
- * una imagen al editor de texto utilizando el método setImage(). 
+ * Esta función solicita al usuario que ingrese una URL de imagen.
+ * Luego, si el usuario ingresa una URL válida, la función agrega
+ * una imagen al editor de texto utilizando el método setImage().
  * setImage() es una función proporcionada por la biblioteca tiptap.js.
- * Esta función toma un objeto con una propiedad "src" que se establece 
- * en la URL de la imagen. El método focus() se utiliza para asegurarse 
- * de que el cursor esté posicionado en el editor antes de agregar la imagen. 
- * Finalmente, el método run() se llama para ejecutar la transacción. 
- * 
- * NOTA: Esta función no realiza ninguna validación de la URL ingresada. 
+ * Esta función toma un objeto con una propiedad "src" que se establece
+ * en la URL de la imagen. El método focus() se utiliza para asegurarse
+ * de que el cursor esté posicionado en el editor antes de agregar la imagen.
+ * Finalmente, el método run() se llama para ejecutar la transacción.
+ *
+ * NOTA: Esta función no realiza ninguna validación de la URL ingresada.
  * Si el usuario ingresa una URL inválida, la imagen no se agregará.
  */
 function addImage() {
   const url = window.prompt("Ingresar URL de la imagen");
   if (url) {
-     editor.value.chain().focus().setImage({ src: url }).run();
+    editor.value.chain().focus().setImage({ src: url }).run();
   }
 }
-
-
 
 function addImageBase64(event) {
   const file = event.target.files[0];
@@ -816,7 +833,6 @@ onBeforeUnmount(() => {
   editor.value.destroy();
 });
 
-
 //
 // Deprecado momentaneamente
 //
@@ -835,7 +851,6 @@ onBeforeUnmount(() => {
 //     editor.value.chain().focus().setIframe({ src: url }).run();
 //   }
 // }
-
 </script>
 
 <style>
@@ -890,7 +905,7 @@ onBeforeUnmount(() => {
 }
 
 .tiptap img {
-  @apply mx-auto;
+  @apply mr-auto;
 }
 
 .tiptap p a {
@@ -898,7 +913,7 @@ onBeforeUnmount(() => {
 }
 
 .tiptap pre {
-  @apply my-0
+  @apply my-0;
 }
 
 .tiptap p code {
@@ -919,9 +934,18 @@ onBeforeUnmount(() => {
 
 
 
-
 */
+.medium-zoom--opened .medium-zoom-overlay {
+  z-index: 99;
+}
+.medium-zoom-image--opened {
+  z-index: 100;
+  margin: 0;
+}
 
+.medium-zoom-image {
+  transition: transform 0.9s cubic-bezier(0.2, 0, 0.2, 1) !important;
+}
 
 .tiptap code::after,
 .tiptap code::before {
@@ -1068,6 +1092,6 @@ html.dark .shiki span {
 }
 
 .tiptap li p {
-  @apply m-0
+  @apply m-0;
 }
 </style>

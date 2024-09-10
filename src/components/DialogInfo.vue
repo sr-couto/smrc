@@ -105,6 +105,7 @@ const counter = useCounterStore();
                   RxJS (Reactive Extensions for modern JavaScript)<br>Programación reactiva utilizando Observables. 
                 </li>
                 <li> @VueUse/rxjs<br>Este es un complemento de VueUse, que permite utilizar RxJS de una manera natural.</li>
+                <li> MediumZoom</li>
               </ul>
             </article>
           </ScrollAreaViewport>
