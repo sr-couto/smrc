@@ -2,6 +2,7 @@
 import { useCounterStore } from "@/stores/counter";
 import ProjectListSearch from "@/components/ProjectListSearch.vue";
 import SidebarTop from "@/components/SidebarTop.vue";
+import BottomToolbar from "./BottomToolbar.vue";
 const counter = useCounterStore();
 </script>
 
@@ -13,10 +14,11 @@ const counter = useCounterStore();
     >
       <SidebarTop />
       <ProjectListSearch v-show="counter.showProjects" />
+      <BottomToolbar v-show="counter.showProjects" />
     </header>
     <button
-      @click="counter.showProjects = !counter.showProjects"
       v-show="counter.showProjects"
+      @click="counter.showProjects = !counter.showProjects"
       class="fixed inset-0 z-40 bg-background/10 lg:hidden"
     />
   </div>

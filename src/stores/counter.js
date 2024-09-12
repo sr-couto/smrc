@@ -16,6 +16,11 @@ export const useCounterStore = defineStore("counter", () => {
   const showProjects = ref(true);
   const showImportModal = ref(false);
   const shareOptions = ref([]);
+  const content_editable = ref(false);
+
+  function toggleEditable() {
+    content_editable.value = !content_editable.value;
+  }
 
   /**
    * "Restaura el editor estableciendo los valores de `loaded_id`, `project_name`, and `project_body`.
@@ -341,6 +346,8 @@ export const useCounterStore = defineStore("counter", () => {
     auto_save,
     clear_editor,
     mark_project_checked,
-    showImportModal
+    showImportModal,
+    content_editable,
+    toggleEditable
   };
 });

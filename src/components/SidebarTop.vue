@@ -5,14 +5,20 @@ import { useMagicKeys, whenever } from "@vueuse/core";
 import ToggleTheme from "@/components/ToggleTheme.vue";
 import Tooltip from "@/components/ui/Tooltip.vue";
 import DialogInfo from "@/components/DialogInfo.vue";
+import ToggleEditable from "./ToggleEditable.vue";
 
 const counter = useCounterStore();
 
 const keys = useMagicKeys();
-const CtrlAltW = keys["ctrl+alt+w"];
+const CtrlShiftZ = keys["ctrl+shift+z"];
+const CtrlShiftE = keys["ctrl+shift+e"];
 
-whenever(CtrlAltW, () => {
+whenever(CtrlShiftZ, () => {
   counter.showProjects = !counter.showProjects;
+});
+
+whenever(CtrlShiftE, () => {
+  counter.content_editable = !counter.content_editable;
 });
 
 </script>
@@ -35,13 +41,14 @@ whenever(CtrlAltW, () => {
     
     <div
       class="grid gap-0.5"
-      :class="counter.showProjects ? ' grid-cols-3 ' : ' grid-cols-1 '"
+      :class="counter.showProjects ? ' grid-cols-4 ' : ' grid-cols-1 '"
     >
       <DialogInfo />
       <ToggleTheme />
+      <ToggleEditable />
       <Tooltip
         :name="counter.showProjects ? 'Cerrar panel' : ' Abrir panel'"
-        shortcut="Ctrl Alt W"
+        shortcut="Ctrl Shift Z"
         side="right"
       >
         <button
@@ -58,7 +65,7 @@ whenever(CtrlAltW, () => {
     <button
       @click="counter.showProjects = !counter.showProjects"
       v-show="!counter.showProjects"
-      class="absolute inset-0 z-10 top-28"
+      class="absolute inset-0 z-10 top-36"
     >
       <ArrowRightToLine class="mx-auto duration-100 opacity-25 size-4 -translate-y-14 group-hover:opacity-90" />
     </button>

@@ -190,8 +190,8 @@ watch(CtrlShiftX, (v) => {
         class="relative flex items-center justify-between w-full border h-7 border-secondary"
       >
         <Tooltip
-          shortcut="Ctrl+Shift+X"
-          side="top"
+          shortcut="Ctrl Shift X"
+          side="right"
         >
           <input
             ref="focusSearch"

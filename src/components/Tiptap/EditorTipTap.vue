@@ -521,11 +521,13 @@
         </Tooltip>
       </div>
     </div>
+    
     <ScrollAreaRoot
       class="w-full border border-secondary"
-      :class="
-        editorToolbar ? 'h-[calc(100vh-9.25rem)]' : 'h-[calc(100vh-6.75rem)]'
-      "
+      :class="[
+        editorToolbar ? 'h-[calc(100vh-5.375rem)]' : 'h-[calc(100vh-2.75rem)]',
+        !toolbar ? 'border-transparent !h-screen' : '',
+      ]"
       style="--scrollbar-size: 10px"
     >
       <ScrollAreaViewport class="w-full h-full">
@@ -533,6 +535,12 @@
           class="max-w-full mx-auto prose dark:prose-invert"
           spellcheck="false"
         >
+          <div
+            v-if="!toolbar"
+            class="flex items-center justify-start px-4 pt-3"
+          >
+            <slot />
+          </div>
           <editor-content :editor="editor" />
         </div>
       </ScrollAreaViewport>
@@ -613,8 +621,8 @@ import CodeBlockShiki from "tiptap-extension-code-block-shiki";
 // import Heading  from "@/components/Tiptap/Heading.js";
 import ShikiCodeBlock from "@/components/Tiptap/ShikiCodeBlock.vue";
 
-import mediumZoom from "medium-zoom/dist/pure";
-import "medium-zoom/dist/style.css";
+ import mediumZoom from "medium-zoom/dist/pure";
+ import "medium-zoom/dist/style.css";
 
 const breakpoints = useBreakpoints(breakpointsTailwind);
 const smallerEqualMd = breakpoints.smallerOrEqual("md");
@@ -640,6 +648,10 @@ const props = defineProps({
     default: "", // El valor por defecto si no se proporciona ninguno
   },
   toolbar: {
+    type: Boolean, // El tipo de dato que se espera recibir
+    default: false, // El valor por defecto si no se proporciona ninguno
+  },
+  editable: {
     type: Boolean, // El tipo de dato que se espera recibir
     default: false, // El valor por defecto si no se proporciona ninguno
   },
@@ -673,7 +685,7 @@ onMounted(() => {
         allowBase64: true,
         inline: true,
         HTMLAttributes: {
-          class: "max-w-xl w-full mr-auto my-6",
+          class: "max-w-5xl w-full mx-auto my-6",
           "data-zoomable": "",
         },
       }),
@@ -729,22 +741,22 @@ onMounted(() => {
     // Esta línea establece el contenido inicial del editor a partir del valor
     // pasado como propiedad al componente.
     content: props.modelValue,
+    editable: props.editable,
     onCreate: () => {
-      console.log(mediumZoom);
-      mediumZoom("[data-zoomable]", {
-        margin: 12,
-        background: "hsl(var(--background))",
-        scrollOffset: 0,
-      });
+       mediumZoom("[data-zoomable]", {
+         margin: 12,
+         background: "hsl(var(--background))",
+         scrollOffset: 0,
+       });
     },
     onUpdate: () => {
       // Esta función se ejecuta cada vez que el usuario actualiza el contenido del editor
       // y se utiliza para actualizar el valor en el padre
-      mediumZoom("[data-zoomable]", {
-        margin: 12,
-        background: "hsl(var(--background))",
-        scrollOffset: 0,
-      });
+       mediumZoom("[data-zoomable]", {
+         margin: 12,
+         background: "hsl(var(--background))",
+         scrollOffset: 0,
+       });
       emit("update:modelValue", editor.value.getHTML());
     },
   });

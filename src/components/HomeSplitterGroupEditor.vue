@@ -2,12 +2,12 @@
 import { ref, watch } from "vue";
 import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from "radix-vue";
 import { storeToRefs } from "pinia";
-import { ArrowRightToLine, Delete, X } from "lucide-vue-next";
+import { ArrowRightToLine, Delete, Trash2, X } from "lucide-vue-next";
 import { useCounterStore } from "@/stores/counter";
 // import Editor from "@/components/Tiptap/EditorTipTap.vue";
 import { Editor } from "@/components/Tiptap/AsyncTiptap.js";
 import Tooltip from "@/components/ui/Tooltip.vue";
-import BottomToolbar from "@/components/BottomToolbar.vue";
+import DialogProjectListSearch from "./DialogProjectListSearch.vue";
 
 const panelRef = ref()
 const counter = useCounterStore();
@@ -40,8 +40,10 @@ watch(project_body, (v) => {
           class="h-full mx-auto ring-1 lg:w-full ring-secondary"
         >
           <Editor
+            v-if="counter.content_editable"
             v-model="counter.project_body"
             toolbar
+            editable
           >
             <div class="flex items-start justify-between w-full gap-1">
               <textarea
@@ -66,6 +68,17 @@ watch(project_body, (v) => {
                 Crear
               </button>
             </div>
+          </Editor>
+          <Editor
+            v-else
+            v-model="counter.project_body"
+          >
+            <div v-if="counter.loaded_id === ''">
+              a
+            </div>
+            <h1 class="font-serif text-4xl text-primary text-pretty">
+              {{ counter.project_name }}
+            </h1>
           </Editor>
         </div>
       </SplitterPanel>
@@ -95,7 +108,16 @@ watch(project_body, (v) => {
         class="hidden lg:flex"
       />
     </SplitterGroup>
-    <BottomToolbar />
+    <button
+      @click="counter.delete_project()"
+      class="fixed bottom-0 right-0 flex items-center justify-center ml-auto text-xs size-8 bg-primary/10"
+      :class="
+        counter.loaded_id ? 'text-primary' : 'opacity-50 pointer-events-none'
+      "
+    >
+      <Trash2 class="size-4" />
+    </button>
+    <DialogProjectListSearch v-if="!counter.content_editable" />
   </div>
 </template>
 
