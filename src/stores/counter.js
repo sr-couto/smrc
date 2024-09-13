@@ -16,7 +16,7 @@ export const useCounterStore = defineStore("counter", () => {
   const showProjects = ref(true);
   const showImportModal = ref(false);
   const shareOptions = ref([]);
-  const content_editable = ref(false);
+  const content_editable = ref(true);
 
   function toggleEditable() {
     content_editable.value = !content_editable.value;

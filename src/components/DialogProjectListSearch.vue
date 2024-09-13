@@ -44,9 +44,16 @@ import {
   SelectTrigger,
   SelectValue,
   SelectViewport,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogOverlay,
+  DialogPortal,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
 } from "radix-vue";
 
-import Tooltip from "./ui/Tooltip.vue";
 
 
 const showCommand = ref(false);
@@ -133,178 +140,136 @@ watch(CtrlShiftF, (v) => {
 });
 </script>
 <template>
-  <div
-    class="fixed inset-0 z-[999] bg-background/90 h-full @container"
-    v-show="showCommand"
-  >
-    <div class="max-w-2xl mx-auto mt-24 bg-secondary">
-      <div
-        class="relative flex items-center justify-between w-full gap-0.5 p-0.5 text-xs bg-background ring-secondary/60 focus-within:ring-secondary"
+  <DialogRoot v-model:open="showCommand">
+    <DialogPortal>
+      <DialogOverlay
+        class="bg-background/95 backdrop-blur-sm data-[state=open]:animate-overlayShow fixed inset-0 z-[9998]"
+      />
+      <DialogContent
+        class="md:data-[state=open]:animate-contentShow font-mono fixed top-6 md:top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[750px] translate-x-[-50%] md:translate-y-[-50%] bg-background rounded p-4 focus:outline-none z-[9999]"
       >
-        <div
-          class="relative flex items-center justify-between w-full border h-7 border-secondary"
+        <DialogTitle class="text-foreground m-0 text-[17px] font-semibold">
+          Buscar
+        </DialogTitle>
+        <DialogDescription
+          as="h4"
+          class="mt-3 mb-5 text-sm leading-normal text-foreground"
         >
-          <input
-            ref="focusSearch"
-            v-model="searchTerm"
-            autofocus
-            placeholder="Filtrar"
-            class="w-full h-6 px-1 outline-none bg-background placeholder:text-xs"
+          Escriba el nombre del proyecto y seleccionar uno para ver/editar
+        </DialogDescription>
+        <div class="max-w-full mx-auto mt-2 bg-secondary">
+          <div
+            class="relative flex items-center justify-between w-full gap-0.5 py-0.5 text-xs bg-background ring-secondary/60 focus-within:ring-secondary"
           >
-          <span
-            v-if="!searchTerm"
-            class="flex items-center justify-center h-full mr-0.5 text-xs w-7"
-          >
-            {{ allItemsTodo?.length }}
-          </span>
-          <button
-            v-else
-            class="absolute top-0 right-0 flex items-center justify-center gap-2 px-2 text-xs h-7 bg-secondary hover:bg-secondary/90"
-            @click="searchTerm = ''"
-          >
-            <span class="min-w-3">{{ filteredOptions.length }}</span>
-            <CircleX class="size-3" />
-          </button>
-        </div>
-        <SelectRoot v-model="sortOption">
-          <SelectTrigger
-            class="flex items-center justify-between w-24 px-1 text-xs border min-w-24 h-7 border-secondary shrink-0 bg-background text-secondary-foreground"
-            aria-label="Customise options"
-          >
-            <SelectValue placeholder="Seleccionar" />
-            <ChevronDown class="h-3.5 w-3.5" />
-          </SelectTrigger>
-          <SelectPortal>
-            <SelectContent
-              class="min-w-[160px] bg-background will-change-[opacity,transform] data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade z-[100] font-mono border border-secondary"
-              position="popper"
-              :side-offset="5"
-              align="end"
-            >
-              <SelectViewport class="">
-                <SelectLabel class="p-2 text-xs font-medium text-primary">
-                  Ordenar
-                </SelectLabel>
-                <SelectGroup class="p-1">
-                  <SelectItem
-                    class="text-xs leading-none text-foreground flex items-center h-8 px-1 py-2 pr-12 relative select-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-secondary/50 data-[highlighted]:text-foreground"
-                    value="name"
-                  >
-                    <SelectItemIndicator
-                      class="absolute right-0 w-[25px] inline-flex items-center justify-center"
-                    >
-                      <Check class="size-4" />
-                    </SelectItemIndicator>
-                    <SelectItemText> Nombre </SelectItemText>
-                  </SelectItem>
-                  <SelectItem
-                    class="text-xs leading-none text-foreground flex items-center h-8 px-1 py-2 pr-12 relative select-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-secondary/50 data-[highlighted]:text-foreground"
-                    value="date"
-                  >
-                    <SelectItemIndicator
-                      class="absolute right-0 w-[25px] inline-flex items-center justify-center"
-                    >
-                      <Check class="size-4" />
-                    </SelectItemIndicator>
-                    <SelectItemText> Fecha </SelectItemText>
-                  </SelectItem>
-                </SelectGroup>
-              </SelectViewport>
-            </SelectContent>
-          </SelectPortal>
-        </SelectRoot>
-      </div>
-      <div class="overflow-x-hidden overflow-y-auto h-96">
-        <ScrollAreaRoot
-          class="w-full overflow-hidden rounded h-96"
-          style="--scrollbar-size: 10px"
-        >
-          <ScrollAreaViewport class="w-full h-full rounded">
             <div
-              class="py-1 px-0.5 flex flex-col justify-start items-start relative gap-1"
+              class="relative flex items-center justify-between w-full border border-secondary"
             >
-              <div
-                v-for="item in filteredOptions"
-                :key="item.id"
-                class="flex flex-row items-center justify-between w-full"
+              <input
+                ref="focusSearch"
+                v-model="searchTerm"
+                autofocus
+                placeholder="Filtrar"
+                class="w-full h-10 px-3 text-lg outline-none bg-background text-foreground "
               >
-                <button
-                  class="flex py-0.5 rounded w-full items-center outline-none justify-start gap-2 text-sm text-left focus-within:ring-1 ring-primary"
-                  :class="loaded_id === item.id ? 'text-primary' : ''"
-                  @click="set_document(item.id)"
-                >
-                  <ArrowRight class="size-4 shrink-0" />
-                  <p class="@sm:max-w-full max-w-80 line-clamp-1">
-                    {{ item.project_data.name }}
-                  </p>
-                </button>
-                <!-- <input
-                  type="checkbox"
-                  :id="'todo-' + item.id"
-                  :checked="item.project_data.checked"
-                  class="w-0 opacity-0 peer"
-                  required=""
-                  @change="toggleCheck(item, $event.target.checked)"
-                >
-                <Tooltip name="Marcar como completo">
-                  <label
-                    :for="'todo-' + item.id"
-                    class="flex items-center justify-center rounded-full relative z-[50] mr-0.5 peer-focus:ring-1 peer-focus:ring-primary size-6 shrink-0 peer-checked:border-blue-600 hover:text-primary peer-checked:text-primary hover:bg-secondary/20"
-                  >
-                    <Circle class="size-4" />
-                  </label>
-                </Tooltip> -->
-              </div>
-              <!-- <div
-                v-for="item in allItemsChecked"
-                :key="item.id"
-                class="flex flex-row items-center justify-between w-full duration-300 opacity-70"
-                :class="item.project_data.checked ? '' : 'scale-0'"
+              <span
+                v-if="!searchTerm"
+                class="flex items-center justify-center h-10 mr-0.5 text-foreground text-xs w-7"
               >
-                <span
-                  class="flex py-0.5 rounded-full w-full items-center outline-none justify-start gap-2 text-sm text-left focus-within:ring-1 ring-primary"
-                  :class="loaded_id === item.id ? 'text-primary' : ''"
-                >
-                  <p
-                    class="@sm:max-w-full max-w-80 line-clamp-1 line-through decoration-wavy decoration-primary/50 text-foreground/50 decoration-1"
-                  >
-                    {{ item.project_data.name }}
-                  </p>
-                </span>
-                <Tooltip name="Desmarcar">
-                  <input
-                    type="checkbox"
-                    :id="'todook-' + item.id"
-                    :checked="item.project_data.checked"
-                    class="w-0 opacity-0 peer"
-                    required=""
-                    @change="toggleCheck(item, $event.target.checked)"
-                  >
-                  <label
-                    :for="'todook-' + item.id"
-                    class="flex items-center justify-center rounded-full relative z-[50] mr-0.5 peer-focus:ring-1 peer-focus:ring-primary size-6 shrink-0 peer-checked:border-blue-600 hover:text-primary peer-checked:text-primary hover:bg-secondary"
-                  >
-                    <CircleCheckBig class="size-4" />
-                  </label>
-                </Tooltip>
-              </div> -->
-            <!-- <div
-              class="flex items-center justify-center w-full py-5 mt-2 bg-secondary/20"
-              v-if="filteredOptions?.length === 0"
-            >
-              <span class="text-xs text-secondary-foreground/30">Sin resultados</span>
-            </div> -->
+                {{ allItemsTodo?.length }}
+              </span>
+              <button
+                v-else
+                class="absolute top-0 right-0 flex items-center justify-center h-10 gap-2 px-2 text-xs text-foreground bg-secondary hover:bg-secondary/90"
+                @click="searchTerm = ''"
+              >
+                <span class="min-w-3">{{ filteredOptions.length }}</span>
+                <CircleX class="size-3" />
+              </button>
             </div>
-          </ScrollAreaViewport>
-          <ScrollAreaScrollbar
-            class="flex select-none touch-none p-0.5 bg-secondary transition-colors duration-[160ms] ease-out hover:bg-background data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
-            orientation="vertical"
-          >
-            <ScrollAreaThumb
-              class="flex-1 bg-primary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]"
-            />
-          </ScrollAreaScrollbar>
-        <!-- <ScrollAreaScrollbar
+            <SelectRoot v-model="sortOption">
+              <SelectTrigger
+                class="flex items-center justify-between w-24 h-10 px-1 text-xs border min-w-24 border-secondary shrink-0 bg-background text-secondary-foreground"
+                aria-label="Customise options"
+              >
+                <SelectValue placeholder="Seleccionar" />
+                <ChevronDown class="h-3.5 w-3.5" />
+              </SelectTrigger>
+              <SelectPortal>
+                <SelectContent
+                  class="min-w-[160px] bg-background will-change-[opacity,transform] data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade z-[100] font-mono border border-secondary"
+                  position="popper"
+                  :side-offset="5"
+                  align="end"
+                >
+                  <SelectViewport class="">
+                    <SelectLabel class="p-2 text-xs font-medium text-primary">
+                      Ordenar
+                    </SelectLabel>
+                    <SelectGroup class="p-1">
+                      <SelectItem
+                        class="text-xs leading-none text-foreground flex items-center h-8 px-1 py-2 pr-12 relative select-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-secondary/50 data-[highlighted]:text-foreground"
+                        value="name"
+                      >
+                        <SelectItemIndicator
+                          class="absolute right-0 w-[25px] inline-flex items-center justify-center"
+                        >
+                          <Check class="size-4" />
+                        </SelectItemIndicator>
+                        <SelectItemText> Nombre </SelectItemText>
+                      </SelectItem>
+                      <SelectItem
+                        class="text-xs leading-none text-foreground flex items-center h-8 px-1 py-2 pr-12 relative select-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-secondary/50 data-[highlighted]:text-foreground"
+                        value="date"
+                      >
+                        <SelectItemIndicator
+                          class="absolute right-0 w-[25px] inline-flex items-center justify-center"
+                        >
+                          <Check class="size-4" />
+                        </SelectItemIndicator>
+                        <SelectItemText> Fecha </SelectItemText>
+                      </SelectItem>
+                    </SelectGroup>
+                  </SelectViewport>
+                </SelectContent>
+              </SelectPortal>
+            </SelectRoot>
+          </div>
+          <div class="overflow-x-hidden overflow-y-auto h-96">
+            <ScrollAreaRoot
+              class="w-full overflow-hidden rounded h-96"
+              style="--scrollbar-size: 10px"
+            >
+              <ScrollAreaViewport class="w-full h-full rounded">
+                <div
+                  class="py-1 px-0.5 flex flex-col justify-start items-start relative gap-1"
+                >
+                  <div
+                    v-for="item in filteredOptions"
+                    :key="item.id"
+                    class="flex flex-row items-center justify-between w-full"
+                  >
+                    <button
+                      class="flex py-1.5 rounded w-full  items-center outline-none justify-start gap-2 text-left focus-within:ring-1 ring-primary"
+                      :class="loaded_id === item.id ? 'text-primary' : ' text-foreground '"
+                      @click="set_document(item.id)"
+                    >
+                      <ArrowRight class="size-4 shrink-0 " />
+                      <p class="@sm:max-w-full max-w-[40rem] line-clamp-1 text-foreground">
+                        {{ item.project_data.name }}
+                      </p>
+                    </button>
+                  </div>
+                </div>
+              </ScrollAreaViewport>
+              <ScrollAreaScrollbar
+                class="flex select-none touch-none p-0.5 bg-secondary transition-colors duration-[160ms] ease-out hover:bg-background data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+                orientation="vertical"
+              >
+                <ScrollAreaThumb
+                  class="flex-1 bg-primary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]"
+                />
+              </ScrollAreaScrollbar>
+              <!-- <ScrollAreaScrollbar
           class="flex select-none touch-none p-0.5 bg-secondary transition-colors duration-[160ms] ease-out hover:bg-background data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
           orientation="horizontal"
         >
@@ -312,14 +277,25 @@ watch(CtrlShiftF, (v) => {
             class="flex-1 bg-primary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]"
           />
         </ScrollAreaScrollbar> -->
-        </ScrollAreaRoot>
-      </div>
-    </div>
-    <button
-      @click="showCommand = false"
-      class="fixed top-4 right-4"
-    >
-      <X />
-    </button>
-  </div>
+            </ScrollAreaRoot>
+          </div>
+        </div>
+        <div class="flex justify-end mt-2 md:mt-3">
+          <DialogClose as-child>
+            <button
+              class="bg-secondary text-foreground hover:bg-background hover:ring-2 hover:ring-foreground text-sm focus:shadow-green7 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-semibold leading-none focus:shadow-[0_0_0_2px] focus:outline-none"
+            >
+              Cerrar ventana
+            </button>
+          </DialogClose>
+        </div>
+        <DialogClose
+          class="absolute inline-flex items-center justify-center appearance-none top-4 text-foreground hover:bg-secondary/80 right-3 size-7 focus:shadow focus:outline-none focus-visible:ring-1 focus-visible:ring-primary focus-visible:text-primary"
+          aria-label="Close"
+        >
+          <X />
+        </DialogClose>
+      </DialogContent>
+    </DialogPortal>
+  </DialogRoot>
 </template>

@@ -62,7 +62,7 @@ function onDrop(files) {
       class="flex items-center justify-center h-12 gap-2 px-2 text-xs border outline-none border-secondary bg-background hover:bg-background/50 focus-visible:border-primary focus-visible:bg-primary/10"
     >
       <Upload class="size-4" />
-      <span class="hidden sm:inline-flex">ImportarDB</span>
+      <span class="">ImportarDB</span>
     </AlertDialogTrigger>
     <AlertDialogPortal>
       <AlertDialogOverlay

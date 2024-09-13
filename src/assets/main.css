@@ -386,7 +386,7 @@
 
 
 [data-radix-popper-content-wrapper] {
-  z-index: 999 !important;
+  z-index: 9999 !important;
 }
 
 /* ibm-plex-serif-latin-400-normal */

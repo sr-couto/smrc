@@ -956,7 +956,7 @@ onBeforeUnmount(() => {
 }
 
 .medium-zoom-image {
-  transition: transform 0.9s cubic-bezier(0.2, 0, 0.2, 1) !important;
+  transition: transform 0.6s cubic-bezier(0.2, 0, 0.2, 1) !important;
 }
 
 .tiptap code::after,

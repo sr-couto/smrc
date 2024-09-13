@@ -4,8 +4,7 @@ import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from "radix-vue";
 import { storeToRefs } from "pinia";
 import { ArrowRightToLine, Delete, Trash2, X } from "lucide-vue-next";
 import { useCounterStore } from "@/stores/counter";
-// import Editor from "@/components/Tiptap/EditorTipTap.vue";
-import { Editor } from "@/components/Tiptap/AsyncTiptap.js";
+import Editor from "@/components/Tiptap/EditorTipTap.vue";
 import Tooltip from "@/components/ui/Tooltip.vue";
 import DialogProjectListSearch from "./DialogProjectListSearch.vue";
 
@@ -74,7 +73,7 @@ watch(project_body, (v) => {
             v-model="counter.project_body"
           >
             <div v-if="counter.loaded_id === ''">
-              a
+              Seleccione un item para visualizar
             </div>
             <h1 class="font-serif text-4xl text-primary text-pretty">
               {{ counter.project_name }}
@@ -117,7 +116,7 @@ watch(project_body, (v) => {
     >
       <Trash2 class="size-4" />
     </button>
-    <DialogProjectListSearch v-if="!counter.content_editable" />
+    <DialogProjectListSearch />
   </div>
 </template>
 

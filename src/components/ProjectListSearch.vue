@@ -48,15 +48,11 @@ import {
 import Tooltip from "./ui/Tooltip.vue";
 
 const target = ref(null);
-const focusSearch = ref();
 const editing = ref(false);
-const { focused } = useFocus(focusSearch);
 const counter = useCounterStore();
 const { allItemsTodo, allItemsChecked, loaded_id, searchTerm, file_name } =
   storeToRefs(counter);
 
-const keys = useMagicKeys();
-const CtrlShiftX = keys["ctrl+shift+x"];
 
 const debounced = refDebounced(searchTerm, 300);
 const breakpoints = useBreakpoints(breakpointsTailwind);
@@ -125,13 +121,7 @@ const filteredOptions = computed(() => {
       });
 });
 
-function handleOpenChange() {
-  focused.value = true;
-}
 
-watch(CtrlShiftX, (v) => {
-  if (v) handleOpenChange();
-});
 </script>
 <template>
   <div class="h-full @container">
@@ -189,17 +179,12 @@ watch(CtrlShiftX, (v) => {
       <div
         class="relative flex items-center justify-between w-full border h-7 border-secondary"
       >
-        <Tooltip
-          shortcut="Ctrl Shift X"
-          side="right"
+        <input
+          ref="focusSearch"
+          v-model="searchTerm"
+          placeholder="Filtrar por título"
+          class="h-6 px-1 outline-none bg-background placeholder:text-xs"
         >
-          <input
-            ref="focusSearch"
-            v-model="searchTerm"
-            placeholder="Filtrar"
-            class="h-6 px-1 outline-none bg-background placeholder:text-xs"
-          >
-        </Tooltip>
         <span
           v-if="!searchTerm"
           class="flex items-center justify-center h-full mr-0.5 text-xs w-7"

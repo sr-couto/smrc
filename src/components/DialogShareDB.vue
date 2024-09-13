@@ -45,7 +45,7 @@ onMounted(() => {
       aria-label="Update dimensions"
     >
       <Download class="size-4" />
-      <span class="hidden sm:inline-flex">ExportarDB</span>
+      <span class="">ExportarDB</span>
     </DialogTrigger>
     <DialogPortal>
       <DialogOverlay

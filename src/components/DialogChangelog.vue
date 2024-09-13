@@ -15,7 +15,7 @@ import {
 } from "radix-vue";
 import { X } from "lucide-vue-next";
 
-const lastVersion = "0.0.13"
+const lastVersion = "0.0.14"
 
 const props = defineProps({
   button: {
@@ -65,6 +65,14 @@ const props = defineProps({
               >
                 {{ lastVersion }} - Última version
               </DialogDescription>
+              <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
+                <li>Se revierte async editor.</li>
+                <li>Mejor dialog para buscar con ctrl shift f.</li>
+                <li>Editor por defecto en editable.</li>
+              </ul>
+              <h4 class="mt-3 mb-5 leading-normal text-foreground">
+                0.0.13
+              </h4>
               <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
                 <li>Se agrega modo para previsualizar y que no sea editable (excepto la seleccion de lenguaje de la terminal).</li>
                 <li>Reordenado visual. Importar y exportar solo se muestran con el menú abierto.</li>
