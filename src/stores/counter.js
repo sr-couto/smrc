@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { shallowRef } from "vue";
 import { defineStore } from "pinia";
 import { db } from "@/db";
 import { liveQuery } from "dexie";
@@ -7,16 +7,16 @@ import { exportDB, importInto } from "dexie-export-import";
 import { toast } from 'vue-sonner'
 
 export const useCounterStore = defineStore("counter", () => {
-  const status = ref("LOADING");
-  const loaded_id = ref("");
-  const file_name = ref("");
-  const project_name = ref("");
-  const project_body = ref("");
-  const searchTerm = ref("");
-  const showProjects = ref(true);
-  const showImportModal = ref(false);
-  const shareOptions = ref([]);
-  const content_editable = ref(true);
+  const status = shallowRef("LOADING");
+  const loaded_id = shallowRef("");
+  const file_name = shallowRef("");
+  const project_name = shallowRef("");
+  const project_body = shallowRef("");
+  const searchTerm = shallowRef("");
+  const showProjects = shallowRef(true);
+  const showImportModal = shallowRef(false);
+  const shareOptions = shallowRef([]);
+  const content_editable = shallowRef(true);
 
   function toggleEditable() {
     content_editable.value = !content_editable.value;

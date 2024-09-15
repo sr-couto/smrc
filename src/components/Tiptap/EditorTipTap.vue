@@ -570,7 +570,6 @@ import {
   Eraser,
   List,
   ListOrdered,
-  SquareTerminal,
   Quote,
   Minus,
   Undo2,
@@ -583,7 +582,6 @@ import {
   Unlink2,
   Video,
   ChevronDown,
-  Highlighter,
   ImageDown,
   Globe,
 } from "lucide-vue-next";
@@ -600,12 +598,10 @@ import {
   DropdownMenuTrigger,
 } from "radix-vue";
 
-import { ref, watch, onMounted, onBeforeUnmount } from "vue";
+import { onMounted, onBeforeUnmount, shallowRef } from "vue";
 import { useStorage, breakpointsTailwind, useBreakpoints } from "@vueuse/core";
 import { Editor, EditorContent, VueNodeViewRenderer } from "@tiptap/vue-3";
-
 import Tooltip from "@/components/ui/Tooltip.vue";
-
 import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
@@ -621,7 +617,6 @@ import TableHeader from "@tiptap/extension-table-header";
 import TableRow from "@tiptap/extension-table-row";
 import Youtube from "@tiptap/extension-youtube";
 import CodeBlockShiki from "tiptap-extension-code-block-shiki";
-// import Heading  from "@/components/Tiptap/Heading.js";
 import ShikiCodeBlock from "@/components/Tiptap/ShikiCodeBlock.vue";
 import Iframe from "@/components/Tiptap/iframe.ts";
 
@@ -633,7 +628,7 @@ const smallerEqualMd = breakpoints.smallerOrEqual("md");
 
 // "editor" es una variable de tipo ref que se utiliza para acceder al objeto "Editor" de Tiptap
 // Al principio, su valor es null, ya que no se ha montado todavía el componente
-const editor = ref(null);
+const editor = shallowRef(null);
 
 // "editorToolbar" es una variable de tipo ref que se utiliza para mostrar u ocultar la barra de herramientas del editor
 // Al principio, su valor es true, lo que significa que la barra de herramientas se mostrará al principio

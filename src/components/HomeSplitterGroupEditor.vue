@@ -1,17 +1,17 @@
 <script setup>
-import { ref, watch } from "vue";
+import { shallowRef, watch } from "vue";
 import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from "radix-vue";
 import { storeToRefs } from "pinia";
-import { ArrowRightToLine, Delete, Trash2, X } from "lucide-vue-next";
+import { ArrowRightToLine, Trash2 } from "lucide-vue-next";
 import { useCounterStore } from "@/stores/counter";
 import Editor from "@/components/Tiptap/EditorTipTap.vue";
 import Tooltip from "@/components/ui/Tooltip.vue";
 import DialogProjectListSearch from "./DialogProjectListSearch.vue";
 
-const panelRef = ref()
+const panelRef = shallowRef()
 const counter = useCounterStore();
 const { project_name, project_body } = storeToRefs(counter);
-const layout = ref(0)
+const layout = shallowRef(0)
 
 watch(project_name, (v) => {
   if (v) counter.auto_save();
@@ -53,7 +53,7 @@ watch(project_body, (v) => {
                 style="field-sizing: content"
                 class="w-full px-2 py-1 overflow-visible border outline-none resize-none min-h-9 create_project bg-background text-foreground border-secondary focus-within:border-primary placeholder:text-foreground/50"
               />
-              
+
               <button
                 v-show="!counter.loaded_id"
                 @click="counter.create_project()"
@@ -64,7 +64,7 @@ watch(project_body, (v) => {
                 "
                 class="px-3 text-xs h-9 shrink-0"
               >
-                Crear
+                Guardar documento
               </button>
             </div>
           </Editor>
@@ -75,7 +75,7 @@ watch(project_body, (v) => {
             <div v-if="counter.loaded_id === ''">
               Seleccione un item para visualizar
             </div>
-            <h1 class="font-serif text-4xl text-primary text-pretty">
+            <h1 class="pt-6 mb-0 font-serif text-4xl/relax text-primary text-balance">
               {{ counter.project_name }}
             </h1>
           </Editor>
@@ -110,8 +110,7 @@ watch(project_body, (v) => {
     <button
       @click="counter.delete_project()"
       class="fixed bottom-0 right-0 flex items-center justify-center ml-auto text-xs size-8 hover:bg-primary/30 bg-primary/10"
-      :class="
-        counter.loaded_id ? 'text-primary' : 'opacity-50 pointer-events-none'
+      :class="counter.loaded_id ? 'text-primary' : 'opacity-50 pointer-events-none'
       "
     >
       <Trash2 class="size-4" />

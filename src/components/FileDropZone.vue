@@ -1,17 +1,17 @@
 <script setup>
 import { HardDriveUpload } from "lucide-vue-next";
 import { useFileDialog, useTimeoutFn, useDropZone } from "@vueuse/core";
-import { ref } from "vue";
+import { shallowRef } from "vue";
 import { useCounterStore } from "@/stores/counter";
 const counter = useCounterStore();
 
-const dropZoneRef = ref();
+const dropZoneRef = shallowRef();
 const { isOverDropZone } = useDropZone(dropZoneRef, onDrop);
 
 const { open, onChange } = useFileDialog({
   accept: "application/json",
 });
-const filesData = ref([]);
+const filesData = shallowRef([]);
 
 onChange((files) => {
   counter.import_database(files[0]);
@@ -31,7 +31,7 @@ function onDrop(files) {
 <template>
   <div
     ref="dropZoneRef"
-    class="h-40 w-full relative"
+    class="relative w-full h-40"
   >
     <div
       :class="isOverDropZone ? ' border-animated ' : '  border-animated  '"
@@ -48,7 +48,7 @@ function onDrop(files) {
       >
         <div
           v-if="filesData.length === 0"
-          class="flex flex-col w-full justify-center items-center gap-2 px-3 text-center text-pretty"
+          class="flex flex-col items-center justify-center w-full gap-2 px-3 text-center text-pretty"
         >
           <HardDriveUpload />
           <h1>Importar proyectos</h1>

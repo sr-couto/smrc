@@ -82,8 +82,8 @@ import {
   ScrollAreaThumb,
   ScrollAreaViewport,
 } from "radix-vue";
-import { ref } from "vue";
 import { useElementSize } from "@vueuse/core";
+import { shallowRef } from "vue";
 
 export default {
   components: {
@@ -111,7 +111,7 @@ export default {
   },
 
   setup() {
-    const codeHeight = ref(null)
+    const codeHeight = shallowRef(null)
     const { width, height } = useElementSize(codeHeight)
     return {
       codeHeight,

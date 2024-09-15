@@ -45,10 +45,10 @@ import {
 
 import { useCounterStore } from "@/stores/counter";
 import { storeToRefs } from "pinia";
-import { computed, ref, watch } from "vue";
-const showCommand = ref(false);
-const target = ref(null);
-const editing = ref(false);
+import { computed, watch, shallowRef } from "vue";
+const showCommand = shallowRef(false);
+const target = shallowRef(null);
+const editing = shallowRef(false);
 const counter = useCounterStore();
 const { allItemsTodo, loaded_id, searchTerm, file_name } =
   storeToRefs(counter);
@@ -57,15 +57,13 @@ const keys = useMagicKeys();
 const CtrlShiftF = keys["ctrl+shift+f"];
 
 const debounced = refDebounced(searchTerm, 300);
-
-// const sortOption = ref("name"); // Sort option state
 const sortOption = useStorage("sortItemsBy", "name");
 
 onClickOutside(target, () => {
   editing.value = false;
 });
 
-const input = ref(file_name);
+const input = shallowRef(file_name);
 
 watch(input, (v) => {
   if (v) counter.update_database(input.value);
@@ -94,10 +92,10 @@ const filteredOptions = computed(() => {
   return debounced.value === ""
     ? sortedItems
     : sortedItems.filter((item) => {
-        return item.project_data?.name
-          .toLowerCase()
-          .includes(debounced.value.toLowerCase());
-      });
+      return item.project_data?.name
+        .toLowerCase()
+        .includes(debounced.value.toLowerCase());
+    });
 });
 
 function handleOpenChange() {
@@ -133,9 +131,7 @@ watch(CtrlShiftF, (v) => {
           <div
             class="relative flex items-center justify-between w-full gap-0.5 py-0.5 text-xs bg-background ring-secondary/60 focus-within:ring-secondary"
           >
-            <div
-              class="relative flex items-center justify-between w-full border border-secondary"
-            >
+            <div class="relative flex items-center justify-between w-full border border-secondary">
               <input
                 v-model="searchTerm"
                 autofocus
@@ -181,9 +177,7 @@ watch(CtrlShiftF, (v) => {
                         class="text-xs leading-none text-foreground flex items-center h-8 px-1 py-2 pr-12 relative select-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-secondary/50 data-[highlighted]:text-foreground"
                         value="name"
                       >
-                        <SelectItemIndicator
-                          class="absolute right-0 w-[25px] inline-flex items-center justify-center"
-                        >
+                        <SelectItemIndicator class="absolute right-0 w-[25px] inline-flex items-center justify-center">
                           <Check class="size-4" />
                         </SelectItemIndicator>
                         <SelectItemText> Nombre </SelectItemText>
@@ -192,9 +186,7 @@ watch(CtrlShiftF, (v) => {
                         class="text-xs leading-none text-foreground flex items-center h-8 px-1 py-2 pr-12 relative select-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-secondary/50 data-[highlighted]:text-foreground"
                         value="date"
                       >
-                        <SelectItemIndicator
-                          class="absolute right-0 w-[25px] inline-flex items-center justify-center"
-                        >
+                        <SelectItemIndicator class="absolute right-0 w-[25px] inline-flex items-center justify-center">
                           <Check class="size-4" />
                         </SelectItemIndicator>
                         <SelectItemText> Fecha </SelectItemText>
@@ -211,9 +203,7 @@ watch(CtrlShiftF, (v) => {
               style="--scrollbar-size: 10px"
             >
               <ScrollAreaViewport class="w-full h-full rounded">
-                <div
-                  class="py-1 px-0.5 flex flex-col justify-start items-start relative gap-1"
-                >
+                <div class="py-1 px-0.5 flex flex-col justify-start items-start relative gap-1">
                   <div
                     v-for="item in filteredOptions"
                     :key="item.id"

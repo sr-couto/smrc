@@ -11,15 +11,14 @@ import {
   AlertDialogTrigger,
 } from "radix-vue";
 
-import { ref } from "vue";
+import { shallowRef } from "vue";
 
 import { useCounterStore } from "@/stores/counter";
 import { useFileDialog, useTimeoutFn, useDropZone } from "@vueuse/core";
 
-const openDialog = ref(false);
 const counter = useCounterStore();
-const dropZoneRef = ref();
-const filesData = ref([]);
+const dropZoneRef = shallowRef();
+const filesData = shallowRef([]);
 const { isOverDropZone } = useDropZone(dropZoneRef, onDrop);
 
 const { open, onChange } = useFileDialog({

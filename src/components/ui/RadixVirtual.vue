@@ -16,7 +16,7 @@ import {
   ListboxVirtualizer,
 } from "radix-vue";
 
-import { ref, computed } from "vue";
+import { computed, shallowRef } from "vue";
 import {
   Check,
   ChevronDown,
@@ -52,7 +52,7 @@ const selected = computed({
 });
 
 // const selectedPeople = ref();
-const searchTerm = ref("");
+const searchTerm = shallowRef("");
 
 const filteredOptions = computed(() =>
   searchTerm.value === ""

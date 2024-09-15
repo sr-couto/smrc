@@ -10,17 +10,15 @@ import {
   DialogTrigger,
 } from "radix-vue";
 import { Download, X } from "lucide-vue-next";
-import { onMounted, ref, watch } from "vue";
+import { onMounted, shallowRef, watch } from "vue";
 import { useCounterStore } from "@/stores/counter";
 const counter = useCounterStore();
 import { storeToRefs } from "pinia";
-const source = ref("Hello");
-import { useClipboard, refDebounced } from "@vueuse/core";
-const { copy, copied, isSupported } = useClipboard({ source });
+import {  refDebounced } from "@vueuse/core";
 
 const { file_name } = storeToRefs(counter);
 
-const input = ref(file_name);
+const input = shallowRef(file_name);
 
 const debounced = refDebounced(input, 100);
 

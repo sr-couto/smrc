@@ -11,11 +11,9 @@ import {
   Plus,
 } from "lucide-vue-next";
 import { storeToRefs } from "pinia";
-import { computed, ref, watch } from "vue";
+import { computed, watch, shallowRef } from "vue";
 import {
   onClickOutside,
-  useFocus,
-  useMagicKeys,
   refDebounced,
   breakpointsTailwind,
   useBreakpoints,
@@ -37,9 +35,6 @@ import {
   SelectLabel,
   SelectPortal,
   SelectRoot,
-  SelectScrollDownButton,
-  SelectScrollUpButton,
-  SelectSeparator,
   SelectTrigger,
   SelectValue,
   SelectViewport,
@@ -47,8 +42,8 @@ import {
 
 import Tooltip from "./ui/Tooltip.vue";
 
-const target = ref(null);
-const editing = ref(false);
+const target = shallowRef(null);
+const editing = shallowRef(false);
 const counter = useCounterStore();
 const { allItemsTodo, allItemsChecked, loaded_id, searchTerm, file_name } =
   storeToRefs(counter);
@@ -69,7 +64,7 @@ onClickOutside(target, () => {
   editing.value = false;
 });
 
-const input = ref(file_name);
+const input = shallowRef(file_name);
 
 watch(input, (v) => {
   if (v) counter.update_database(input.value);
@@ -87,7 +82,22 @@ function new_document() {
   }
 }
 
+function hasUnsavedChanges() {
+  if (counter.project_body === "<p></p>") {
+    return false;
+  }
+  return (
+    loaded_id.value === "" && // Si no hay documento cargado
+    counter.project_body !== "" // Si el nombre del proyecto está marcado como dirty
+  );
+}
+
 function set_document(id) {
+  if (hasUnsavedChanges()) {
+    if (!confirm("El documento actual tienes cambios sin guardar. ¿Quieres continuar y descartar los cambios?")) {
+      return; // Cancela la acción si el usuario no confirma
+    }
+  }
   if (largerThanLg.value === true) {
     counter.set_project(id);
   } else {
@@ -117,10 +127,10 @@ const filteredOptions = computed(() => {
   return debounced.value === ""
     ? sortedItems
     : sortedItems.filter((item) => {
-        return item.project_data?.name
-          .toLowerCase()
-          .includes(debounced.value.toLowerCase());
-      });
+      return item.project_data?.name
+        .toLowerCase()
+        .includes(debounced.value.toLowerCase());
+    });
 });
 
 
@@ -176,16 +186,15 @@ const filteredOptions = computed(() => {
       </div>
     </div>
     <Tooltip
-      name="Esto significa que al seleccionar otro documento se perderan todos los cambios actuales del editor. Agrege un titulo y presione enter o el boton para crear el nuevo documento"
-      side="bottom" 
-      class="px-0.5"
+      name="Falta agregar un titulo."
+      :side="'bottom'"
     >
       <button
-        @click="new_document()"
-        class="flex items-center my-0.5 justify-center gap-2 text-xs min-h-7 w-full text-left bg-secondary focus-within:ring-1 ring-primary"
+        @click="loaded_id === '' ? null : new_document()"
+        class="flex items-center my-0.5 justify-center gap-2 text-xs min-h-7 w-full text-left bg-primary focus-within:ring-1 ring-primary"
         :class="{
           '!bg-primary text-primary-foreground': loaded_id === null,
-          '!bg-primary text-primary-foreground animate-pulse': loaded_id === '',
+          '!bg-secondary text-secondary-foreground animate-pulse': loaded_id === '',
         }"
       >
         <Plus
@@ -196,25 +205,23 @@ const filteredOptions = computed(() => {
           v-show="loaded_id === ''"
           class="flex items-center gap-1"
         >
-          Creando documento
+          * Creando documento
           <span
             v-show="counter.project_name"
             class="inline-block font-bold truncate opacity-80 max-w-24"
           >
             {{ counter.project_name }}
           </span>
-          sin guardar
+
         </span>
-        
+
         <span v-show="loaded_id !== ''">Crear nuevo documento</span>
       </button>
     </Tooltip>
     <div
       class="relative flex items-center justify-between w-full gap-0.5 p-0.5 text-xs bg-background ring-secondary/60 focus-within:ring-secondary"
     >
-      <div
-        class="relative flex items-center justify-between w-full border h-7 border-secondary"
-      >
+      <div class="relative flex items-center justify-between w-full border h-7 border-secondary">
         <input
           ref="focusSearch"
           v-model="searchTerm"
@@ -260,9 +267,7 @@ const filteredOptions = computed(() => {
                   class="text-xs leading-none text-foreground flex items-center h-8 px-1 py-2 pr-12 relative select-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-secondary/50 data-[highlighted]:text-foreground"
                   value="name"
                 >
-                  <SelectItemIndicator
-                    class="absolute right-0 w-[25px] inline-flex items-center justify-center"
-                  >
+                  <SelectItemIndicator class="absolute right-0 w-[25px] inline-flex items-center justify-center">
                     <Check class="size-4" />
                   </SelectItemIndicator>
                   <SelectItemText> Nombre </SelectItemText>
@@ -271,9 +276,7 @@ const filteredOptions = computed(() => {
                   class="text-xs leading-none text-foreground flex items-center h-8 px-1 py-2 pr-12 relative select-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-secondary/50 data-[highlighted]:text-foreground"
                   value="date"
                 >
-                  <SelectItemIndicator
-                    class="absolute right-0 w-[25px] inline-flex items-center justify-center"
-                  >
+                  <SelectItemIndicator class="absolute right-0 w-[25px] inline-flex items-center justify-center">
                     <Check class="size-4" />
                   </SelectItemIndicator>
                   <SelectItemText> Fecha </SelectItemText>
@@ -290,9 +293,7 @@ const filteredOptions = computed(() => {
         style="--scrollbar-size: 10px"
       >
         <ScrollAreaViewport class="w-full h-full rounded">
-          <div
-            class="py-1 px-0.5 flex flex-col justify-start items-start relative gap-1"
-          >
+          <div class="py-1 px-0.5 flex flex-col justify-start items-start relative gap-1">
             <div
               v-for="item in filteredOptions"
               :key="item.id"
