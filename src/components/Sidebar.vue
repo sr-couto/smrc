@@ -10,7 +10,7 @@ const counter = useCounterStore();
   <div>
     <header
       class="fixed top-0 z-50 flex flex-col justify-start h-screen border-r lg:sticky bg-background border-secondary"
-      :class="counter.showProjects ? 'min-w-80' : ' '"
+      :class="counter.showProjects ? 'min-w-80 max-w-80' : ' '"
     >
       <SidebarTop />
       <ProjectListSearch v-show="counter.showProjects" />
@@ -19,7 +19,7 @@ const counter = useCounterStore();
     <button
       v-show="counter.showProjects"
       @click="counter.showProjects = !counter.showProjects"
-      class="fixed inset-0 z-40 bg-background/10 lg:hidden"
+      class="fixed inset-0 z-40 bg-background/60 lg:hidden"
     />
   </div>
 </template>

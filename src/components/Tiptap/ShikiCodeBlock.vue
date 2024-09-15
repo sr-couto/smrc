@@ -23,7 +23,7 @@
         />
       </ScrollAreaViewport>
       <ScrollAreaScrollbar
-        class="flex select-none touch-none p-0.5 bg-secondary transition-colors duration-[160ms] ease-out hover:bg-background data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+        class="flex select-none z-20 touch-none p-0.5 bg-secondary transition-colors duration-[160ms] ease-out hover:bg-background data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
         orientation="vertical"
       >
         <ScrollAreaThumb
@@ -32,7 +32,7 @@
       </ScrollAreaScrollbar>
     </ScrollAreaRoot>
     <div
-      class="absolute top-0 right-0 z-40 flex items-center justify-end gap-1 -translate-x-1 -translate-y-1"
+      class="absolute top-0 right-0 z-40 flex items-center justify-end gap-1 -translate-x-1 translate-y-1"
     >
       <RadixVirtual
         v-model="selectedLanguage"
@@ -172,5 +172,13 @@ export default {
   position: relative;
   margin: 1rem 0;
   @apply ring-1 ring-secondary/50 rounded
+}
+
+.tiptap .code-block pre {
+  @apply rounded-none
+}
+
+.tiptap .code-block pre code div {
+  @apply pt-4 p-3
 }
 </style>

@@ -109,7 +109,7 @@ watch(project_body, (v) => {
     </SplitterGroup>
     <button
       @click="counter.delete_project()"
-      class="fixed bottom-0 right-0 flex items-center justify-center ml-auto text-xs size-8 bg-primary/10"
+      class="fixed bottom-0 right-0 flex items-center justify-center ml-auto text-xs size-8 hover:bg-primary/30 bg-primary/10"
       :class="
         counter.loaded_id ? 'text-primary' : 'opacity-50 pointer-events-none'
       "

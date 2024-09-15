@@ -25,6 +25,8 @@
           - Agregar imágenes 
           - Insertar video
         -->
+        
+        
         <div class="flex justify-start gap-1 mb-1 md:w-auto">
           <Tooltip
             name="Deshacer"
@@ -123,7 +125,7 @@
               <Video class="size-4" />
             </button>
           </Tooltip>
-          <!-- <Tooltip
+          <Tooltip
             name="Iframe"
             side="bottom"
           >
@@ -133,7 +135,7 @@
             >
               <Globe class="size-4" />
             </button>
-          </Tooltip> -->
+          </Tooltip>
         </div>
       </div>
       <!--
@@ -521,7 +523,7 @@
         </Tooltip>
       </div>
     </div>
-    
+
     <ScrollAreaRoot
       class="w-full border border-secondary"
       :class="[
@@ -583,6 +585,7 @@ import {
   ChevronDown,
   Highlighter,
   ImageDown,
+  Globe,
 } from "lucide-vue-next";
 import {
   ScrollAreaRoot,
@@ -620,9 +623,10 @@ import Youtube from "@tiptap/extension-youtube";
 import CodeBlockShiki from "tiptap-extension-code-block-shiki";
 // import Heading  from "@/components/Tiptap/Heading.js";
 import ShikiCodeBlock from "@/components/Tiptap/ShikiCodeBlock.vue";
+import Iframe from "@/components/Tiptap/iframe.ts";
 
- import mediumZoom from "medium-zoom/dist/pure";
- import "medium-zoom/dist/style.css";
+import mediumZoom from "medium-zoom/dist/pure";
+import "medium-zoom/dist/style.css";
 
 const breakpoints = useBreakpoints(breakpointsTailwind);
 const smallerEqualMd = breakpoints.smallerOrEqual("md");
@@ -676,6 +680,7 @@ onMounted(() => {
       StarterKit.configure({
         codeBlock: false,
       }),
+      Iframe,
       // Funcionalidad de color en el editor
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
       // Esto permite aplicar estilos de texto a los elementos de la lista
@@ -743,20 +748,20 @@ onMounted(() => {
     content: props.modelValue,
     editable: props.editable,
     onCreate: () => {
-       mediumZoom("[data-zoomable]", {
-         margin: 12,
-         background: "hsl(var(--background))",
-         scrollOffset: 0,
-       });
+      mediumZoom("[data-zoomable]", {
+        margin: 12,
+        background: "hsl(var(--background))",
+        scrollOffset: 0,
+      });
     },
     onUpdate: () => {
       // Esta función se ejecuta cada vez que el usuario actualiza el contenido del editor
       // y se utiliza para actualizar el valor en el padre
-       mediumZoom("[data-zoomable]", {
-         margin: 12,
-         background: "hsl(var(--background))",
-         scrollOffset: 0,
-       });
+      mediumZoom("[data-zoomable]", {
+        margin: 12,
+        background: "hsl(var(--background))",
+        scrollOffset: 0,
+      });
       emit("update:modelValue", editor.value.getHTML());
     },
   });
@@ -857,12 +862,12 @@ onBeforeUnmount(() => {
 //     editor.value.chain().focus().setExternalVideo({ src: url }).run()
 //   }
 // }
-// function addIframe() {
-//   const url = window.prompt("Ingresar URL del iframe");
-//   if (url) {
-//     editor.value.chain().focus().setIframe({ src: url }).run();
-//   }
-// }
+ function addIframe() {
+   const url = window.prompt("Ingresar URL del iframe");
+   if (url) {
+     editor.value.chain().focus().setIframe({ src: url }).run();
+   }
+ }
 </script>
 
 <style>
@@ -916,6 +921,14 @@ onBeforeUnmount(() => {
   hyphens: auto;
 }
 
+.tiptap p:has(img) {
+  margin: 0;
+}
+
+.tiptap p:has(img) img {
+  margin: 0;
+}
+
 .tiptap img {
   @apply mr-auto;
 }
@@ -932,21 +945,16 @@ onBeforeUnmount(() => {
   @apply bg-primary/20 break-all px-1 mx-0.5 rounded py-0.5 text-foreground ring-1 ring-primary/30 font-light text-sm;
 }
 
-/* .tiptap .iframe-wrapper {
-  @apply w-full h-[calc(100vh-9rem)] overflow-hidden m-0 border-2 bg-white border-primary/50 relative;
+ .tiptap .iframe-wrapper {
+  @apply w-full h-[calc(100vh-5rem)] overflow-hidden m-0  ring-0 bg-secondary border-primary/50 relative;
 }
 
 .tiptap .iframe-wrapper iframe {
-  @apply w-full h-[calc(100vh-9rem)] bg-white;
-}
-
-.tiptap iframe:before {
-  content: "Cargando iframe";
+  @apply w-full h-[calc(100vh-5rem)] bg-secondary;
 }
 
 
 
-*/
 .medium-zoom--opened .medium-zoom-overlay {
   z-index: 99;
 }

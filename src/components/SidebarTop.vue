@@ -10,10 +10,10 @@ import ToggleEditable from "./ToggleEditable.vue";
 const counter = useCounterStore();
 
 const keys = useMagicKeys();
-const CtrlShiftZ = keys["ctrl+shift+z"];
+const CtrlM = keys["ctrl+m"];
 const CtrlShiftE = keys["ctrl+shift+e"];
 
-whenever(CtrlShiftZ, () => {
+whenever(CtrlM, () => {
   counter.showProjects = !counter.showProjects;
 });
 
@@ -48,7 +48,7 @@ whenever(CtrlShiftE, () => {
       <ToggleEditable />
       <Tooltip
         :name="counter.showProjects ? 'Cerrar panel' : ' Abrir panel'"
-        shortcut="Ctrl Shift Z"
+        shortcut="Ctrl M"
         side="right"
       >
         <button

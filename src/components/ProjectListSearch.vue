@@ -79,9 +79,11 @@ watch(input, (v) => {
 function new_document() {
   if (largerThanLg.value === true) {
     counter.clear_editor();
+    counter.content_editable = true;
   } else {
     counter.clear_editor();
     counter.showProjects = false;
+    counter.content_editable = true;
   }
 }
 
@@ -173,6 +175,40 @@ const filteredOptions = computed(() => {
         </button>
       </div>
     </div>
+    <Tooltip
+      name="Esto significa que al seleccionar otro documento se perderan todos los cambios actuales del editor. Agrege un titulo y presione enter o el boton para crear el nuevo documento"
+      side="bottom" 
+      class="px-0.5"
+    >
+      <button
+        @click="new_document()"
+        class="flex items-center my-0.5 justify-center gap-2 text-xs min-h-7 w-full text-left bg-secondary focus-within:ring-1 ring-primary"
+        :class="{
+          '!bg-primary text-primary-foreground': loaded_id === null,
+          '!bg-primary text-primary-foreground animate-pulse': loaded_id === '',
+        }"
+      >
+        <Plus
+          v-show="loaded_id !== ''"
+          class="size-4"
+        />
+        <span
+          v-show="loaded_id === ''"
+          class="flex items-center gap-1"
+        >
+          Creando documento
+          <span
+            v-show="counter.project_name"
+            class="inline-block font-bold truncate opacity-80 max-w-24"
+          >
+            {{ counter.project_name }}
+          </span>
+          sin guardar
+        </span>
+        
+        <span v-show="loaded_id !== ''">Crear nuevo documento</span>
+      </button>
+    </Tooltip>
     <div
       class="relative flex items-center justify-between w-full gap-0.5 p-0.5 text-xs bg-background ring-secondary/60 focus-within:ring-secondary"
     >
@@ -257,18 +293,6 @@ const filteredOptions = computed(() => {
           <div
             class="py-1 px-0.5 flex flex-col justify-start items-start relative gap-1"
           >
-            <button
-              @click="new_document()"
-              class="flex items-center mb-0.5 justify-center gap-2 text-xs h-7 w-full text-left bg-secondary focus-within:ring-1 ring-primary"
-              :class="{
-                '!bg-primary text-primary-foreground': loaded_id === null,
-                '!bg-primary text-primary-foreground animate-pulse': loaded_id === '',
-              }"
-            >
-              <Plus class="size-4" />
-              <span v-show="loaded_id === ''">Creando</span>
-              <span v-show="loaded_id !== ''">Crear</span>
-            </button>
             <div
               v-for="item in filteredOptions"
               :key="item.id"

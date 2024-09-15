@@ -488,6 +488,10 @@
 [data-sonner-toast] [data-icon] svg {
   @apply !w-6 !h-6
 }
+
+button {
+  @apply  outline-primary focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2  ring-0
+}
 /* 
 [data-sonner-toast][data-styled=true] {
   @apply flex-col items-start

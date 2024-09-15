@@ -1,27 +1,20 @@
 <script setup>
-import { useCounterStore } from "@/stores/counter";
+
 import {
   ArrowRight,
   Check,
   ChevronDown,
-  Circle,
-  CircleCheckBig,
   CircleX,
-  FolderPen,
-  Plus,
   X,
 } from "lucide-vue-next";
-import { storeToRefs } from "pinia";
-import { computed, ref, watch } from "vue";
+
 import {
   onClickOutside,
-  useFocus,
   useMagicKeys,
   refDebounced,
-  breakpointsTailwind,
-  useBreakpoints,
   useStorage,
 } from "@vueuse/core";
+
 import {
   ScrollAreaRoot,
   ScrollAreaScrollbar,
@@ -38,9 +31,6 @@ import {
   SelectLabel,
   SelectPortal,
   SelectRoot,
-  SelectScrollDownButton,
-  SelectScrollUpButton,
-  SelectSeparator,
   SelectTrigger,
   SelectValue,
   SelectViewport,
@@ -51,33 +41,25 @@ import {
   DialogPortal,
   DialogRoot,
   DialogTitle,
-  DialogTrigger,
 } from "radix-vue";
 
-
-
+import { useCounterStore } from "@/stores/counter";
+import { storeToRefs } from "pinia";
+import { computed, ref, watch } from "vue";
 const showCommand = ref(false);
 const target = ref(null);
-const focusSearch = ref();
 const editing = ref(false);
-const { focused } = useFocus(focusSearch);
 const counter = useCounterStore();
-const { allItemsTodo, allItemsChecked, loaded_id, searchTerm, file_name } =
+const { allItemsTodo, loaded_id, searchTerm, file_name } =
   storeToRefs(counter);
 
 const keys = useMagicKeys();
 const CtrlShiftF = keys["ctrl+shift+f"];
 
 const debounced = refDebounced(searchTerm, 300);
-const breakpoints = useBreakpoints(breakpointsTailwind);
-const largerThanLg = breakpoints.greater("lg");
 
 // const sortOption = ref("name"); // Sort option state
 const sortOption = useStorage("sortItemsBy", "name");
-
-function editTitle() {
-  editing.value = !editing.value;
-}
 
 onClickOutside(target, () => {
   editing.value = false;
@@ -90,22 +72,9 @@ watch(input, (v) => {
   counter.auto_save();
 });
 
-function new_document() {
-  if (largerThanLg.value === true) {
-    counter.clear_editor();
-  } else {
-    counter.clear_editor();
-    counter.showProjects = false;
-  }
-}
-
 function set_document(id) {
   counter.set_project(id);
   showCommand.value = false;
-}
-
-function toggleCheck(item, isChecked) {
-  counter.mark_project_checked(item, isChecked);
 }
 
 const filteredOptions = computed(() => {
@@ -132,13 +101,16 @@ const filteredOptions = computed(() => {
 });
 
 function handleOpenChange() {
+  counter.searchTerm = "";
   showCommand.value = !showCommand.value
 }
 
 watch(CtrlShiftF, (v) => {
   if (v) handleOpenChange();
 });
+
 </script>
+
 <template>
   <DialogRoot v-model:open="showCommand">
     <DialogPortal>
@@ -165,7 +137,6 @@ watch(CtrlShiftF, (v) => {
               class="relative flex items-center justify-between w-full border border-secondary"
             >
               <input
-                ref="focusSearch"
                 v-model="searchTerm"
                 autofocus
                 placeholder="Filtrar"

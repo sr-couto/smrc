@@ -15,7 +15,7 @@ import {
 } from "radix-vue";
 import { X } from "lucide-vue-next";
 
-const lastVersion = "0.0.14"
+const lastVersion = "0.0.15"
 
 const props = defineProps({
   button: {
@@ -65,6 +65,19 @@ const props = defineProps({
               >
                 {{ lastVersion }} - Última version
               </DialogDescription>
+              <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
+                <li>Add: Se agrega iframe al editor.</li>
+                <li>Refactor: Cleanup code DialogProjectListSearch.</li>
+                <li>Refactor: ShikiCodeBlock posicion del autocompletable y scroll arriba del sombreado</li>
+                <li>Fix: forzar por defecto focus visible a botones</li>
+                <li>Fix: Hover al tachito de eliminar</li>
+                <li>Fix: Max width al tooltip</li>
+                <li>Fix: Max width al sidebar</li>
+                <li>Fix: Shortcut menu a <code>ctrl + m</code></li>
+              </ul>
+              <h4 class="mt-3 mb-5 leading-normal text-foreground">
+                0.0.14
+              </h4>
               <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
                 <li>Se revierte async editor.</li>
                 <li>Mejor dialog para buscar con ctrl shift f.</li>

@@ -43,7 +43,7 @@ const props = defineProps({
       <TooltipPortal>
         <TooltipContent
           :side="props.side"
-          class="data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade select-none  bg-primary px-2.5 py-1.5 will-change-[transform,opacity] flex gap-2 items-center justify-center"
+          class="data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade select-none max-w-80 bg-primary px-2.5 py-1.5 will-change-[transform,opacity] flex gap-2 items-center justify-center"
           :class="props.shortcut ? 'flex-col' : ' '"
           :side-offset="0"
           :align="props.align"
