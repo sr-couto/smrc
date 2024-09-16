@@ -199,7 +199,7 @@ const filteredOptions = computed(() => {
       >
         <Plus
           v-show="loaded_id !== ''"
-          class="size-4"
+          class="size-4 text-primary-foreground"
         />
         <span
           v-show="loaded_id === ''"
@@ -214,8 +214,10 @@ const filteredOptions = computed(() => {
           </span>
 
         </span>
-
-        <span v-show="loaded_id !== ''">Crear nuevo documento</span>
+        <span
+          class="text-primary-foreground"
+          v-show="loaded_id !== ''"
+        >Crear nuevo documento</span>
       </button>
     </Tooltip>
     <div
