@@ -7,6 +7,8 @@ import {
   Circle,
   CircleCheckBig,
   CircleX,
+  Database,
+  DatabaseZap,
   FolderPen,
   Plus,
 } from "lucide-vue-next";
@@ -153,14 +155,14 @@ const filteredOptions = computed(() => {
           {{ file_name }}
         </span>
         <Tooltip
-          name="Editar nombre de la base de datos"
-          side="bottom"
+          name="Editar nombre de la base de datos local"
+          side="top"
           align="end"
         >
           <span
             class="flex items-center justify-center duration-100 border border-transparent group-hover:border size-8 shrink-0 bg-background group-hover:border-primary"
           >
-            <FolderPen class="size-4 text-foreground" />
+            <DatabaseZap class="size-4 text-foreground" />
           </span>
         </Tooltip>
       </button>
