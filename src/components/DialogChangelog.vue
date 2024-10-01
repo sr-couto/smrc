@@ -15,7 +15,7 @@ import {
 } from "radix-vue";
 import { X } from "lucide-vue-next";
 
-const lastVersion = "0.0.16"
+const lastVersion = "0.0.17"
 
 const props = defineProps({
   button: {
@@ -65,6 +65,13 @@ const props = defineProps({
               >
                 {{ lastVersion }} - Última version
               </DialogDescription>
+              <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
+                <li>Fix: dropdown en toolbar mal posicionada por el container querie</li>
+                <li>Bump up dependencias</li>
+              </ul>
+              <h4 class="mt-3 mb-5 leading-normal text-foreground">
+                0.0.16
+              </h4>
               <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
                 <li>Se prueban usar shallowRef en lugar de Ref</li>
                 <li>Se agrega hasUnsavedChanges para chequear antes de cambiar de documento.</li>

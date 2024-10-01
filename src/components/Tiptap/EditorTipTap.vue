@@ -2,14 +2,14 @@
   <div
     v-if="editor"
     v-auto-animate
-    class="px-0.5 @container grid md:pr-2 w-full"
+    class="px-0.5  grid md:pr-2 w-full"
   >
     <div
       v-if="toolbar"
       class="sticky top-0 z-30 py-1 pt-0.5 bg-background"
     >
       <div
-        class="control-group max-w-full mx-auto w-full grid @3xl:flex @3xl:flex-row @3xl:flex-nowrap @3xl:items-start gap-1 relative"
+        class="relative grid w-full max-w-full gap-1 mx-auto control-group"
       >
         <!--
           Esto es un slot de vue, permite inyectar contenido en esta
@@ -66,11 +66,11 @@
           </Tooltip>
           <DropdownMenuRoot>
             <DropdownMenuTrigger
-              class="data-[state=open]:!bg-primary data-[state=open]:text-primary-foreground"
+              class="data-[state=open]:!bg-primary data-[state=open]:text-primary-foreground relative"
             >
               <Tooltip
                 name="Agregar imagen"
-                side="bottom"
+                :side="'bottom'"
               >
                 <span
                   class="flex items-center justify-center border outline-none size-9 focus-visible:border-primary border-secondary"
@@ -80,8 +80,8 @@
               </Tooltip>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              side="bottom"
-              :align="smallerEqualMd ? 'center' : 'end'"
+              :side="'bottom'"
+              :align="'end'"
               class="z-50 grid w-64 grid-cols-2 text-xs gap-0.5 bg-secondary border border-secondary"
             >
               <DropdownMenuItem
@@ -111,6 +111,7 @@
                 <ImageDown class="size-10" />
                 Url
               </DropdownMenuItem>
+              <DropdownMenuArrow />
             </DropdownMenuContent>
           </DropdownMenuRoot>
           <Tooltip
@@ -586,6 +587,7 @@ import {
   Globe,
 } from "lucide-vue-next";
 import {
+  DropdownMenuArrow,
   ScrollAreaRoot,
   ScrollAreaScrollbar,
   ScrollAreaThumb,
@@ -1017,7 +1019,7 @@ html.dark .shiki span {
 }
 
 .tiptap [data-youtube-video] iframe {
-  @apply w-full h-64 @lg:h-96 @lg:aspect-video aspect-square relative z-20;
+  @apply w-full h-64 aspect-video relative z-20;
   /* aspect-ratio: 16/9; */
 }
 
