@@ -1,7 +1,7 @@
 <script setup>
 import { useCounterStore } from "@/stores/counter";
 import Tooltip from "./ui/Tooltip.vue";
-import { Eye, Pencil } from "lucide-vue-next";
+import { BookText, PencilLine } from "lucide-vue-next";
 const counter = useCounterStore();
 </script>
 
@@ -20,11 +20,11 @@ const counter = useCounterStore();
       class="flex items-center justify-center bg-background hover:bg-secondary/80 size-8"
       :class="counter.showProjects ? ' border border-secondary ' : '  '"
     >
-      <Eye
+      <BookText
         class="size-4"
         v-show="counter.content_editable"
       />
-      <Pencil
+      <PencilLine
         class="size-4"
         v-show="!counter.content_editable"
       />

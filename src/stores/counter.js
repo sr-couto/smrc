@@ -17,6 +17,7 @@ export const useCounterStore = defineStore("counter", () => {
   const showImportModal = shallowRef(false);
   const shareOptions = shallowRef([]);
   const content_editable = shallowRef(true);
+  const editor = shallowRef(null);
 
   function toggleEditable() {
     content_editable.value = !content_editable.value;
@@ -345,6 +346,7 @@ export const useCounterStore = defineStore("counter", () => {
     delete_project,
     auto_save,
     clear_editor,
+    editor,
     mark_project_checked,
     showImportModal,
     content_editable,

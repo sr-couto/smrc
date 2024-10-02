@@ -15,7 +15,7 @@ import {
 } from "radix-vue";
 import { X } from "lucide-vue-next";
 
-const lastVersion = "0.0.17"
+const lastVersion = "0.0.18"
 
 const props = defineProps({
   button: {
@@ -65,6 +65,14 @@ const props = defineProps({
               >
                 {{ lastVersion }} - Última version
               </DialogDescription>
+              <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
+                <li>Refactor: El shallowRef del editor ahora se aloja en el store global.</li>
+                <li>Refactor: se separa la toolbar a un componente aparte.</li>
+                <li>Refactor: se modifican los iconos de previsualizar y editable</li>
+              </ul>
+              <h4 class="mt-3 mb-5 leading-normal text-foreground">
+                0.0.17
+              </h4>
               <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
                 <li>Fix: dropdown en toolbar mal posicionada por el container querie</li>
                 <li>Bump up dependencias</li>
