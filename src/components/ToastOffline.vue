@@ -1,6 +1,6 @@
 <script setup>
 import { useRegisterSW } from "virtual:pwa-register/vue";
-import DialogChangelog from "./DialogChangelog.vue";
+import { SquareArrowOutUpRight } from "lucide-vue-next";
 const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW();
 
 async function close() {
@@ -30,7 +30,14 @@ async function close() {
         <p>
           Click en recargar para actualizar la app o click en cerrar para dejarla pendiente.
         </p>
-        <DialogChangelog button />
+        <a
+          target="_blank"
+          class="flex items-center justify-center gap-2"
+          href="https://github.com/sr-couto/smrc/blob/main/src/components/DialogChangelog.vue#L68-L76"
+        >
+          Github changelog
+          <SquareArrowOutUpRight class="size-3" />
+        </a>
       </div>
     </div>
     <div class="grid grid-cols-2 gap-2">
@@ -51,17 +58,19 @@ async function close() {
 .pwa-toast {
   @apply bg-secondary font-mono border border-background text-foreground fixed right-0 bottom-11 m-3 p-3 z-[9996] text-left;
 }
+
 .pwa-toast .message {
   margin-bottom: 8px;
   @apply text-xs w-64;
 }
-.pwa-toast button {
+
+.pwa-toast button,
+.pwa-toast a {
   border: 1px solid #8885;
   outline: none;
   margin-right: 5px;
   border-radius: 2px;
   padding: 3px 10px;
-  @apply text-xs font-mono;
+  @apply text-xs font-mono text-center;
 }
-
 </style>
