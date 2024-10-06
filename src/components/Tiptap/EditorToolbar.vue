@@ -197,18 +197,7 @@ function addIframe() {
         <Globe class="size-4" />
       </button>
     </Tooltip>
-    <Tooltip
-      name="Formato texto"
-      side="bottom"
-    >
-      <button
-        class="flex items-center justify-center mr-1 outline-none size-8 focus-visible:border-primary border-secondary"
-        :class="showEditorToolbar ? 'bg-primary text-primary-foreground' : ''"
-        @click="showEditorToolbar = !showEditorToolbar"
-      >
-        <SquarePilcrow class="size-4" />
-      </button>
-    </Tooltip>
+
     <template v-if="showEditorToolbar">
       <DropdownMenuRoot>
         <DropdownMenuTrigger class="headingSelector">
@@ -582,15 +571,16 @@ function addIframe() {
 .headingSelector {
   /* grid-column: 1 / 8; */
   @apply flex items-center !text-xs !justify-between bg-secondary/20 px-2;
-  @apply !min-w-44 !max-w-44 w-full;
+  @apply !min-w-40 !max-w-40 w-full;
 }
 
 .button-group button {
-  @apply border border-secondary focus-within:border-primary outline-none h-8 min-w-8 max-w-8 xl:max-w-14 text-sm focus-visible:border-primary flex justify-center items-center duration-100;
+  @apply border border-secondary focus-within:border-primary outline-none h-8 min-w-8 max-w-8 xl:max-w-14 text-sm focus-visible:border-primary hover:border-primary flex justify-center items-center duration-100;
+  flex: 1;
 }
 
 .control-group button {
-  @apply disabled:opacity-50;
+  @apply disabled:text-foreground/30;
 }
 
 .button-group button.is-active {

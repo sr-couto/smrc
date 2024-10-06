@@ -41,16 +41,16 @@ const { editor } = storeToRefs(counter);
 
 const props = defineProps({
   modelValue: {
-    type: String, 
-    default: "", 
+    type: String,
+    default: "",
   },
   toolbar: {
-    type: Boolean, 
-    default: false, 
+    type: Boolean,
+    default: false,
   },
   editable: {
-    type: Boolean, 
-    default: false, 
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -117,18 +117,22 @@ onMounted(() => {
     content: props.modelValue,
     editable: props.editable,
     onCreate: () => {
-      mediumZoom("[data-zoomable]", {
-        margin: 12,
-        background: "hsl(var(--background))",
-        scrollOffset: 0,
-      });
+      if (!props.editable) {
+        mediumZoom("[data-zoomable]", {
+          margin: 12,
+          background: "hsl(var(--background))",
+          scrollOffset: 0,
+        });
+      }
     },
     onUpdate: () => {
-      mediumZoom("[data-zoomable]", {
-        margin: 12,
-        background: "hsl(var(--background))",
-        scrollOffset: 0,
-      });
+      if (!props.editable) {
+        mediumZoom("[data-zoomable]", {
+          margin: 12,
+          background: "hsl(var(--background))",
+          scrollOffset: 0,
+        });
+      }
       emit("update:modelValue", editor.value.getHTML());
     },
   });
@@ -148,13 +152,11 @@ onBeforeUnmount(() => {
       v-if="toolbar"
       class="sticky top-0 z-30 py-1 pt-0.5 bg-background"
     >
-      <div
-        class="relative grid w-full max-w-full gap-1 mx-auto control-group"
-      >
+      <div class="relative grid w-full max-w-full gap-1 mx-auto control-group">
         <!-- Inicio Slot: Muestra o el titulo o un input -->
         <slot />
         <!-- fin slot -->
-        <EditorToolbar />      
+        <EditorToolbar />
       </div>
     </div>
     <ScrollAreaRoot
@@ -192,7 +194,6 @@ onBeforeUnmount(() => {
 </template>
 
 <style>
-
 .tiptap {
   @apply p-4 outline-none placeholder:text-primary min-h-64 font-serif;
 }
@@ -239,8 +240,8 @@ onBeforeUnmount(() => {
   @apply bg-primary/20 break-all px-1 mx-0.5 rounded py-0.5 text-foreground ring-1 ring-primary/30 font-light text-sm;
 }
 
- .tiptap .iframe-wrapper {
-  @apply w-full h-[calc(100vh-5rem)] overflow-hidden m-0  ring-0 bg-secondary border-primary/50 relative;
+.tiptap .iframe-wrapper {
+  @apply w-full h-[calc(100vh-5rem)] overflow-hidden m-0 ring-0 bg-secondary border-primary/50 relative;
 }
 
 .tiptap .iframe-wrapper iframe {
@@ -252,6 +253,7 @@ onBeforeUnmount(() => {
 .medium-zoom--opened .medium-zoom-overlay {
   z-index: 99;
 }
+
 .medium-zoom-image--opened {
   z-index: 100;
   margin: 0;

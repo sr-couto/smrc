@@ -12,6 +12,8 @@ export const useCounterStore = defineStore("counter", () => {
   const file_name = shallowRef("");
   const project_name = shallowRef("");
   const project_body = shallowRef("");
+  const project_checked = shallowRef(null);
+  const project_fixed = shallowRef(null);
   const searchTerm = shallowRef("");
   const showProjects = shallowRef(true);
   const showImportModal = shallowRef(false);
@@ -49,6 +51,7 @@ export const useCounterStore = defineStore("counter", () => {
           body: project_body.value,
           name: project_name.value,
           checked: false,
+          fixed: false,
         },
       });
       loaded_id.value = new_project_id;
@@ -71,6 +74,8 @@ export const useCounterStore = defineStore("counter", () => {
         project_data: {
           body: project_body.value,
           name: project_name.value,
+          checked: project_checked.value,
+          fixed: project_fixed.value,
         },
       });
     } catch (error) {
@@ -85,14 +90,15 @@ export const useCounterStore = defineStore("counter", () => {
  * @param {boolean} isChecked - The new checked status of the project.
  * @return {Promise<void>} - A promise that resolves when the project is updated.
  */
-  async function mark_project_checked(item, isChecked) {
+  async function change_project_checked(item, isChecked) {
     try {
       await db.projects.update(item.id, {
         date: new Date().toISOString(),
         project_data: {
           body: item.project_data.body,
           name: item.project_data.name,
-          checked: isChecked
+          checked: isChecked,
+          fixed: false
         },
       });
       toast(isChecked ? `Proyecto "${item.project_data.name}" marcado como completado` : `Proyecto "${item.project_data.name}" desmarcado`);
@@ -100,6 +106,25 @@ export const useCounterStore = defineStore("counter", () => {
       handleError("Error al marcar el proyecto", error);
     }
   }
+
+  async function change_project_fixed(item, isFixed) {
+    try {
+      await db.projects.update(item.id, {
+        date: new Date().toISOString(),
+        project_data: {
+          body: item.project_data.body,
+          name: item.project_data.name,
+          checked: item.project_data.checked,
+          fixed: !isFixed
+        },
+      });
+      toast(isFixed ? `"${item.project_data.name}" se ha desfijado` : `"${item.project_data.name}" se ha fijado`);
+    } catch (error) {
+      handleError("Error al marcar el proyecto", error);
+    }
+  }
+
+  
 
   /**
    * Asincrónicamente establece el proyecto actual basado en el ID proporcionado.
@@ -120,6 +145,8 @@ export const useCounterStore = defineStore("counter", () => {
         if (selectedState) {
           project_body.value = selectedState.project_data.body;
           project_name.value = selectedState.project_data.name;
+          project_fixed.value = selectedState.project_data.fixed;
+          project_checked.value = selectedState.project_data.checked;
         } else {
           clear_editor();
           console.error("Selected project not found");
@@ -214,8 +241,6 @@ export const useCounterStore = defineStore("counter", () => {
    * @return {Promise<void>} A promise that resolves when the import is complete.
    */
   async function import_database(file) {
-    // check if file is a json file
-
     const replace_file_name = file.name.replace(".json", "");
     const confirmationMessage = file_name.value
       ? `¿Desea reemplazar la DB ${file_name.value} con la información de ${replace_file_name}?`
@@ -324,11 +349,14 @@ export const useCounterStore = defineStore("counter", () => {
     )
   );
 
+
   return {
     loaded_id,
     file_name,
     project_body,
     project_name,
+    project_checked,
+    project_fixed,
     searchTerm,
     status,
     allItemsTodo,
@@ -347,7 +375,8 @@ export const useCounterStore = defineStore("counter", () => {
     auto_save,
     clear_editor,
     editor,
-    mark_project_checked,
+    change_project_checked,
+    change_project_fixed,
     showImportModal,
     content_editable,
     toggleEditable

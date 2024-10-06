@@ -9,7 +9,7 @@
     >
       <ScrollAreaViewport
         class="w-full "
-        :class="showFullCode ? 'h-full' : 'max-h-[350px]'"
+        :class="showFullCode ? 'h-full' : 'max-h-[600px]'"
       >
         <div
           ref="codeHeight"
@@ -18,7 +18,7 @@
           <pre><code class="text-xs leading-6 break-all"><node-view-content /></code></pre>
         </div>
         <div
-          v-show="!showFullCode && height > 350"
+          v-show="!showFullCode && height > 600"
           class="absolute bottom-0 left-0 right-0 z-10 h-16 pointer-events-none bg-gradient-to-b from-transparent via-transparent to-[#1f2937] dark:to-[#060504]"
         />
       </ScrollAreaViewport>
@@ -54,7 +54,7 @@
       </button>
       <button
         class="flex items-center justify-center duration-100 size-6 bg-secondary shrink-0"
-        v-if="height > 350"
+        v-if="height > 600"
         @click="showFullCode = !showFullCode"
       >
         <FoldVertical

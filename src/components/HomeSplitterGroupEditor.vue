@@ -51,7 +51,7 @@ watch(project_body, (v) => {
                 spellcheck="false"
                 v-model="counter.project_name"
                 style="field-sizing: content"
-                class="w-full px-2 py-1 overflow-visible border outline-none resize-none min-h-9 create_project bg-background text-foreground border-secondary focus-within:border-primary placeholder:text-foreground/50"
+                class="w-full px-2 py-1 overflow-visible border outline-none resize-none min-h-9 create_project bg-background text-foreground border-secondary focus-within:border-primary placeholder:text-foreground/50 hover:border-primary"
               />
 
               <button
@@ -82,7 +82,7 @@ watch(project_body, (v) => {
         </div>
       </SplitterPanel>
       <SplitterResizeHandle
-        class="hidden lg:flex group justify-center items-center w-8 border-l-2 border-secondary data-[state=hover]:border-primary/90  data-[state=drag]:border-primary/90 data-[state=hover]:delay-700 data-[state=hover]:border-l-4 duration-300"
+        class="hidden lg:flex group justify-center items-center w-8 border-l-2 border-secondary/10 data-[state=hover]:border-primary/90  data-[state=drag]:border-primary/90 data-[state=hover]:delay-700 data-[state=hover]:border-l-4 duration-300"
       >
         <Tooltip
           :name="panelRef?.isCollapsed ? 'Contraer' : 'Expandir'"

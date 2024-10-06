@@ -15,7 +15,7 @@ import {
 } from "radix-vue";
 import { X } from "lucide-vue-next";
 
-const lastVersion = "0.0.18"
+const lastVersion = "0.0.19"
 
 const props = defineProps({
   button: {
@@ -63,12 +63,24 @@ const props = defineProps({
                 as="h4"
                 class="mt-3 mb-5 leading-normal text-foreground"
               >
-                {{ lastVersion }} - Última version
+                {{ lastVersion }} - <small>Última version desplegada</small>
               </DialogDescription>
               <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
-                <li>Refactor: El shallowRef del editor ahora se aloja en el store global.</li>
+                <li>Feat: Se agrega <code>async function change_project_fixed</code></li>
+                <li>Feat: Se agregan al estado global los ref <code>project_checked</code> y <code>project_fixed</code></li>
+                <li>Refactor: Se desactiva la posibilidad de ocultar barra de texto.</li>
+                <li>Refactor: Se lleva el alto maximo del bloque de codigo a 600px.</li>
+                <li>Refactor: Botones tienen el mismo hover que focus-within.</li>
+                <li>Refactor: Nombre de la función <code>change_project_checked</code> reemplaza a <code>mark_project_checked</code>.</li>
+                <li>Refactor: Solo se puede hacer zoom a la imagen en modo previsualización.</li>
+              </ul>
+              <h4 class="mt-3 mb-5 leading-normal text-foreground">
+                0.0.18
+              </h4>
+              <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
+                <li>Refactor: El <code>shallowRef</code> del editor ahora se aloja en el store global.</li>
                 <li>Refactor: se separa la toolbar a un componente aparte.</li>
-                <li>Refactor: se modifican los iconos de previsualizar y editable</li>
+                <li>Refactor: se modifican los iconos de previsualizar y editable.</li>
               </ul>
               <h4 class="mt-3 mb-5 leading-normal text-foreground">
                 0.0.17
@@ -81,7 +93,7 @@ const props = defineProps({
                 0.0.16
               </h4>
               <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
-                <li>Se prueban usar shallowRef en lugar de Ref</li>
+                <li>Se prueban usar <code>shallowRef</code> en lugar de <code>ref</code></li>
                 <li>Se agrega hasUnsavedChanges para chequear antes de cambiar de documento.</li>
               </ul>
               <h4 class="mt-3 mb-5 leading-normal text-foreground">
@@ -90,7 +102,7 @@ const props = defineProps({
               <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
                 <li>Add: Se agrega iframe al editor.</li>
                 <li>Refactor: Cleanup code DialogProjectListSearch.</li>
-                <li>Refactor: ShikiCodeBlock posicion del autocompletable y scroll arriba del sombreado</li>
+                <li>Refactor: <code>ShikiCodeBlock</code> posicion del autocompletable y scroll arriba del sombreado</li>
                 <li>Fix: forzar por defecto focus visible a botones</li>
                 <li>Fix: Hover al tachito de eliminar</li>
                 <li>Fix: Max width al tooltip</li>
@@ -193,3 +205,22 @@ const props = defineProps({
     </DialogPortal>
   </DialogRoot>
 </template>
+
+
+<style scoped>
+
+code {
+  @apply bg-primary/20 break-all px-1 mx-0.5 rounded py-0.5 text-foreground ring-1 ring-primary/30 font-light text-sm;
+}
+
+code::before,
+code::after {
+  content: ""
+}
+
+li {
+  text-wrap: pretty;
+  margin: 0.75rem 0;
+}
+
+</style>
