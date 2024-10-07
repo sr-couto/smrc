@@ -65,7 +65,7 @@ const truncatedString = computed((str) => {
 
 </script>
 <template>
-  <div class="relative flex items-center justify-between w-full py-1 md:py-0 group">
+  <div class="relative flex items-center justify-between w-full pr-2 md:pr-0 group">
     <Tooltip :name="props.data.project_data?.fixed ? 'Desfijar' : 'Fijar'">
       <div class="flex items-center">
         <ArrowRight
@@ -74,7 +74,7 @@ const truncatedString = computed((str) => {
         />
         <button
           @click="toggleFixed(props.data, props.data.project_data?.fixed)"
-          class="hidden mx-1 duration-300 outline-none group-hover:inline-flex hover:text-primary"
+          class="hidden py-1 mx-1 duration-300 outline-none group-hover:inline-flex md:py-0 hover:text-primary"
           :class="props.data.project_data?.fixed ? '!inline-flex' : ''"
         >
           <template v-if="props.data.project_data?.fixed">
@@ -93,7 +93,7 @@ const truncatedString = computed((str) => {
     >
       <p class="@sm:max-w-full max-w-80 ">
         <!-- {{ truncatedString(props.data.project_data?.name) }} -->
-        {{ props.data.project_data?.name.length > 29 ? props.data.project_data?.name.substring(0, 29) + '&hellip;' : props.data.project_data?.name }}
+        {{ props.data.project_data?.name.length > 25 ? props.data.project_data?.name.substring(0, 25) + '&hellip;' : props.data.project_data?.name }}
       </p>
     </button>
     <input
@@ -107,9 +107,9 @@ const truncatedString = computed((str) => {
     <Tooltip name="Marcar como completo">
       <label
         :for="'todo-' + props.data.id"
-        class="flex items-center justify-center rounded-full relative z-[50] mr-0.5 peer-focus:ring-1 peer-focus:ring-primary size-6 shrink-0 peer-checked:border-blue-600 hover:text-primary peer-checked:text-primary hover:bg-secondary/20"
+        class="flex items-center justify-center rounded-full relative z-[50] mr-0.5 peer-focus:ring-1 peer-focus:ring-primary size-7 md:size-6 shrink-0 peer-checked:border-blue-600 hover:text-primary peer-checked:text-primary hover:bg-secondary/20"
       >
-        <Circle class="size-4" />
+        <Circle class="size-5 md:size-4" />
       </label>
     </Tooltip>
   </div>
