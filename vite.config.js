@@ -23,6 +23,9 @@ export default defineConfig({
         description: 'SMRC',
         theme_color: '#020817'
       },
+      workbox: {
+        maximumFileSizeToCacheInBytes: 10000000,
+      }
     }),
     vueDevTools(),
   ],
@@ -33,6 +36,7 @@ export default defineConfig({
   },
   build: {
     chunkSizeWarningLimit: 10000,
+    
     rollupOptions: {
       output: {
         manualChunks(id) {
