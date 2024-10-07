@@ -48,8 +48,8 @@ function driverJsInit() {
       {
         element: '.CreateNewButton',
         popover: {
-          title: 'Crear nuevo documento',
-          description: 'Puedes exportar el proyecto y guardarlo localmente para luego importarlos',
+          title: 'Nuevo documento',
+          description: 'Creá todos los documentos que quieras.',
           side: 'bottom',
           align: 'center'
         }
