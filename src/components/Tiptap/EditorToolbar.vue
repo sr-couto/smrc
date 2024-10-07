@@ -202,22 +202,22 @@ function addIframe() {
       <DropdownMenuRoot>
         <DropdownMenuTrigger class="headingSelector">
           <template v-if="editor.isActive('heading', { level: 1 })">
-            Título nivel 1 (H1)
+            Título nivel 1
           </template>
           <template v-else-if="editor.isActive('heading', { level: 2 })">
-            Título nivel 2 (H2)
+            Título nivel 2
           </template>
           <template v-else-if="editor.isActive('heading', { level: 3 })">
-            Título nivel 3 (H3)
+            Título nivel 3
           </template>
           <template v-else-if="editor.isActive('heading', { level: 4 })">
-            Título nivel 4 (H4)
+            Título nivel 4
           </template>
           <template v-else-if="editor.isActive('heading', { level: 5 })">
-            Título nivel 5 (H5)
+            Título nivel 5
           </template>
           <template v-else-if="editor.isActive('heading', { level: 6 })">
-            Título nivel 6 (H6)
+            Título nivel 6
           </template>
           <template v-else-if="editor.isActive('bulletList')">
             Lista desordenada

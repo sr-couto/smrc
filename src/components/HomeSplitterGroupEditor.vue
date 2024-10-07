@@ -20,6 +20,7 @@ watch(project_name, (v) => {
 watch(project_body, (v) => {
   if (v) counter.auto_save();
 });
+
 </script>
 
 <template>
@@ -36,7 +37,7 @@ watch(project_body, (v) => {
       <SplitterPanel :min-size="80">
         <div
           :key="counter.loaded_id"
-          class="h-full mx-auto ring-1 lg:w-full ring-secondary"
+          class="relative h-full mx-auto ring-1 lg:w-full ring-secondary"
         >
           <Editor
             v-if="counter.content_editable"
@@ -44,7 +45,7 @@ watch(project_body, (v) => {
             toolbar
             editable
           >
-            <div class="flex items-start justify-between w-full gap-1">
+            <div class="flex flex-col items-start justify-between w-full gap-1">
               <textarea
                 placeholder="Item sin título"
                 autocomplete="off"
@@ -53,19 +54,6 @@ watch(project_body, (v) => {
                 style="field-sizing: content"
                 class="w-full px-2 py-1 overflow-visible border outline-none resize-none min-h-9 create_project bg-background text-foreground border-secondary focus-within:border-primary placeholder:text-foreground/50 hover:border-primary"
               />
-
-              <button
-                v-show="!counter.loaded_id"
-                @click="counter.create_project()"
-                :disabled="counter.project_name === ''"
-                :class="counter.project_name
-                  ? 'bg-primary text-primary-foreground '
-                  : 'opacity-50 bg-secondary  pointer-events-none'
-                "
-                class="px-3 text-xs h-9 shrink-0"
-              >
-                Guardar documento
-              </button>
             </div>
           </Editor>
           <Editor
@@ -79,6 +67,22 @@ watch(project_body, (v) => {
               {{ counter.project_name }}
             </h1>
           </Editor>
+          <button
+            v-show="!counter.loaded_id"
+            @click="counter.create_project()"
+            :disabled="counter.project_name === ''"
+            :class="counter.project_name
+              ? 'bg-primary text-primary-foreground '
+              : 'disabled bg-secondary  pointer-events-none'
+            "
+            class="absolute bottom-0 left-0.5 right-0 md:right-2 z-20 px-3 text-xs h-11"
+          >
+            <span
+              class="GuardarDocumento"
+            >
+              Guardar documento
+            </span>
+          </button>
         </div>
       </SplitterPanel>
       <SplitterResizeHandle
@@ -110,7 +114,7 @@ watch(project_body, (v) => {
     <button
       @click="counter.delete_project()"
       class="fixed bottom-0 right-0 flex items-center justify-center ml-auto text-xs size-8 hover:bg-primary/30 bg-primary/10"
-      :class="counter.loaded_id ? 'text-primary' : 'opacity-50 pointer-events-none'
+      :class="counter.loaded_id ? 'text-primary' : 'hidden'
       "
     >
       <Trash2 class="size-4" />

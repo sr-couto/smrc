@@ -160,7 +160,7 @@ onBeforeUnmount(() => {
       </div>
     </div>
     <ScrollAreaRoot
-      class="w-full border border-secondary"
+      class="w-full border EditorCK border-secondary"
       :class="[
         showEditorToolbar ? 'h-[calc(100vh-5.375rem)]' : 'h-[calc(100vh-2.75rem)]',
         !toolbar ? 'border-transparent !h-screen' : '',

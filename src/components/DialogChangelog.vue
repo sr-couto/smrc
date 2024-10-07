@@ -15,7 +15,7 @@ import {
 } from "radix-vue";
 import { X } from "lucide-vue-next";
 
-const lastVersion = "0.0.19"
+const lastVersion = "0.0.20"
 
 const props = defineProps({
   button: {
@@ -65,6 +65,15 @@ const props = defineProps({
               >
                 {{ lastVersion }} - <small>Última version desplegada</small>
               </DialogDescription>
+              <h4 class="mt-3 mb-5 leading-normal text-foreground">
+                0.0.19
+              </h4>
+              <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
+                <li>Feat: se agrega un Tour la primera vez que ingresas.</li>
+                <li>Refactor: Se modifica la posición y la jerarquia del boton Guardar documento.</li>
+                <li>Refactor: Mas padding en mobile para el listado de documentos.</li>
+                <li>Bump up dependencias</li>
+              </ul>
               <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
                 <li>Feat: Se agrega <code>async function change_project_fixed</code></li>
                 <li>Feat: Se agregan al estado global los ref <code>project_checked</code> y <code>project_fixed</code></li>

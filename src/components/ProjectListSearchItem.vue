@@ -65,7 +65,7 @@ const truncatedString = computed((str) => {
 
 </script>
 <template>
-  <div class="relative flex items-center justify-between w-full group">
+  <div class="relative flex items-center justify-between w-full py-1 md:py-0 group">
     <Tooltip :name="props.data.project_data?.fixed ? 'Desfijar' : 'Fijar'">
       <div class="flex items-center">
         <ArrowRight

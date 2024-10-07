@@ -15,8 +15,8 @@ import {
 } from "radix-vue";
 import { CircleHelp, TentTree, X } from "lucide-vue-next";
 import Tooltip from "./ui/Tooltip.vue";
-import { useCounterStore } from "@/stores/counter";
 import DialogChangelog from "./DialogChangelog.vue";
+import { useCounterStore } from "@/stores/counter";
 const counter = useCounterStore();
 
 </script>

@@ -6,6 +6,7 @@ import ToggleTheme from "@/components/ToggleTheme.vue";
 import Tooltip from "@/components/ui/Tooltip.vue";
 import DialogInfo from "@/components/DialogInfo.vue";
 import ToggleEditable from "./ToggleEditable.vue";
+import Tour from "./Tour.vue";
 
 const counter = useCounterStore();
 
@@ -41,9 +42,10 @@ whenever(CtrlShiftE, () => {
     
     <div
       class="grid gap-0.5"
-      :class="counter.showProjects ? ' grid-cols-4 ' : ' grid-cols-1 '"
+      :class="counter.showProjects ? ' grid-cols-4' : ' grid-cols-1 '"
     >
       <DialogInfo />
+      <Tour />
       <ToggleTheme />
       <ToggleEditable />
       <Tooltip

@@ -1,15 +1,10 @@
 <script setup>
 import { useCounterStore } from "@/stores/counter";
 import {
-  ArrowRight,
   Check,
   ChevronDown,
-  Circle,
-  CircleOff,
   CircleX,
   DatabaseZap,
-  Pin,
-  PinOff,
   Plus,
 } from "lucide-vue-next";
 import { storeToRefs } from "pinia";
@@ -95,7 +90,7 @@ const allItemsUncheckedFiltered = computed(() => {
   const sortedItems = [...allItemsTodo.value].sort((a, b) => {
     const aFixed = a.project_data?.fixed ?? false;
     const bFixed = b.project_data?.fixed ?? false;
-    
+
     if (aFixed !== bFixed) {
       return bFixed - aFixed;
     }
@@ -122,7 +117,7 @@ const allItemsUncheckedFiltered = computed(() => {
 <template>
   <div class="h-full @container">
     <div
-      class="flex items-center justify-center mx-0.5 text-sm border group bg-background/80 hover:bg-secondary/50 border-secondary"
+      class="DataBaseTitle flex items-center justify-center mx-0.5 text-sm border group bg-background/80 hover:bg-secondary/50 border-secondary"
     >
       <button
         v-if="!editing"
@@ -175,7 +170,7 @@ const allItemsUncheckedFiltered = computed(() => {
     >
       <button
         @click="loaded_id === '' ? null : new_document()"
-        class="flex items-center my-0.5 justify-center gap-2 text-xs min-h-7 w-full text-left bg-primary focus-within:ring-1 ring-primary"
+        class="CreateNewButton flex items-center my-0.5 justify-center gap-2 text-xs min-h-7 w-full text-left bg-primary focus-within:ring-1 ring-primary"
         :class="{
           '!bg-primary text-primary-foreground': loaded_id === null,
           '!bg-secondary text-secondary-foreground animate-pulse': loaded_id === '',
@@ -207,7 +202,9 @@ const allItemsUncheckedFiltered = computed(() => {
     <div
       class="relative flex items-center justify-between w-full gap-0.5 p-0.5 text-xs bg-background ring-secondary/60 focus-within:ring-secondary"
     >
-      <div class="relative flex items-center justify-between w-full border-2 hover:border-primary focus-within:border-primary h-7 border-secondary">
+      <div
+        class="relative flex items-center justify-between w-full border-2 hover:border-primary focus-within:border-primary h-7 border-secondary"
+      >
         <input
           ref="focusSearch"
           v-model="searchTerm"
@@ -293,6 +290,14 @@ const allItemsUncheckedFiltered = computed(() => {
               :key="item.id"
               :data="item"
             />
+            <div
+              v-if="allItemsUncheckedFiltered?.length + allItemsChecked?.length === 0"
+              class=" w-full h-[calc(100vh-20rem)] text-center flex items-center justify-center"
+            >
+              <p class="w-40 text-xs text-muted-foreground text-pretty">
+                Aqui se mostrarán tus documentos
+              </p>
+            </div>
           </div>
         </ScrollAreaViewport>
         <ScrollAreaScrollbar
