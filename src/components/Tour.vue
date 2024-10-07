@@ -59,7 +59,7 @@ function driverJsInit() {
         popover: {
           title: 'Importar y Exportar',
           description: 'Puedes exportar el proyecto y guardarlo localmente para luego importarlos',
-          side: 'bottom',
+          side: 'top',
           align: 'center'
         }
       },
