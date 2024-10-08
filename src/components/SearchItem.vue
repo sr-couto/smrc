@@ -65,7 +65,7 @@ const truncatedString = computed((str) => {
 
 </script>
 <template>
-  <div class="relative flex items-center justify-between w-full pr-2 md:pr-0 group">
+  <div class="relative flex items-center justify-between w-full pr-3 h-7 md:pr-2 group">
     <Tooltip :name="props.data.project_data?.fixed ? 'Desfijar' : 'Fijar'">
       <div class="flex items-center">
         <ArrowRight
@@ -87,7 +87,7 @@ const truncatedString = computed((str) => {
       </div>
     </Tooltip>
     <button
-      class="flex py-0.5 rounded w-full items-center outline-none justify-start gap-2 text-sm text-left focus-within:ring-1 ring-primary"
+      class="flex px-2 py-0.5 rounded w-full items-center outline-none justify-start gap-2 text-sm text-left focus-within:ring-1 ring-primary"
       :class="loaded_id === props.data.id ? 'text-primary' : ''"
       @click="set_document(props.data.id)"
     >

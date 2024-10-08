@@ -10,9 +10,6 @@ export interface IframeOptions {
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
     iframe: {
-      /**
-       * Add an iframe
-       */
       setIframe: (options: { src: string }) => ReturnType;
     };
   }
@@ -20,9 +17,7 @@ declare module "@tiptap/core" {
 
 export default Node.create<IframeOptions>({
   name: "iframe",
-
   group: "block",
-
   atom: true,
 
   addOptions() {

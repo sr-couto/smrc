@@ -15,7 +15,7 @@ import {
 } from "radix-vue";
 import { X } from "lucide-vue-next";
 
-const lastVersion = "0.0.21"
+const lastVersion = "0.1.0"
 
 const props = defineProps({
   button: {
@@ -65,6 +65,12 @@ const props = defineProps({
               >
                 {{ lastVersion }} - <small>Última version desplegada</small>
               </DialogDescription>
+              <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
+                <li>Refactor: Rearmado de archivos y limpieza de código.</li>
+              </ul>
+              <h4 class="mt-3 mb-5 leading-normal text-foreground">
+                0.0.21
+              </h4>
               <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
                 <li>Refactor: Mejor interacción en mobile para el Sidebar.</li>
               </ul>

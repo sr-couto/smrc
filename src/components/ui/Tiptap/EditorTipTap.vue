@@ -13,8 +13,8 @@ import { Editor, EditorContent, VueNodeViewRenderer } from "@tiptap/vue-3";
 import { storeToRefs } from "pinia";
 import { useCounterStore } from "@/stores/counter";
 
-import EditorToolbar from "@/components/Tiptap/EditorToolbar.vue";
-import ShikiCodeBlock from "@/components/Tiptap/ShikiCodeBlock.vue";
+import EditorToolbar from "@/components/ui/Tiptap/EditorToolbar.vue";
+import EditorCodeBlock from "@/components/ui/Tiptap/EditorCodeBlock.vue";
 import mediumZoom from "medium-zoom/dist/pure";
 
 import { Color } from "@tiptap/extension-color";
@@ -32,7 +32,7 @@ import TableHeader from "@tiptap/extension-table-header";
 import TableRow from "@tiptap/extension-table-row";
 import Youtube from "@tiptap/extension-youtube";
 import CodeBlockShiki from "tiptap-extension-code-block-shiki";
-import Iframe from "@/components/Tiptap/iframe.ts";
+import addIframe from "@/components/ui/Tiptap/addIframe";
 import "medium-zoom/dist/style.css";
 
 const showEditorToolbar = useStorage("editorToolbar", true);
@@ -62,7 +62,7 @@ onMounted(() => {
       StarterKit.configure({
         codeBlock: false,
       }),
-      Iframe,
+      addIframe,
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
       TextStyle.configure({ types: [ListItem.name] }),
       Image.configure({
@@ -105,7 +105,7 @@ onMounted(() => {
       }),
       CodeBlockShiki.extend({
         addNodeView() {
-          return VueNodeViewRenderer(ShikiCodeBlock);
+          return VueNodeViewRenderer(EditorCodeBlock);
         },
       }).configure({
         HTMLAttributes: {

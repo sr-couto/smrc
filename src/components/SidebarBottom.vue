@@ -18,7 +18,7 @@ onChange((files) => {
 
 <template>
   <div
-    class="fixed BottomToolbar bottom-0 left-0 z-[60] text-xs flex items-center justify-between h-12 border-t bg-background border-secondary"
+    class="fixed SidebarBottom bottom-0 left-0 z-[60] text-xs flex items-center justify-between h-12 border-t bg-background border-secondary"
   >
     <div
       class="grid @container grid-cols-2 gap-[1px] bg-secondary min-w-80 border-r border-secondary"

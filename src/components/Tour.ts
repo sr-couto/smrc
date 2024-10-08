@@ -1,21 +1,7 @@
-<script setup>
 import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
-import { onMounted } from "vue";
-import {
-  breakpointsTailwind,
-  useBreakpoints,
-} from "@vueuse/core";
-const breakpoints = useBreakpoints(breakpointsTailwind);
-const largerThanLg = breakpoints.greater("lg");
 
-onMounted(() => {
-  if (largerThanLg.value === true) {
-    driverJsInit();
-  }
-});
-
-function driverJsInit() {
+function DriverJsInit() {
 
   const productTourSeen = localStorage.getItem('product_tour_seen') === 'true';
 
@@ -111,60 +97,4 @@ function driverJsInit() {
 }
 
 
-</script>
-
-<style>
-.driver-popover.driverjs-theme {
-  @apply bg-secondary text-foreground
-}
-
-.driver-popover.driverjs-theme .driver-popover-title {
-  font-size: 20px;
-}
-
-.driver-popover.driverjs-theme .driver-popover-title,
-.driver-popover.driverjs-theme .driver-popover-description,
-.driver-popover.driverjs-theme .driver-popover-progress-text {
-  @apply text-foreground font-mono text-xs
-}
-
-.driver-popover.driverjs-theme button {
-  @apply focus-within:ring-2 bg-secondary text-foreground border-secondary font-mono;
-  text-align: center;
-  text-shadow: none;
-}
-
-.driver-popover.driverjs-theme button:hover {
-  @apply bg-primary text-primary-foreground
-}
-
-.driver-popover.driverjs-theme .driver-popover-navigation-btns {
-  justify-content: space-end;
-  align-items: center;
-  gap: 3px;
-}
-
-.driver-popover.driverjs-theme .driver-popover-close-btn {
-  @apply text-foreground outline-none border-0 focus-within:!ring-1 hover:bg-background
-}
-
-.driver-popover.driverjs-theme .driver-popover-close-btn:hover {
-  @apply text-muted-foreground
-}
-
-.driver-popover.driverjs-theme .driver-popover-arrow-side-left.driver-popover-arrow {
-  border-left-color: hsl(var(--secondary));
-}
-
-.driver-popover.driverjs-theme .driver-popover-arrow-side-right.driver-popover-arrow {
-  border-right-color: hsl(var(--secondary));
-}
-
-.driver-popover.driverjs-theme .driver-popover-arrow-side-top.driver-popover-arrow {
-  border-top-color: hsl(var(--secondary));
-}
-
-.driver-popover.driverjs-theme .driver-popover-arrow-side-bottom.driver-popover-arrow {
-  border-bottom-color: hsl(var(--secondary));
-}
-</style>
+export default DriverJsInit

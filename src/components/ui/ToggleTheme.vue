@@ -8,7 +8,7 @@ import {
   DropdownMenuGroup,
 } from "radix-vue";
 import { SunMedium, Moon } from "lucide-vue-next";
-import Tooltip from "./ui/Tooltip.vue";
+import Tooltip from "@/components/ui/Tooltip.vue";
 import { onMounted } from "vue";
 import { useCounterStore } from "@/stores/counter";
 const counter = useCounterStore();

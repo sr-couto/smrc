@@ -1,14 +1,24 @@
 <script setup>
-import { TentTree,  ArrowRightToLine, ArrowLeftToLine } from "lucide-vue-next";
-import { useCounterStore } from "@/stores/counter";
-import { useMagicKeys, whenever } from "@vueuse/core";
-import ToggleTheme from "@/components/ToggleTheme.vue";
+import ToggleTheme from "@/components/ui/ToggleTheme.vue";
 import Tooltip from "@/components/ui/Tooltip.vue";
 import DialogInfo from "@/components/DialogInfo.vue";
-import ToggleEditable from "./ToggleEditable.vue";
-import Tour from "./Tour.vue";
+import ToggleEditable from "./ui/ToggleEditable.vue";
+import DriverJsInit from "./Tour.ts";
+
+import { TentTree, ArrowRightToLine, ArrowLeftToLine } from "lucide-vue-next";
+import { useCounterStore } from "@/stores/counter";
+import { useMagicKeys, whenever, breakpointsTailwind, useBreakpoints, } from "@vueuse/core";
+import { onMounted } from "vue";
 
 const counter = useCounterStore();
+const breakpoints = useBreakpoints(breakpointsTailwind);
+const largerThanLg = breakpoints.greater("lg");
+
+onMounted(() => {
+  if (largerThanLg.value) {
+    DriverJsInit();
+  }
+});
 
 const keys = useMagicKeys();
 const CtrlM = keys["ctrl+m"];
@@ -45,7 +55,6 @@ whenever(CtrlShiftE, () => {
       :class="counter.showProjects ? ' grid-cols-4' : ' grid-cols-1 '"
     >
       <DialogInfo />
-      <Tour />
       <ToggleTheme />
       <ToggleEditable />
       <Tooltip

@@ -20,9 +20,6 @@ import {
   ScrollAreaScrollbar,
   ScrollAreaThumb,
   ScrollAreaViewport,
-} from "radix-vue";
-
-import {
   SelectContent,
   SelectGroup,
   SelectItem,
@@ -46,6 +43,7 @@ import {
 import { useCounterStore } from "@/stores/counter";
 import { storeToRefs } from "pinia";
 import { computed, watch, shallowRef } from "vue";
+
 const showCommand = shallowRef(false);
 const target = shallowRef(null);
 const editing = shallowRef(false);
@@ -59,21 +57,7 @@ const CtrlShiftF = keys["ctrl+shift+f"];
 const debounced = refDebounced(searchTerm, 300);
 const sortOption = useStorage("sortItemsBy", "name");
 
-onClickOutside(target, () => {
-  editing.value = false;
-});
-
 const input = shallowRef(file_name);
-
-watch(input, (v) => {
-  if (v) counter.update_database(input.value);
-  counter.auto_save();
-});
-
-function set_document(id) {
-  counter.set_project(id);
-  showCommand.value = false;
-}
 
 const filteredOptions = computed(() => {
   if (!Array.isArray(allItemsTodo.value)) {
@@ -105,6 +89,15 @@ function handleOpenChange() {
 
 watch(CtrlShiftF, (v) => {
   if (v) handleOpenChange();
+});
+
+function set_document(id) {
+  counter.set_project(id);
+  showCommand.value = false;
+}
+
+onClickOutside(target, () => {
+  editing.value = false;
 });
 
 </script>

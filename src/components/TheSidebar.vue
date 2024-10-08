@@ -1,8 +1,8 @@
 <script setup>
-import { useCounterStore } from "@/stores/counter";
-import ProjectListSearch from "@/components/ProjectListSearch.vue";
 import SidebarTop from "@/components/SidebarTop.vue";
-import BottomToolbar from "./BottomToolbar.vue";
+import SidebarProjects from "@/components/SidebarProjects.vue";
+import SidebarBottom from "./SidebarBottom.vue";
+import { useCounterStore } from "@/stores/counter";
 const counter = useCounterStore();
 </script>
 
@@ -13,8 +13,8 @@ const counter = useCounterStore();
       :class="counter.showProjects ? 'min-w-80 max-w-80' : ' '"
     >
       <SidebarTop />
-      <ProjectListSearch v-show="counter.showProjects" />
-      <BottomToolbar v-show="counter.showProjects" />
+      <SidebarProjects v-show="counter.showProjects" />
+      <SidebarBottom v-show="counter.showProjects" />
     </header>
     <button
       v-show="counter.showProjects"

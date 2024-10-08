@@ -141,15 +141,15 @@ function addIframe() {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         :side="'bottom'"
-        :align="'end'"
-        class="z-50 grid w-64 grid-cols-2 text-xs gap-0.5 bg-secondary  border-secondary"
+        :align="'start'"
+        class="z-50 grid w-64 grid-cols-2 text-xs gap-0.5 bg-primary border-2 border-primary"
       >
         <DropdownMenuItem
           as-child
-          class="relative flex flex-col items-center justify-center h-32 gap-2 p-2 pr-3 cursor-pointer hover:bg-secondary-foreground/10 bg-background"
+          class="relative flex flex-col items-center justify-center h-32 gap-2 p-2 pr-3 !cursor-pointer bg-background hover:bg-primary"
         >
           <label
-            class="flex flex-col justify-center gap-2 p-2 !cursor-pointer hover:bg-secondary-foreground/10"
+            class="flex flex-col justify-center gap-2 p-2 hover:bg-primary"
             for="img-uploader"
             id="uploader"
           >
@@ -159,14 +159,14 @@ function addIframe() {
               id="img-uploader"
               type="file"
               accept="image/jpeg"
-              class="absolute inset-0 opacity-0"
+              class="absolute !cursor-pointer  inset-0 opacity-0"
               @change="addImageBase64"
             >
           </label>
         </DropdownMenuItem>
         <DropdownMenuItem
           @click="addImage"
-          class="flex flex-col items-center justify-center h-32 gap-2 p-2 cursor-pointer hover:bg-secondary-foreground/10 bg-background"
+          class="flex flex-col items-center justify-center h-32 gap-2 p-2 cursor-pointer bg-background hover:bg-primary"
         >
           <ImageDown class="size-10" />
           Url

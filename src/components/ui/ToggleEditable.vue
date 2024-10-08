@@ -1,6 +1,6 @@
 <script setup>
 import { useCounterStore } from "@/stores/counter";
-import Tooltip from "./ui/Tooltip.vue";
+import Tooltip from "@/components/ui/Tooltip.vue";
 import { BookText, PencilLine } from "lucide-vue-next";
 const counter = useCounterStore();
 </script>

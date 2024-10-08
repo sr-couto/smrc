@@ -22,11 +22,6 @@ const input = shallowRef(file_name);
 
 const debounced = refDebounced(input, 100);
 
-watch(input, (v) => {
-  if (v) counter.update_database(input.value);
-  counter.auto_save();
-});
-
 watch(debounced, (v) => {
   if (v) counter.share_database();
 });
