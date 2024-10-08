@@ -42,8 +42,7 @@ onClickOutside(target, () => {
     >
       <span
         v-if="!file_name"
-        class="opacity-50"
-      > Proyecto sin título </span>
+      > Escriba un título </span>
       <span v-else>
         {{ file_name }}
       </span>

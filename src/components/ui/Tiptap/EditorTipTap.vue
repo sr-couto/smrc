@@ -146,7 +146,7 @@ onBeforeUnmount(() => {
 <template>
   <div
     v-if="editor"
-    class="px-0.5  grid md:pr-2 w-full"
+    class="px-0.5 EditorCK grid md:pr-2 w-full"
   >
     <div
       v-if="toolbar"
@@ -160,7 +160,7 @@ onBeforeUnmount(() => {
       </div>
     </div>
     <ScrollAreaRoot
-      class="w-full border EditorCK border-secondary"
+      class="w-full border border-secondary"
       :class="[
         showEditorToolbar ? 'h-[calc(100vh-5.375rem)]' : 'h-[calc(100vh-2.75rem)]',
         !toolbar ? 'border-transparent !h-screen' : '',

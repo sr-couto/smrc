@@ -112,6 +112,7 @@ export default {
 
   setup() {
     const codeHeight = shallowRef(null)
+    
     const { width, height } = useElementSize(codeHeight)
     return {
       codeHeight,

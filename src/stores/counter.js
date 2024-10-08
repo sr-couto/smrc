@@ -9,7 +9,7 @@ import { toast } from 'vue-sonner'
 export const useCounterStore = defineStore("counter", () => {
   const status = shallowRef("LOADING");
   const loaded_id = shallowRef("");
-  const file_name = shallowRef("");
+  const file_name = shallowRef("Mi base de datos local");
   const project_name = shallowRef("");
   const project_body = shallowRef("");
   const project_checked = shallowRef(null);

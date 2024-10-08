@@ -13,7 +13,7 @@
 }
 
 .driver-popover.driverjs-theme button {
-  @apply font-mono focus-within:ring-2 bg-secondary text-foreground border-secondary;
+  @apply font-mono focus-within:ring-2 bg-secondary text-foreground border-secondary focus-within:bg-secondary focus-visible:bg-secondary ring-primary;
   text-align: center;
   text-shadow: none;
 }
@@ -29,7 +29,7 @@
 }
 
 .driver-popover.driverjs-theme .driver-popover-close-btn {
-  @apply text-foreground outline-none border-0 focus-within:!ring-1 hover:bg-background
+  @apply text-foreground outline-none border-0 focus-within:!ring-1 hover:bg-background 
 }
 
 .driver-popover.driverjs-theme .driver-popover-close-btn:hover {

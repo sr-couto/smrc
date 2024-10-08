@@ -8,52 +8,35 @@ function DriverJsInit() {
   if (productTourSeen) { return; }
 
   const driverObj = driver({
-    animate: false,
+    allowClose: false,
     nextBtnText: 'Siguiente',
     prevBtnText: 'Anterior',
     doneBtnText: 'Comenzar',
     popoverClass: 'driverjs-theme',
+    progressText: '{{current}} de {{total}}',
     showProgress: true,
     steps: [
       {
         popover: {
-          title: 'Bienvenido',
-          description: 'Vamos a tomar un pequeño paseo para ver como utilizar esta App para crear documentos.',
+          title: 'Holis 👋',
+          description: 'Te guiaremos en un pequeño recorrido. Podés navegar utilizando las flechas del teclado.',
         }
       },
       {
         element: '.DataBaseTitle',
         popover: {
-          title: 'Nombre proyecto',
-          description: 'Aqui podras editar el nombre de la base de datos.',
+          title: 'Nombre del proyecto',
+          description: 'Aquí podrás editar el nombre de la base de datos (DB) local.',
           side: 'bottom',
           align: 'center'
         }
       },
-      
-      {
-        element: '.CreateNewButton',
-        popover: {
-          title: 'Nuevo documento',
-          description: 'Creá todos los documentos que quieras.',
-          side: 'bottom',
-          align: 'center'
-        }
-      },
-      {
-        element: '.BottomToolbar',
-        popover: {
-          title: 'Importar y Exportar',
-          description: 'Puedes exportar el proyecto y guardarlo localmente para luego importarlos',
-          side: 'top',
-          align: 'center'
-        }
-      },
+
       {
         element: '.create_project',
         popover: {
-          title: 'Ingresar titulo',
-          description: 'Este campo permite editar el titulo de cada documento.',
+          title: 'Título del documento',
+          description: 'En este campo puedes establecer el título de cada documento.',
           side: 'bottom',
           align: 'center'
         },
@@ -62,7 +45,7 @@ function DriverJsInit() {
         element: '.EditorCK',
         popover: {
           title: 'Editor de texto',
-          description: 'Aqui podra agregar texto, imágenes y videos de youtube',
+          description: 'Aquí podrás añadir texto enriquecido, bloques de código bonitos para 295 lenguajes, imágenes y videos de YouTube.',
           side: 'top',
           align: 'center'
         }
@@ -70,24 +53,38 @@ function DriverJsInit() {
       {
         element: '.GuardarDocumento',
         popover: {
-          title: 'Guardar',
-          description: 'Para que los cambios se guarden y se cree un nuevo documento',
+          title: 'Agregar documento',
+          description: 'Se crea el documento en la DB. Una vez creado los cambios se guardarán automaticamente.',
           side: 'top',
           align: 'center'
         }
       },
-
       {
         element: '.ToggleEditable',
         popover: {
-          title: 'Previsualización',
-          description: 'Puedes alternar entre vista previa y vista editada',
-          side: 'left',
+          title: 'Vista previa',
+          description: 'Alterna entre la vista de edición y la vista previa del documento.',
+          side: 'bottom',
           align: 'center'
         }
+      },
+      {
+        element: '.SidebarBottom',
+        popover: {
+          title: 'Importar y exportar',
+          description: 'Guarda la base de datos en formato JSON para importarla en otro navegador.',
+          side: 'top',
+          align: 'center'
+        }
+      },
+      {
+        popover: {
+          title: '¡Listo!',
+          description: '¡Disfruta de la experiencia!',
+        }
       }
-
     ],
+
     onDestroyed: () => {
       localStorage.setItem('product_tour_seen', 'true');
     }
