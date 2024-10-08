@@ -46,7 +46,7 @@ const counter = useCounterStore();
         ? 'bg-primary text-primary-foreground hover:bg-primary/80'
         : 'disabled bg-secondary  pointer-events-none'
       "
-      class="absolute bottom-0 left-0.5 right-0 md:right-2 z-20 px-3 text-xs h-8"
+      class="absolute left-8 bottom-0 md:left-0.5 right-0 md:right-2 z-20 px-3 text-xs h-8"
     >
       <span
         class="GuardarDocumento"
