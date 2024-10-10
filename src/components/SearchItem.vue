@@ -1,20 +1,13 @@
 <script setup>
-import {
-  ArrowRight,
-  Circle,
-  Pin,
-  PinOff,
-} from "lucide-vue-next";
+import { ArrowRight, Circle, Pin } from "lucide-vue-next";
 import { useCounterStore } from "@/stores/counter";
 import { storeToRefs } from "pinia";
 import Tooltip from "./ui/Tooltip.vue";
-import {
-  breakpointsTailwind,
-  useBreakpoints,
-} from "@vueuse/core";
-import { computed } from "vue";
+import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
+
+
 const counter = useCounterStore();
-const { loaded_id } =   storeToRefs(counter);
+const { loaded_id } = storeToRefs(counter);
 const breakpoints = useBreakpoints(breakpointsTailwind);
 const largerThanLg = breakpoints.greater("lg");
 const props = defineProps({
@@ -56,32 +49,26 @@ function toggleFixed(item, isFixed) {
   counter.change_project_fixed(item, isFixed);
 }
 
-const truncatedString = computed((str) => {
-  if (str.length > 60) {
-    return str.substring(0, 57) + '...';
-  }
-  return str;
-});
 
 </script>
 <template>
   <div class="relative flex items-center justify-between w-full pr-3 h-7 md:pr-2 group">
     <Tooltip :name="props.data.project_data?.fixed ? 'Desfijar' : 'Fijar'">
-      <div class="flex items-center">
+      <div class="flex items-center w-7 h-7">
         <ArrowRight
-          class="mx-1 size-4 shrink-0 group-hover:hidden"
+          class="mx-1 size-4 shrink-0 group-hover:hidden group-focus-visible:hidden group-focus-within:hidden"
           :class="props.data.project_data?.fixed ? '!hidden' : ''"
         />
         <button
           @click="toggleFixed(props.data, props.data.project_data?.fixed)"
-          class="hidden py-1 mx-1 duration-300 outline-none group-hover:inline-flex md:py-0 hover:text-primary"
-          :class="props.data.project_data?.fixed ? '!inline-flex' : ''"
+          class="hidden py-1 mx-1 outline-none group-hover:inline-flex md:py-0 hover:text-primary group-focus-visible:!block focus-visible:ring-1 group-focus-within:!block"
+          :class="props.data.project_data?.fixed ? '!block' : ''"
         >
           <template v-if="props.data.project_data?.fixed">
-            <PinOff class="size-4 text-primary" />
+            <Pin class="-rotate-45 fill-current size-4 text-primary" />
           </template>
           <template v-else>
-            <Pin class="size-4 " />
+            <Pin class="-rotate-45 size-4" />
           </template>
         </button>
       </div>
@@ -93,7 +80,8 @@ const truncatedString = computed((str) => {
     >
       <p class="@sm:max-w-full max-w-80 ">
         <!-- {{ truncatedString(props.data.project_data?.name) }} -->
-        {{ props.data.project_data?.name.length > 25 ? props.data.project_data?.name.substring(0, 25) + '&hellip;' : props.data.project_data?.name }}
+        {{ props.data.project_data?.name.length > 25 ? props.data.project_data?.name.substring(0, 25) + '&hellip;' :
+          props.data.project_data?.name }}
       </p>
     </button>
     <input

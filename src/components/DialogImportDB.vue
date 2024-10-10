@@ -1,5 +1,5 @@
 <script setup>
-import { Upload, HardDriveUpload, X } from "lucide-vue-next";
+import { Upload, X, DatabaseZap } from "lucide-vue-next";
 import {
   AlertDialogCancel,
   AlertDialogContent,
@@ -65,20 +65,22 @@ function onDrop(files) {
     </AlertDialogTrigger>
     <AlertDialogPortal>
       <AlertDialogOverlay
-        class="bg-background/95 backdrop-blur-sm data-[state=open]:animate-overlayShow fixed inset-0 z-[70]"
+        class="bg-secondary/80 data-[state=open]:animate-overlayShow fixed inset-0 z-[70]"
       />
       <AlertDialogContent>
         <div
-          ref="dropZoneRef"
-          :class="isOverDropZone ? ' border-animated ' : '   '"
           class="dropZone fixed flex-col font-mono inset-0 text-foreground z-[90] justify-center flex items-center"
         >
           <div
-            class="flex flex-col items-center justify-center w-full h-16"
+            class="flex flex-col items-center justify-center w-full"
             v-auto-animate
           >
-            <div class="flex flex-col items-center justify-center w-full gap-2 px-3 text-center text-pretty">
-              <HardDriveUpload class="size-12" />
+            <div
+              class="relative flex flex-col items-center justify-center w-full max-w-xl gap-2 px-3 pt-10 pb-6 text-center shadow bg-background text-pretty"
+              ref="dropZoneRef"
+              :class="isOverDropZone ? ' border-animated ' : '   '"
+            >
+              <DatabaseZap class="size-12" />
               <AlertDialogTitle class="text-mauve12 m-0 text-[17px] font-semibold">
                 ImportarDB
               </AlertDialogTitle>
@@ -90,7 +92,7 @@ function onDrop(files) {
               <button
                 type="button"
                 @click="open()"
-                class="mb-4 text-sm underline text-primary underline-offset-2"
+                class="mb-4 text-sm font-semibold underline text-primary underline-offset-2"
               >
                 Seleccionar archivo JSON
               </button>

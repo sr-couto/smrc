@@ -33,7 +33,7 @@ async function close() {
         <a
           target="_blank"
           class="flex items-center justify-center gap-2"
-          href="https://github.com/sr-couto/smrc/blob/main/src/components/DialogChangelog.vue#L68-L76"
+          href="https://github.com/sr-couto/smrc/blob/main/src/components/DialogChangelog.vue#L68"
         >
           Github changelog
           <SquareArrowOutUpRight class="size-3" />

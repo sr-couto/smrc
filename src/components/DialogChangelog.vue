@@ -15,7 +15,7 @@ import {
 } from "radix-vue";
 import { X } from "lucide-vue-next";
 
-const lastVersion = "0.1.0"
+const lastVersion = "0.1.1"
 
 const props = defineProps({
   button: {
@@ -65,6 +65,14 @@ const props = defineProps({
               >
                 {{ lastVersion }} - <small>Última version desplegada</small>
               </DialogDescription>
+              <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
+                <li>Feature: Cuando se arrastra algun elemento al sidebar se activa el modal de DialogImportDB.</li>
+                <li>Refactor: Alto fijo SearchItem</li>
+                <li>Refactor: Modificación del icono de fijado y desfijado</li>
+              </ul>
+              <h4 class="mt-3 mb-5 leading-normal text-foreground">
+                0.1.0
+              </h4>
               <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
                 <li>Refactor: Rearmado de archivos y limpieza de código.</li>
               </ul>

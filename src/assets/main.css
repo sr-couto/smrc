@@ -493,7 +493,3 @@ button {
   @apply outline-primary focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 ring-0;
   @apply hover:outline hover:outline-2 hover:-outline-offset-2;
 }
-/* 
-[data-sonner-toast][data-styled=true] {
-  @apply flex-col items-start
-} */

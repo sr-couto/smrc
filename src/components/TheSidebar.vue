@@ -4,11 +4,22 @@ import SidebarProjects from "@/components/SidebarProjects.vue";
 import SidebarBottom from "./SidebarBottom.vue";
 import { useCounterStore } from "@/stores/counter";
 const counter = useCounterStore();
+
+import { useDropZone } from "@vueuse/core";
+import { shallowRef, watch } from "vue";
+const dropZoneRef = shallowRef();
+const { isOverDropZone } = useDropZone(dropZoneRef);
+
+watch(isOverDropZone, (v) => {
+  if (v) counter.showImportModal = !counter.showImportModal;
+});
+
 </script>
 
 <template>
   <div>
     <header
+      ref="dropZoneRef"
       class="fixed top-0 z-50 flex flex-col justify-start h-screen border-r lg:sticky bg-background border-secondary"
       :class="counter.showProjects ? 'min-w-80 max-w-80' : ' '"
     >
