@@ -1,14 +1,14 @@
 <script setup>
 import { RouterView } from "vue-router";
-import { useColorMode } from "@vueuse/core";
+import { useColorMode, useStorage } from "@vueuse/core";
 import { Toaster } from 'vue-sonner'
 import ToastOffline from "@/components/ui/ToastOffline.vue";
 const mode = useColorMode();
-
+const cursorPointer = useStorage("cursor", true);
 </script>
 
 <template>
-  <div>
+  <div :class="cursorPointer ? 'cursorPointer' : 'cursorInitial'">
     <main class="AppContainer">
       <RouterView />
     </main>

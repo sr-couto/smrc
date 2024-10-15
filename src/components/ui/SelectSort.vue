@@ -52,7 +52,7 @@ const sortOption = useStorage("sortItemsBy", "name");
               class="text-xs leading-none text-foreground flex items-center h-8 px-1 py-2 pr-12 relative select-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-secondary/50 data-[highlighted]:text-foreground"
               value="name"
             >
-              <SelectItemIndicator class="absolute right-0 w-[25px] inline-flex items-center justify-center">
+              <SelectItemIndicator class="absolute text-primary right-0 w-[25px] inline-flex items-center justify-center">
                 <Check class="size-4" />
               </SelectItemIndicator>
               <SelectItemText> Nombre </SelectItemText>
@@ -61,7 +61,7 @@ const sortOption = useStorage("sortItemsBy", "name");
               class="text-xs leading-none text-foreground flex items-center h-8 px-1 py-2 pr-12 relative select-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-secondary/50 data-[highlighted]:text-foreground"
               value="date"
             >
-              <SelectItemIndicator class="absolute right-0 w-[25px] inline-flex items-center justify-center">
+              <SelectItemIndicator class="absolute text-primary right-0 w-[25px] inline-flex items-center justify-center">
                 <Check class="size-4" />
               </SelectItemIndicator>
               <SelectItemText> Fecha </SelectItemText>

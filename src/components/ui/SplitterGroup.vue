@@ -30,12 +30,12 @@ const layout = shallowRef(0)
         :side="panelRef?.isCollapsed ? 'left' : 'right'"
       >
         <button
-          class="flex items-center z-20 justify-center !cursor-pointer bg-background size-6"
+          class="z-20 flex items-center justify-center bg-background size-6"
           @click="panelRef?.isCollapsed ? panelRef?.expand() : panelRef?.collapse()"
           @keyup.enter="panelRef?.isCollapsed ? panelRef?.expand() : panelRef?.collapse()"
           :class="panelRef?.isCollapsed ? 'rotate-180' : ''"
         >
-          <ArrowRightToLine class="delay-75 !cursor-pointer size-4 opacity-90" />
+          <ArrowRightToLine class="delay-75 size-4 opacity-90" />
         </button>
       </Tooltip>
     </SplitterResizeHandle>

@@ -8,7 +8,7 @@ function DriverJsInit() {
   if (productTourSeen) { return; }
 
   const driverObj = driver({
-    allowClose: false,
+    allowClose: true,
     nextBtnText: 'Siguiente',
     prevBtnText: 'Anterior',
     doneBtnText: 'Comenzar',
@@ -19,24 +19,24 @@ function DriverJsInit() {
       {
         popover: {
           title: 'Holis 👋',
-          description: 'Te guiaremos en un pequeño recorrido. Podés navegar utilizando las flechas del teclado.',
+          description: 'Vamos a crear un nuevo documento que se guardara localmente en tu indexedDB. Podés navegar utilizando las flechas del teclado.',
         }
       },
-      {
-        element: '.DataBaseTitle',
-        popover: {
-          title: 'Nombre del proyecto',
-          description: 'Aquí podrás editar el nombre de la base de datos (DB) local.',
-          side: 'bottom',
-          align: 'center'
-        }
-      },
+      // {
+      //   element: '.DataBaseTitle',
+      //   popover: {
+      //     title: 'Nombre del proyecto',
+      //     description: 'Aquí podrás editar el nombre de la base de datos (DB) local.',
+      //     side: 'bottom',
+      //     align: 'center'
+      //   }
+      // },
 
       {
         element: '.create_project',
         popover: {
           title: 'Título del documento',
-          description: 'En este campo puedes establecer el título de cada documento.',
+          description: 'Escribi en el campo de texto un título para poder reconocerlo. Una vez realizado hacer click en siguiente',
           side: 'bottom',
           align: 'center'
         },
@@ -54,8 +54,17 @@ function DriverJsInit() {
         element: '.GuardarDocumento',
         popover: {
           title: 'Agregar documento',
-          description: 'Se crea el documento en la DB. Una vez creado los cambios se guardarán automaticamente.',
+          description: 'Hasta ahora estos cambios no se han guardado localmente. Hace click en Guardar para agregar el documento en la DB. Una vez creado el documento los cambios se guardarán automaticamente.',
           side: 'top',
+          align: 'center'
+        }
+      },
+      {
+        element: '.SidebarProjects',
+        popover: {
+          title: 'Documento creado',
+          description: 'Aquí se irán guardando los documentos en tu indexdedDB. Podes fijarlos o marcarlos como completados',
+          side: 'bottom',
           align: 'center'
         }
       },

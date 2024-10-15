@@ -34,7 +34,7 @@ const counter = useCounterStore();
       <div v-if="counter.loaded_id === ''">
         Seleccione un item para visualizar
       </div>
-      <h1 class="pt-6 mb-0 font-serif text-4xl/relax text-primary text-balance">
+      <h1 class="pt-6 mb-0 font-serif text-4xl/relax text-foreground text-balance">
         {{ counter.project_name }}
       </h1>
     </Editor>
@@ -46,13 +46,9 @@ const counter = useCounterStore();
         ? 'bg-primary text-primary-foreground hover:bg-primary/80'
         : 'disabled bg-secondary  pointer-events-none'
       "
-      class="absolute left-0 bottom-0 md:left-0.5 right-0 md:right-2 z-20 px-3 text-xs h-8"
+      class="absolute left-0 bottom-0 md:left-0.5 right-0 md:right-2 z-20 px-3 text-xs h-8 GuardarDocumento disabled:text-foreground/50"
     >
-      <span
-        class="GuardarDocumento"
-      >
-        Guardar documento
-      </span>
+      Guardar documento
     </button>
   </div>
 </template>

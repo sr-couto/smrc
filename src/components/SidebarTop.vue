@@ -5,14 +5,16 @@ import DialogInfo from "@/components/DialogInfo.vue";
 import ToggleEditable from "./ui/ToggleEditable.vue";
 import DriverJsInit from "./Tour.ts";
 
-import { TentTree, ArrowRightToLine, ArrowLeftToLine } from "lucide-vue-next";
+import { TentTree, ArrowRightToLine, ArrowLeftToLine, MousePointer, Pointer } from "lucide-vue-next";
 import { useCounterStore } from "@/stores/counter";
-import { useMagicKeys, whenever, breakpointsTailwind, useBreakpoints, } from "@vueuse/core";
+import { useMagicKeys, whenever, breakpointsTailwind, useBreakpoints, useStorage } from "@vueuse/core";
 import { onMounted } from "vue";
+import DialogSettings from "./DialogSettings.vue";
 
 const counter = useCounterStore();
 const breakpoints = useBreakpoints(breakpointsTailwind);
 const largerThanLg = breakpoints.greater("lg");
+
 
 onMounted(() => {
   if (largerThanLg.value) {
@@ -45,16 +47,17 @@ whenever(CtrlShiftE, () => {
     >
       <TentTree class="size-4" />
       <span
-        class="text-xs"
+        class="text-xs text-foreground"
         v-show="counter.showProjects"
       >Menú</span>
     </button>
     
     <div
       class="grid gap-0.5"
-      :class="counter.showProjects ? ' grid-cols-4' : ' grid-cols-1 '"
+      :class="counter.showProjects ? 'grid-cols-5' : ' grid-cols-1 '"
     >
       <DialogInfo />
+      <DialogSettings />
       <ToggleTheme />
       <ToggleEditable />
       <Tooltip
@@ -76,7 +79,7 @@ whenever(CtrlShiftE, () => {
     <button
       @click="counter.showProjects = !counter.showProjects"
       v-show="!counter.showProjects"
-      class="absolute inset-0 z-10 top-36"
+      class="absolute inset-0 z-10 top-44"
     >
       <ArrowRightToLine class="mx-auto duration-100 opacity-25 size-4 -translate-y-14 group-hover:opacity-90" />
     </button>

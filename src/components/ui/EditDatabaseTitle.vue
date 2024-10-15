@@ -34,11 +34,12 @@ onClickOutside(target, () => {
 <template>
   <div
     class="DataBaseTitle flex items-center justify-center mx-0.5 text-sm border group bg-background/80 hover:bg-secondary/50 border-secondary"
+    :class="editing ? ' !border !border-primary' : ' '"
   >
     <button
       v-if="!editing"
       @click="editDatabaseTitle()"
-      class="flex items-center justify-between w-full h-8 gap-1 pl-1 text-primary"
+      class="flex items-center justify-between w-full h-8 gap-1 pl-1 text-secondary-foreground"
     >
       <span
         v-if="!file_name"
@@ -54,7 +55,7 @@ onClickOutside(target, () => {
         <span
           class="flex items-center justify-center duration-100 border border-transparent group-hover:border size-8 shrink-0 bg-background group-hover:border-primary"
         >
-          <DatabaseZap class="size-4 text-foreground" />
+          <DatabaseZap class="size-4 text-primary" />
         </span>
       </Tooltip>
     </button>

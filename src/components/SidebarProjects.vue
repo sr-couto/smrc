@@ -30,17 +30,17 @@ const { allItemsTodo, allItemsChecked, searchTerm, file_name } =
 storeToRefs(counter);
 
 const debounced = refDebounced(searchTerm, 300);
-const input = shallowRef(file_name);
+// const input = shallowRef(file_name);
 const sortOption = useStorage("sortItemsBy", "name");
 
 onClickOutside(target, () => {
   editing.value = false;
 });
 
-watch(input, (v) => {
-  if (v) counter.update_database(input.value);
-  counter.auto_save();
-});
+// watch(input, (v) => {
+//   if (v) counter.update_database(input.value);
+//   counter.auto_save();
+// });
 
 const results = computed(() => {
   if (!Array.isArray(allItemsTodo.value)) {
@@ -108,7 +108,7 @@ const results = computed(() => {
       </div>
       <SelectSort />
     </div>
-    <div class="overflow-y-auto overflow-x-hidden h-[calc(100vh-11.5rem)]">
+    <div class="overflow-y-auto SidebarProjects overflow-x-hidden h-[calc(100vh-11.5rem)]">
       <ScrollAreaRoot
         class="w-full h-[calc(100vh-11.5rem)] rounded overflow-hidden"
         style="--scrollbar-size: 10px"

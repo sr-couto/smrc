@@ -60,7 +60,8 @@ const props = defineProps({
           </kbd>
           <TooltipArrow
             class="fill-primary"
-            :width="15"
+            :width="14"
+            :height="5"
           />
         </TooltipContent>
       </TooltipPortal>

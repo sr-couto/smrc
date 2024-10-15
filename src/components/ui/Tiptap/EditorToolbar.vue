@@ -146,7 +146,7 @@ function addIframe() {
       >
         <DropdownMenuItem
           as-child
-          class="relative flex flex-col items-center justify-center h-32 gap-2 p-2 pr-3 !cursor-pointer bg-background hover:bg-primary"
+          class="relative flex flex-col items-center justify-center h-32 gap-2 p-2 pr-3 bg-background hover:bg-primary"
         >
           <label
             class="flex flex-col justify-center gap-2 p-2 hover:bg-primary"
@@ -159,7 +159,7 @@ function addIframe() {
               id="img-uploader"
               type="file"
               accept="image/jpeg"
-              class="absolute !cursor-pointer  inset-0 opacity-0"
+              class="absolute inset-0 opacity-0"
               @change="addImageBase64"
             >
           </label>

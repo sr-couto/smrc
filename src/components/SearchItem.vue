@@ -53,7 +53,10 @@ function toggleFixed(item, isFixed) {
 </script>
 <template>
   <div class="relative flex items-center justify-between w-full pr-3 h-7 md:pr-2 group">
-    <Tooltip :name="props.data.project_data?.fixed ? 'Desfijar' : 'Fijar'">
+    <Tooltip
+      side="top"
+      :name="props.data.project_data?.fixed ? 'Desfijar' : 'Fijar'"
+    >
       <div class="flex items-center w-7 h-7">
         <ArrowRight
           class="mx-1 size-4 shrink-0 group-hover:hidden group-focus-visible:hidden group-focus-within:hidden"
@@ -74,7 +77,7 @@ function toggleFixed(item, isFixed) {
       </div>
     </Tooltip>
     <button
-      class="flex px-2 py-0.5 rounded w-full items-center outline-none justify-start gap-2 text-sm text-left focus-within:ring-1 ring-primary"
+      class="flex px-2 py-0.5 rounded w-full items-center group-hover:text-foreground outline-none justify-start gap-2 text-sm text-left focus-within:ring-1 ring-primary"
       :class="loaded_id === props.data.id ? 'text-primary' : ''"
       @click="set_document(props.data.id)"
     >
@@ -92,7 +95,11 @@ function toggleFixed(item, isFixed) {
       required=""
       @change="toggleCheck(props.data, $event.target.checked)"
     >
-    <Tooltip name="Marcar como completo">
+    <Tooltip
+      side="top"
+      align="end"
+      name="Marcar como completo"
+    >
       <label
         :for="'todo-' + props.data.id"
         class="flex items-center justify-center rounded-full relative z-[50] mr-0.5 peer-focus:ring-1 peer-focus:ring-primary size-7 md:size-6 shrink-0 peer-checked:border-blue-600 hover:text-primary peer-checked:text-primary hover:bg-secondary/20"
