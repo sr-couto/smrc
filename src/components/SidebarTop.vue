@@ -53,8 +53,8 @@ whenever(CtrlShiftE, () => {
     </button>
     
     <div
-      class="grid px-1"
-      :class="counter.showProjects ? 'grid-cols-5 gap-0.5' : ' grid-cols-1 gap-1 mt-1'"
+      class="grid "
+      :class="counter.showProjects ? 'grid-cols-5 gap-0.5' : ' grid-cols-1 px-1 gap-1 mt-1'"
     >
       <DialogInfo />
       <DialogSettings />
