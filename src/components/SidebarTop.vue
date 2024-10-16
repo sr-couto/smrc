@@ -68,7 +68,7 @@ whenever(CtrlShiftE, () => {
         <button
           v-show="counter.showProjects"
           @click="counter.showProjects = !counter.showProjects"
-          class="flex items-center justify-center border border-secondary bg-background hover:bg-secondary/80 size-8"
+          class="flex items-center justify-center border interactive border-secondary bg-background hover:bg-secondary/80 size-8"
         >
           <ArrowLeftToLine
             class="size-4"

@@ -12,14 +12,12 @@ import {
 import { Download, X } from "lucide-vue-next";
 import { onMounted, shallowRef, watch } from "vue";
 import { useCounterStore } from "@/stores/counter";
-const counter = useCounterStore();
 import { storeToRefs } from "pinia";
 import {  refDebounced } from "@vueuse/core";
 
-const { file_name } = storeToRefs(counter);
-
+const counter = useCounterStore();
+const { file_name, showShareModal } = storeToRefs(counter);
 const input = shallowRef(file_name);
-
 const debounced = refDebounced(input, 100);
 
 watch(debounced, (v) => {
@@ -32,7 +30,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <DialogRoot>
+  <DialogRoot v-model:open="showShareModal">
     <DialogTrigger
       class="flex items-center justify-center h-12 gap-2 px-2 text-xs border outline-none border-secondary bg-background hover:bg-background/50 focus-visible:border-primary focus-visible:bg-primary/10"
       aria-label="Update dimensions"
@@ -42,7 +40,7 @@ onMounted(() => {
     </DialogTrigger>
     <DialogPortal>
       <DialogOverlay
-        class="bg-secondary/90 data-[state=open]:animate-overlayShow fixed inset-0 z-[90]"
+        class="bg-secondary/90 data-[state=open]:animate-overlayShow fixed inset-0 z-[200]"
       />
       <DialogContent
         class="data-[state=open]:animate-contentShow font-mono fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[650px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-background p-3 md:p-[25px] shadow focus:outline-none z-[9000]"
@@ -72,39 +70,6 @@ onMounted(() => {
             Exportar DB
           </button>
         </div>
-        <!-- <div
-          class="overflow-x-hidden overflow-y-auto h-96"
-          :class="copied ? 'ring-2 ring-primary' : ''"
-        >
-          <ScrollAreaRoot
-            class="w-full overflow-hidden rounded h-96"
-            style="--scrollbar-size: 10px"
-          >
-            <ScrollAreaViewport class="w-full h-full rounded">
-              <div class="">
-                <pre
-                  class="p-2 overflow-x-auto overflow-y-auto text-xs font-normal text-foreground/80 text-nowrap bg-secondary md:w-full"
-                >{{ counter.shareOptions }}</pre>
-              </div>
-            </ScrollAreaViewport>
-            <ScrollAreaScrollbar
-              class="flex select-none touch-none p-0.5 bg-secondary transition-colors duration-[160ms] ease-out hover:bg-background data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
-              orientation="vertical"
-            >
-              <ScrollAreaThumb
-                class="flex-1 bg-primary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]"
-              />
-            </ScrollAreaScrollbar>
-            <ScrollAreaScrollbar
-              class="flex select-none touch-none p-0.5 bg-secondary transition-colors duration-[160ms] ease-out hover:bg-background data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
-              orientation="horizontal"
-            >
-              <ScrollAreaThumb
-                class="flex-1 bg-primary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]"
-              />
-            </ScrollAreaScrollbar>
-          </ScrollAreaRoot>
-        </div> -->
         <div
           class="flex items-center justify-end mt-6"
         >

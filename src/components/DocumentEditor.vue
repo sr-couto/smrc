@@ -23,7 +23,7 @@ const counter = useCounterStore();
           spellcheck="false"
           v-model="counter.project_name"
           style="field-sizing: content"
-          class="w-full px-2 py-1 overflow-visible border outline-none resize-none min-h-9 create_project bg-background text-foreground border-secondary focus-within:border-primary placeholder:text-foreground/50 hover:border-primary"
+          class="w-full px-2 py-1 overflow-visible border outline-none resize-none min-h-9 create_project bg-secondary/30 text-foreground border-secondary focus-within:border-primary placeholder:text-foreground/50 hover:border-primary"
         />
       </div>
     </Editor>
@@ -46,7 +46,7 @@ const counter = useCounterStore();
         ? 'bg-primary text-primary-foreground hover:bg-primary/80'
         : 'disabled bg-secondary  pointer-events-none'
       "
-      class="absolute left-0 bottom-0 md:left-0.5 right-0 md:right-2 z-20 px-3 text-xs h-8 GuardarDocumento disabled:text-foreground/50"
+      class="absolute bottom-0 right-0 z-20 h-8 px-3 text-xs interactive md:-translate-y-5 -left-8 md:left-6 md:right-6 GuardarDocumento disabled:text-foreground/50"
     >
       Guardar documento
     </button>

@@ -80,7 +80,7 @@ const results = computed(() => {
     <EditDatabaseTitle />
     <ButtonCreateDocument />
     <div
-      class="relative flex items-center justify-between w-full gap-0.5 p-0.5 text-xs bg-background ring-secondary/60 focus-within:ring-secondary"
+      class="relative flex items-center justify-between w-full gap-0.5 p-0.5 text-xs bg-secondary/4 ring-secondary/60 focus-within:ring-secondary"
     >
       <div
         class="relative flex items-center justify-between w-full border-2 hover:border-primary focus-within:border-primary h-7 border-secondary"
@@ -89,7 +89,7 @@ const results = computed(() => {
           ref="focusSearch"
           v-model="searchTerm"
           placeholder="Filtrar por título"
-          class="h-6 px-1 outline-none bg-background placeholder:text-xs"
+          class="h-6 px-1 outline-none bg-secondary/30 placeholder:text-xs"
         >
         <span
           v-if="!searchTerm"
@@ -127,14 +127,14 @@ const results = computed(() => {
               :key="item.id"
               :data="item"
             />
-            <div
-              v-if="results?.length + allItemsChecked?.length === 0"
-              class=" w-full h-[calc(100vh-20rem)] text-center flex items-center justify-center"
-            >
-              <p class="w-40 text-xs text-muted-foreground text-pretty">
-                Aqui se mostrarán tus documentos
-              </p>
-            </div>
+          </div>
+          <div
+            v-if="results?.length + allItemsChecked?.length === 0"
+            class=" w-full h-[calc(100vh-20rem)] text-center flex items-center justify-center"
+          >
+            <p class="w-40 text-xs text-muted-foreground text-pretty">
+              Aqui se mostrarán tus documentos
+            </p>
           </div>
         </ScrollAreaViewport>
         <ScrollAreaScrollbar

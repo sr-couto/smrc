@@ -33,7 +33,7 @@ onClickOutside(target, () => {
 
 <template>
   <div
-    class="DataBaseTitle flex items-center justify-center mx-0.5 text-sm border group bg-background/80 hover:bg-secondary/50 border-secondary"
+    class="DataBaseTitle flex items-center justify-center mx-0.5 text-sm border group bg-secondary/40 hover:bg-secondary/90 border-secondary"
     :class="editing ? ' !border !border-primary' : ' '"
   >
     <button
@@ -69,7 +69,7 @@ onClickOutside(target, () => {
         ref="focusedEditTitle"
         placeholder="Escriba un título"
         @keyup.enter="editDatabaseTitle()"
-        class="w-full h-8 pl-1 text-sm border outline-none bg-background text-foreground border-secondary"
+        class="w-full h-8 pl-1 text-sm border outline-none bg-secondary text-foreground border-secondary"
         v-model="input"
       >
       <button

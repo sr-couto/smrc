@@ -133,7 +133,7 @@ function addIframe() {
           :side="'bottom'"
         >
           <span
-            class="flex items-center justify-center outline-none size-8 focus-visible:border-primary border-secondary"
+            class="flex items-center justify-center outline-none interactive size-8 focus-visible:border-primary border-secondary"
           >
             <ImagePlus class="size-4" />
           </span>
@@ -181,7 +181,7 @@ function addIframe() {
     >
       <button
         @click="addVideo"
-        class="flex items-center justify-center outline-none size-8 focus-visible:border-primary border-secondary"
+        class="flex items-center justify-center outline-none interactive size-8 focus-visible:border-primary border-secondary"
       >
         <Video class="size-4" />
       </button>
@@ -192,7 +192,7 @@ function addIframe() {
     >
       <button
         @click="addIframe"
-        class="flex items-center justify-center outline-none size-8 focus-visible:border-primary border-secondary"
+        class="flex items-center justify-center outline-none interactive size-8 focus-visible:border-primary border-secondary"
       >
         <Globe class="size-4" />
       </button>
@@ -310,6 +310,7 @@ function addIframe() {
           @click="editor.chain().focus().toggleBold().run()"
           :disabled="!editor.can().chain().focus().toggleBold().run()"
           :class="{ 'is-active': editor.isActive('bold') }"
+          class="interactive"
         >
           <Bold />
         </button>
@@ -323,6 +324,7 @@ function addIframe() {
           @click="editor.chain().focus().toggleItalic().run()"
           :disabled="!editor.can().chain().focus().toggleItalic().run()"
           :class="{ 'is-active': editor.isActive('italic') }"
+          class="interactive"
         >
           <Italic />
         </button>
@@ -336,6 +338,7 @@ function addIframe() {
           @click="editor.chain().focus().toggleStrike().run()"
           :disabled="!editor.can().chain().focus().toggleStrike().run()"
           :class="{ 'is-active': editor.isActive('strike') }"
+          class="interactive"
         >
           <Strikethrough />
         </button>
@@ -348,8 +351,8 @@ function addIframe() {
         <button
           @click="editor.chain().focus().toggleCode().run()"
           :disabled="!editor.can().chain().focus().toggleCode().run()"
-          class="font-mono !text-base"
           :class="{ 'is-active': editor.isActive('code') }"
+          class="font-mono interactive !text-base"
         >
           <span class="flex items-center justify-center text-xs rounded size-5 bg-secondary-foreground/10 text-foreground">
             A
@@ -364,6 +367,7 @@ function addIframe() {
         <button
           @click="editor.chain().focus().toggleCodeBlock().run()"
           :class="{ 'is-active': editor.isActive('codeBlock') }"
+          class="interactive"
         >
           <Code />
         </button>
@@ -375,7 +379,7 @@ function addIframe() {
             name="Alineación de texto"
             side="bottom"
           >
-            <button class="flex items-center justify-center w-full bg-secondary">
+            <button class="flex items-center justify-center w-full bg-secondary interactive">
               <template v-if="editor.isActive({ textAlign: 'center' })">
                 <AlignCenter class="size-6" />
               </template>
@@ -480,6 +484,7 @@ function addIframe() {
         <button
           @click="editor.chain().focus().toggleBulletList().run()"
           :class="{ 'is-active': editor.isActive('bulletList') }"
+          class="interactive"
         >
           <List />
         </button>
@@ -492,6 +497,7 @@ function addIframe() {
         <button
           @click="editor.chain().focus().toggleOrderedList().run()"
           :class="{ 'is-active': editor.isActive('orderedList') }"
+          class="interactive"
         >
           <ListOrdered />
         </button>
@@ -505,6 +511,7 @@ function addIframe() {
         <button
           @click="editor.chain().focus().toggleBlockquote().run()"
           :class="{ 'is-active': editor.isActive('blockquote') }"
+          class="interactive"
         >
           <Quote />
         </button>
@@ -513,7 +520,10 @@ function addIframe() {
         name="Separador"
         side="bottom"
       >
-        <button @click="editor.chain().focus().setHorizontalRule().run()">
+        <button
+          @click="editor.chain().focus().setHorizontalRule().run()"
+          class="interactive"
+        >
           <Minus />
         </button>
       </Tooltip>
@@ -524,6 +534,7 @@ function addIframe() {
         <button
           @click="setLink"
           :class="{ 'is-active': editor.isActive('link') }"
+          class="interactive"
         >
           <Link2 class="-rotate-45" />
         </button>
@@ -535,6 +546,7 @@ function addIframe() {
         <button
           @click="editor.chain().focus().unsetLink().run()"
           :disabled="!editor.isActive('link')"
+          class="interactive"
         >
           <Unlink2 class="-rotate-45" />
         </button>
@@ -544,7 +556,10 @@ function addIframe() {
         side="bottom"
         shortcut="Negrita - Italica - Tachado - Link - Código en linea"
       >
-        <button @click="editor.chain().focus().unsetAllMarks().run()">
+        <button
+          @click="editor.chain().focus().unsetAllMarks().run()"
+          class="interactive"
+        >
           <RemoveFormatting />
         </button>
       </Tooltip>
@@ -553,7 +568,10 @@ function addIframe() {
         side="bottom"
         shortcut="Títulos - Listas - Código en bloque - Cita"
       >
-        <button @click="editor.chain().focus().clearNodes().run()">
+        <button
+          @click="editor.chain().focus().clearNodes().run()"
+          class="interactive"
+        >
           <Eraser />
         </button>
       </Tooltip>

@@ -201,7 +201,7 @@
 }
 
 .theme-rose {
-  --background: 0 0% 100%;
+  --background: 0 0% 95%;
   --foreground: 240 10% 3.9%;
 
   --card: 0 0% 100%;
@@ -213,7 +213,7 @@
   --primary: 346.8 77.2% 49.8%;
   --primary-foreground: 355.7 100% 97.3%;
 
-  --secondary: 240 4.8% 95.9%;
+  --secondary: 240 4.8% 90.9%;
   --secondary-foreground: 240 5.9% 10%;
 
   --muted: 240 4.8% 95.9%;
@@ -491,7 +491,11 @@
 
 button {
   @apply outline-primary focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 ring-0;
-  @apply hover:outline hover:outline-2 hover:-outline-offset-2 hover:text-primary;
+  @apply hover:outline hover:outline-2 hover:-outline-offset-2;
+}
+
+button.interactive {
+  @apply active:scale-90 hover:duration-500 active:duration-500
 }
 
 body:has(.cursorInitial) button {

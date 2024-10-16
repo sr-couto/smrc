@@ -9,6 +9,7 @@ function DriverJsInit() {
 
   const driverObj = driver({
     allowClose: true,
+    animate: false,
     nextBtnText: 'Siguiente',
     prevBtnText: 'Anterior',
     doneBtnText: 'Comenzar',
@@ -19,7 +20,7 @@ function DriverJsInit() {
       {
         popover: {
           title: 'Holis 👋',
-          description: 'Vamos a crear un nuevo documento que se guardara localmente en tu indexedDB. Podés navegar utilizando las flechas del teclado.',
+          description: 'Vamos a crear un nuevo documento que se guardara localmente en tu navegador. Podés navegar este tutorial con utilizando las flechas del teclado.',
         }
       },
       // {
@@ -46,7 +47,7 @@ function DriverJsInit() {
         popover: {
           title: 'Editor de texto',
           description: 'Aquí podrás añadir texto enriquecido, bloques de código bonitos para 295 lenguajes, imágenes y videos de YouTube.',
-          side: 'top',
+          side: 'left',
           align: 'center'
         }
       },
@@ -54,7 +55,7 @@ function DriverJsInit() {
         element: '.GuardarDocumento',
         popover: {
           title: 'Agregar documento',
-          description: 'Hasta ahora estos cambios no se han guardado localmente. Hace click en Guardar para agregar el documento en la DB. Una vez creado el documento los cambios se guardarán automaticamente.',
+          description: 'Para crear un documento se requiere minimamente un titulo. Hace click en Guardar para agregar el documento en la DB. Una vez creado el documento los cambios se guardarán automaticamente.',
           side: 'top',
           align: 'center'
         }
@@ -82,6 +83,15 @@ function DriverJsInit() {
         popover: {
           title: 'Importar y exportar',
           description: 'Guarda la base de datos en formato JSON para importarla en otro navegador.',
+          side: 'top',
+          align: 'center'
+        }
+      },
+      {
+        element: '.ButtonDeleteDocument',
+        popover: {
+          title: 'Eliminar documento',
+          description: 'Si así lo deseas tambien puedes eliminar el documento directamente.',
           side: 'top',
           align: 'center'
         }

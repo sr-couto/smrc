@@ -15,7 +15,7 @@ import {
 } from "radix-vue";
 import { X } from "lucide-vue-next";
 
-const lastVersion = "0.1.2"
+const lastVersion = "0.1.3"
 
 const props = defineProps({
   button: {
@@ -66,6 +66,16 @@ const props = defineProps({
                 {{ lastVersion }} - <small>Última version desplegada</small>
               </DialogDescription>
               <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
+                <li>Refactor: Se agrega la posibilidad de limpiar la base de datos desde la configuración.</li>
+                <li>Feature: Abrir modal de Exportar json al iniciar la app para rapido backup.</li>
+                <li>Refactor: Cambios en el tour.</li>
+                <li>Add: Plugin persisted data para Pinia (stores).</li>
+                <li>Bump up: Tailwind, VueSooner.</li>
+              </ul>
+              <h4 class="mt-3 mb-5 leading-normal text-foreground">
+                0.1.2
+              </h4>
+              <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
                 <li>Feature: Modal de configuraciones con Modo color, puntero, Tour.</li>
                 <li>Feature: se agrega la opcion de activar el cursor con puntero o manito.</li>
                 <li>Refactor: Cambios en el tour</li>
@@ -94,7 +104,7 @@ const props = defineProps({
                 0.0.20
               </h4>
               <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
-                <li>Feat: se agrega un Tour la primera vez que ingresas.</li>
+                <li>Feature: se agrega un Tour la primera vez que ingresas.</li>
                 <li>Refactor: Se modifica la posición y la jerarquia del boton Guardar documento.</li>
                 <li>Refactor: Mas padding en mobile para el listado de documentos.</li>
                 <li>Bump up dependencias</li>
@@ -103,8 +113,8 @@ const props = defineProps({
                 0.0.19
               </h4>
               <ul class="mt-2 mb-5 text-sm leading-normal text-foreground">
-                <li>Feat: Se agrega <code>async function change_project_fixed</code></li>
-                <li>Feat: Se agregan al estado global los ref <code>project_checked</code> y <code>project_fixed</code></li>
+                <li>Feature: Se agrega <code>async function change_project_fixed</code></li>
+                <li>Feature: Se agregan al estado global los ref <code>project_checked</code> y <code>project_fixed</code></li>
                 <li>Refactor: Se desactiva la posibilidad de ocultar barra de texto.</li>
                 <li>Refactor: Se lleva el alto maximo del bloque de codigo a 600px.</li>
                 <li>Refactor: Botones tienen el mismo hover que focus-within.</li>

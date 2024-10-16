@@ -17,6 +17,7 @@ export const useCounterStore = defineStore("counter", () => {
   const searchTerm = shallowRef("");
   const showProjects = shallowRef(true);
   const showImportModal = shallowRef(false);
+  const showShareModal = shallowRef(false);
   const shareOptions = shallowRef([]);
   const content_editable = shallowRef(true);
   const editor = shallowRef(null);
@@ -207,6 +208,7 @@ export const useCounterStore = defineStore("counter", () => {
   async function clearDatabase() {
     await db.projects.clear();
     await db.file.clear();
+    clear_editor();
   }
 
   async function init_database() {
@@ -289,7 +291,9 @@ export const useCounterStore = defineStore("counter", () => {
     change_project_checked,
     change_project_fixed,
     showImportModal,
+    showShareModal,
     content_editable,
-    toggleEditable
+    toggleEditable,
+    clearDatabase
   };
 });

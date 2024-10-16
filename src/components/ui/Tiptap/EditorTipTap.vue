@@ -146,11 +146,11 @@ onBeforeUnmount(() => {
 <template>
   <div
     v-if="editor"
-    class="px-0.5 EditorCK grid md:pr-2 w-full"
+    class="grid w-full px-2 md:pr-2"
   >
     <div
       v-if="toolbar"
-      class="sticky top-0 z-30 py-1 pt-0.5 bg-background"
+      class="sticky top-0 z-30 pt-0.5 bg-background"
     >
       <div class="relative grid w-full max-w-full gap-1 mx-auto control-group">
         <!-- Inicio Slot: Muestra o el titulo o un input -->
@@ -160,16 +160,17 @@ onBeforeUnmount(() => {
       </div>
     </div>
     <ScrollAreaRoot
-      class="w-full border border-secondary"
+      class="w-full border border-secondary "
       :class="[
         showEditorToolbar ? 'h-[calc(100vh-5.375rem)]' : 'h-[calc(100vh-2.75rem)]',
         !toolbar ? 'border-transparent !h-screen' : '',
+        editable ? 'bg-secondary/30' : 'bg-background',
       ]"
       style="--scrollbar-size: 10px"
     >
       <ScrollAreaViewport class="w-full h-full">
         <div
-          class="max-w-full mx-auto prose dark:prose-invert"
+          class="max-w-full mx-auto prose EditorCK dark:prose-invert"
           spellcheck="false"
         >
           <div

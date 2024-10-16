@@ -31,7 +31,7 @@ onMounted(() => {
 
 <template>
   <DropdownMenuRoot>
-    <DropdownMenuTrigger>
+    <DropdownMenuTrigger class="interactive">
       <Tooltip
         name="Modo de color"
         :side="counter.showProjects ? 'bottom' : 'right'"

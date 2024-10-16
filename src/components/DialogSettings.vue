@@ -13,38 +13,46 @@ import {
   ScrollAreaThumb,
   ScrollAreaViewport,
 } from "radix-vue";
-import { Settings, X,  MousePointer, Pointer, RotateCcw,  PlaneTakeoff, PlaneLanding } from "lucide-vue-next";
+import { X, MousePointer, DatabaseZap, Pointer, PlaneTakeoff, Settings2 } from "lucide-vue-next";
 import Tooltip from "./ui/Tooltip.vue";
 import { useCounterStore } from "@/stores/counter";
 import { useStorage } from "@vueuse/core";
 import ToggleTheme from "./ui/ToggleTheme.vue";
+import { useSettingsStore } from "@/stores/settings";
+import DialogDeleteDB from "./DialogDeleteDB.vue";
+import { ref } from "vue";
+import DriverJsInit from "./Tour.ts";
+const settings = useSettingsStore();
 
 const counter = useCounterStore();
 const cursorPointer = useStorage("cursor", true);
-const tour = useStorage("product_tour_seen", false);
 
+const showSettings = ref(false);
 const toggleCursor = () => {
   cursorPointer.value = !cursorPointer.value;
 };
 
 const toggleTour = () => {
-  tour.value = !tour.value;
-  
+  localStorage.setItem('product_tour_seen', 'false');
+  showSettings.value = false
+  setTimeout(() => {
+    DriverJsInit();
+  }, 300);
 };
 
 </script>
 
 <template>
-  <DialogRoot>
+  <DialogRoot v-model:open="showSettings">
     <Tooltip
       name="Configuraciones"
       :side="counter.showProjects ? 'bottom' : 'right'"
     >
       <DialogTrigger
-        class="flex items-center justify-center hover:bg-secondary/80 bg-background size-8"
+        class="flex items-center justify-center interactive hover:bg-secondary/80 bg-background size-8"
         :class="counter.showProjects ? ' border border-secondary ' : '  '"
       >
-        <Settings class="size-4" />
+        <Settings2 class="size-4" />
       </DialogTrigger>
     </Tooltip>
     <DialogPortal>
@@ -52,35 +60,51 @@ const toggleTour = () => {
         class="bg-background/95 backdrop-blur-sm data-[state=open]:animate-overlayShow fixed inset-0 z-[60]"
       />
       <DialogContent
-        class="md:data-[state=open]:animate-contentShow font-mono fixed top-6 md:top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[750px] translate-x-[-50%] md:translate-y-[-50%] bg-background rounded p-4 focus:outline-none z-[100] "
+        class="md:data-[state=open]:animate-contentShow font-mono fixed top-6 md:top-[50%] left-[50%] max-h-[85vh] w-[98vw] max-w-[750px] translate-x-[-50%] md:translate-y-[-50%] bg-background rounded py-4 md:p-4 focus:outline-none z-[100] "
       >
         <DialogTitle class="text-foreground m-0 text-[17px] font-semibold">
           Configuraciones
         </DialogTitle>
+        <DialogDescription class="mt-1 text-sm text-muted-foreground">
+          Administra y configura tus preferencias.
+        </DialogDescription>
         <ScrollAreaRoot
           class="w-full border h-[78vh] mt-6 md:h-[70vh] border-secondary"
           style="--scrollbar-size: 10px"
         >
           <ScrollAreaViewport class="w-full h-full">
             <article class="max-w-full p-3 mx-auto prose dark:prose-invert">
-              <DialogDescription class="text-sm">
-                Administra tus perfil, y configura tus preferencias.
-              </DialogDescription>
               <div class="grid gap-3">
-                <div class="flex flex-row items-start justify-between p-2 space-y-2 border border-secondary">
+                <div class="flex-row items-start justify-between hidden gap-3 p-5 border md:flex border-secondary">
+                  <div
+                    class="space-y-0.5"
+                    v-auto-animate
+                  >
+                    <label class="text-sm font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      Tour navegacion de la app
+                    </label>
+                    <p class="text-xs text-muted-foreground">
+                      Activar el tutorial al ingresar a la app.
+                    </p>
+                  </div>
+                  <button
+                    @click="toggleTour()"
+                    class="flex items-center justify-center border interactive border-primary bg-background shrink-0 hover:bg-secondary/80 size-8"
+                  >
+                    <PlaneTakeoff class="size-5" />
+                  </button>
+                </div>
+                <div class="flex-row items-start justify-between hidden p-5 border sm:flex border-secondary">
                   <div class="space-y-0.5">
-                    <label
-                      class="text-sm font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    > Puntero del mouse </label>
-                    <p
-                      class="text-xs text-muted-foreground"
-                    >
+                    <label class="text-sm font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      Puntero del mouse </label>
+                    <p class="text-xs text-muted-foreground">
                       Activa o desactiva la manito en el cursor del mouse
                     </p>
                   </div>
                   <button
                     @click="toggleCursor()"
-                    class="flex items-center justify-center border border-primary bg-background hover:bg-secondary/80 size-8"
+                    class="flex items-center justify-center border interactive border-primary bg-background hover:bg-secondary/80 size-8"
                   >
                     <Pointer
                       v-if="cursorPointer"
@@ -92,53 +116,41 @@ const toggleTour = () => {
                     />
                   </button>
                 </div>
-                <div class="flex flex-row items-start justify-between p-2 space-y-2 border border-secondary">
+                <div class="relative flex flex-row items-start justify-between p-5 border border-secondary">
                   <div class="space-y-0.5">
-                    <label
-                      class="text-sm font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    > Modo de color </label>
-                    <p
-                      class="text-xs text-muted-foreground"
-                    >
+                    <label class="text-sm font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"> Modo
+                      de color </label>
+                    <p class="text-xs text-muted-foreground">
                       Alterná entre modo oscuro/claro/sistema, tambien podes elegir un color primario.
                     </p>
                   </div>
-                  <div class="!ring-1 !ring-primary w-8 overflow-hidden hover: h-8">
+                  <div class="!ring-1 !ring-primary shrink-0 w-8 overflow-hidden hover: h-8">
                     <ToggleTheme />
                   </div>
                 </div>
-                <div class="flex flex-row items-start justify-between p-2 space-y-2 border border-secondary">
-                  <div
-                    class="space-y-0.5"
-                    v-auto-animate
-                  >
-                    <label
-                      class="text-sm font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    > Tour </label>
-                    <p
-                      class="text-xs text-muted-foreground"
-                    >
-                      Activar el tutorial al ingresar a la app. Verá el tour despues de reiniciar. 
+                
+                <div class="flex flex-row items-start justify-between gap-3 p-5 border border-secondary">
+                  <div class="space-y-0.5">
+                    <label class="text-sm font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      Generar json exportable al iniciar la aplicación.</label>
+                    <p class="text-xs text-muted-foreground">
+                      Activar la opción para exportar la base de datos localmente para backup al iniciar
                     </p>
-                    <a
-                      v-if="!tour"
-                      href="/"
-                      class="inline-flex items-center gap-2 p-2 text-xs border border-secondary"
-                    >Reiniciar ahora <RotateCcw class="size-4" /> </a>
                   </div>
                   <button
-                    @click="toggleTour()"
-                    class="flex items-center justify-center border border-primary bg-background hover:bg-secondary/80 size-8"
+                    @click="settings.toggle_save_on_load()"
+                    class="flex items-center justify-center border interactive border-primary bg-background hover:bg-secondary/80 size-8 shrink-0"
+                    :class="settings.save_on_load ? 'hover:!bg-primary bg-primary hover:text-primary-foreground text-primary-foreground' : 'text-muted-foreground'"
                   >
-                    <PlaneTakeoff
-                      v-if="!tour"
-                      class="size-5"
-                    />
-                    <PlaneLanding
-                      v-else
-                      class="size-5"
-                    />
+                    <DatabaseZap class="size-5" />
                   </button>
+                </div>
+                <div class="flex flex-row items-start justify-between gap-3 p-5 border border-primary">
+                  <div class="space-y-0.5">
+                    <label class="text-sm font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      Eliminar la base de datos </label>
+                  </div>
+                  <DialogDeleteDB />
                 </div>
               </div>
             </article>
@@ -152,15 +164,6 @@ const toggleTour = () => {
             />
           </ScrollAreaScrollbar>
         </ScrollAreaRoot>
-        <div class="flex justify-end mt-2 md:mt-3">
-          <DialogClose as-child>
-            <button
-              class="bg-secondary text-foreground hover:bg-background hover:ring-2 hover:ring-foreground text-sm focus:shadow-green7 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-semibold leading-none focus:shadow-[0_0_0_2px] focus:outline-none"
-            >
-              Cerrar ventana
-            </button>
-          </DialogClose>
-        </div>
         <DialogClose
           class="absolute inline-flex items-center justify-center appearance-none top-4 text-foreground hover:bg-secondary/80 right-3 size-7 focus:shadow focus:outline-none focus-visible:ring-1 focus-visible:ring-primary focus-visible:text-primary"
           aria-label="Close"
