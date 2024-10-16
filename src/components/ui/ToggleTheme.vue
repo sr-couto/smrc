@@ -37,8 +37,7 @@ onMounted(() => {
         :side="counter.showProjects ? 'bottom' : 'right'"
       >
         <span
-          class="flex items-center justify-center hover:bg-secondary/80 bg-background size-8"
-          :class="counter.showProjects ? ' border border-secondary ' : '  '"
+          class="flex items-center justify-center border hover:bg-secondary/80 border-secondary bg-background size-8"
         >
           <Moon
             class="transition-all duration-300 scale-100 rotate-0 size-4 dark:-rotate-90 dark:scale-0"

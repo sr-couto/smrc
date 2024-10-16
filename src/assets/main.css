@@ -495,7 +495,7 @@ button {
 }
 
 button.interactive {
-  @apply active:scale-90 hover:duration-500 active:duration-500
+  @apply duration-500 active:scale-90 hover:outline-offset-0 hover:!border-secondary hover:outline-primary
 }
 
 body:has(.cursorInitial) button {

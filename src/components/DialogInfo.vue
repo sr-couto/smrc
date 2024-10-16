@@ -28,8 +28,7 @@ const counter = useCounterStore();
       :side="counter.showProjects ? 'bottom' : 'right'"
     >
       <DialogTrigger
-        class="flex items-center justify-center interactive hover:bg-secondary/80 bg-background size-8"
-        :class="counter.showProjects ? ' border border-secondary ' : '  '"
+        class="flex items-center justify-center border interactive border-secondary hover:bg-secondary/80 bg-background size-8"
       >
         <CircleHelp class="size-4" />
       </DialogTrigger>

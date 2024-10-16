@@ -53,8 +53,8 @@ whenever(CtrlShiftE, () => {
     </button>
     
     <div
-      class="grid gap-0.5"
-      :class="counter.showProjects ? 'grid-cols-5' : ' grid-cols-1 '"
+      class="grid px-1"
+      :class="counter.showProjects ? 'grid-cols-5 gap-0.5' : ' grid-cols-1 gap-1 mt-1'"
     >
       <DialogInfo />
       <DialogSettings />
@@ -79,7 +79,7 @@ whenever(CtrlShiftE, () => {
     <button
       @click="counter.showProjects = !counter.showProjects"
       v-show="!counter.showProjects"
-      class="absolute inset-0 z-10 top-44"
+      class="absolute z-10 inset-1 bottom-2 top-[11.5rem]"
     >
       <ArrowRightToLine class="mx-auto duration-100 opacity-25 size-4 -translate-y-14 group-hover:opacity-90" />
     </button>

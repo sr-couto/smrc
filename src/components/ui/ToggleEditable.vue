@@ -17,8 +17,7 @@ const counter = useCounterStore();
   >
     <button
       @click="counter.toggleEditable"
-      class="flex items-center justify-center interactive ToggleEditable bg-background hover:bg-secondary/80 size-8"
-      :class="counter.showProjects ? ' border border-secondary ' : '  '"
+      class="flex items-center justify-center border interactive border-secondary ToggleEditable bg-background hover:bg-secondary/80 size-8"
     >
       <BookText
         class="size-4"
