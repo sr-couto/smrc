@@ -70,7 +70,7 @@ const filteredOptions = computed(() =>
     <PopoverRoot>
       <div class="btn">
         <PopoverTrigger
-          class="relative flex items-center justify-start w-full gap-2"
+          class="relative flex items-center justify-start w-full gap-2 !outline-none"
           aria-label="Update dimensions"
         >
           <div
@@ -186,5 +186,7 @@ const filteredOptions = computed(() =>
 
 .btn {
   @apply flex items-center w-full justify-start gap-1 px-2 h-6 text-xs bg-secondary font-normal text-primary transition-colors border border-secondary/20 dark:text-white ring-secondary ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+  @apply focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-0;
+  @apply hover:ring-2 hover:ring-primary hover:ring-offset-0;
 }
 </style>

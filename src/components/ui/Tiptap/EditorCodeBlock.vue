@@ -182,4 +182,14 @@ export default {
 .tiptap .code-block pre code div {
   @apply pt-4 p-3
 }
+
+.tiptap .code-block pre code * {
+  @apply !select-text
+}
+
+.preview-editor  * {
+  @apply !select-text
+}
+
+
 </style>

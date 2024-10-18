@@ -1,15 +1,30 @@
 <script setup>
-import { ArrowRight, Circle, Pin } from "lucide-vue-next";
+import { ArrowRight, Circle, Pin, X } from "lucide-vue-next";
 import { useCounterStore } from "@/stores/counter";
 import { storeToRefs } from "pinia";
 import Tooltip from "./ui/Tooltip.vue";
 import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
-
+import { ref } from "vue";
+import {
+  AlertDialogRoot,
+  AlertDialogTrigger,
+  AlertDialogPortal,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "radix-vue";
 
 const counter = useCounterStore();
 const { loaded_id } = storeToRefs(counter);
 const breakpoints = useBreakpoints(breakpointsTailwind);
 const largerThanLg = breakpoints.greater("lg");
+
+const showAlertDialog = ref(false);
+const selectedId = ref(null);
+
 const props = defineProps({
   data: {
     type: Object,
@@ -27,18 +42,23 @@ function hasUnsavedChanges() {
   );
 }
 
-function set_document(id) {
+function confirmSetDocument(id) {
   if (hasUnsavedChanges()) {
-    if (!confirm("El documento actual tienes cambios sin guardar. ¿Quieres continuar y descartar los cambios?")) {
-      return; // Cancela la acción si el usuario no confirma
-    }
+    selectedId.value = id;
+    showAlertDialog.value = true;
+  } else {
+    set_document(id);
   }
+}
+
+function set_document(id) {
   if (largerThanLg.value === true) {
     counter.set_project(id);
   } else {
     counter.set_project(id);
     counter.showProjects = false;
   }
+  showAlertDialog.value = false;
 }
 
 function toggleCheck(item, isChecked) {
@@ -49,8 +69,8 @@ function toggleFixed(item, isFixed) {
   counter.change_project_fixed(item, isFixed);
 }
 
-
 </script>
+
 <template>
   <div class="relative flex items-center justify-between w-full pr-3 h-7 md:pr-2 group">
     <Tooltip
@@ -67,26 +87,54 @@ function toggleFixed(item, isFixed) {
           class="hidden py-1 mx-1 outline-none group-hover:inline-flex md:py-0 hover:text-primary group-focus-visible:!block focus-visible:ring-1 group-focus-within:!block"
           :class="props.data.project_data?.fixed ? '!block' : ''"
         >
-          <template v-if="props.data.project_data?.fixed">
-            <Pin class="-rotate-45 fill-current size-4 text-primary" />
-          </template>
-          <template v-else>
-            <Pin class="-rotate-45 size-4" />
-          </template>
+          <Pin
+            class="-rotate-45 size-4" 
+            :class="props.data.project_data?.fixed ? 'fill-current text-primary' : ''"
+          />
         </button>
       </div>
     </Tooltip>
     <button
       class="flex interactive hover:!text-primary px-2 py-0.5 rounded w-full items-center group-hover:text-foreground outline-none justify-start gap-2 text-sm text-left focus-within:ring-1 ring-primary"
       :class="loaded_id === props.data.id ? 'text-primary' : ''"
-      @click="set_document(props.data.id)"
+      @click="confirmSetDocument(props.data.id)"
     >
       <p class="@sm:max-w-full max-w-80 ">
-        <!-- {{ truncatedString(props.data.project_data?.name) }} -->
         {{ props.data.project_data?.name.length > 25 ? props.data.project_data?.name.substring(0, 25) + '&hellip;' :
           props.data.project_data?.name }}
       </p>
     </button>
+    <AlertDialogRoot v-model:open="showAlertDialog">
+      <AlertDialogPortal>
+        <AlertDialogOverlay class="fixed inset-0 z-50 bg-black/50" />
+        <AlertDialogContent class="md:data-[state=open]:animate-contentShow fixed z-50 w-[95vw] max-w-md rounded-lg p-4 md:w-full top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-background text-foreground border border-secondary font-mono">
+          <AlertDialogTitle class="text-sm font-medium">
+            Cambios sin guardar
+          </AlertDialogTitle>
+          <AlertDialogDescription class="mt-2 mb-5 text-xs">
+            El documento actual tiene cambios sin guardar. ¿Quieres continuar y descartar los cambios?
+          </AlertDialogDescription>
+          <div class="flex justify-between gap-x-2">
+            <AlertDialogAction as-child>
+              <button
+                @click="set_document(selectedId)"
+                class="bg-red-600  text-white hover:bg-red-800  outline-none inline-flex ring-0  hover:ring-2 ring-red-600 h-[35px] items-center justify-center rounded-[4px] px-3 text-xs font-semibold leading-none focus:outline-none"
+              >
+                Descartar cambios
+              </button>
+            </AlertDialogAction>
+            <AlertDialogCancel as-child>
+              <button class="bg-secondary ring-1 !ring-secondary text-foreground hover:bg-background hover:ring-2 hover:ring-foreground inline-flex h-[35px] items-center justify-center rounded-[4px] px-3 text-xs font-semibold leading-none focus-visible:ring-2 focus:outline-foreground">
+                Continuar editando
+              </button>
+            </AlertDialogCancel>
+          </div>
+          <AlertDialogCancel class="absolute top-0 size-6 flex justify-center items-center m-3 right-0 z-[999] text-foreground">
+            <X class="size-4" />
+          </AlertDialogCancel>
+        </AlertDialogContent>
+      </AlertDialogPortal>
+    </AlertDialogRoot>
     <input
       type="checkbox"
       :id="'todo-' + props.data.id"

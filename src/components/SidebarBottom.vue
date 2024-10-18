@@ -1,19 +1,6 @@
 <script setup>
 import DialogShareDB from "./DialogShareDB.vue";
 import DialogImportDB from "./DialogImportDB.vue";
-import { useCounterStore } from "@/stores/counter.js";
-import { useFileDialog } from "@vueuse/core";
-
-const counter = useCounterStore();
-
-const { onChange } = useFileDialog({
-  accept: "application/json",
-});
-
-onChange((files) => {
-  counter.import_database(files[0]);
-  counter.showProjects = true;
-});
 </script>
 
 <template>

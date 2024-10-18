@@ -23,13 +23,13 @@ function new_document() {
 </script>
 
 <template>
-  <div class="px-0.5">
+  <div class="px-0.5 mx-1 my-1.5">
     <button
       @click="loaded_id === '' ? null : new_document()"
       class="CreateNewButton flex items-center my-0.5 justify-center gap-2 text-xs min-h-7 w-full text-left bg-primary focus-within:ring-1 ring-primary"
       :class="{
         '!bg-secondary !ring-secondary !text-primary-foreground': loaded_id === null,
-        '!bg-secondary/30 !text-muted-foreground/50 animate-pulse': loaded_id === '',
+        '!bg-secondary/30 !text-muted-foreground/50 ': loaded_id === '',
       }"
     >
       <Plus
@@ -38,7 +38,7 @@ function new_document() {
       />
       <span
         v-show="loaded_id === ''"
-        class="flex items-center gap-1"
+        class="flex items-center gap-1 text-primary animate-pulse"
       >
         * Creando documento
         <span
@@ -50,7 +50,7 @@ function new_document() {
 
       </span>
       <span
-        class="text-primary-foreground"
+        class="font-bold text-primary-foreground"
         v-show="loaded_id !== ''"
       >Crear nuevo documento</span>
     </button>

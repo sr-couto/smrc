@@ -45,12 +45,6 @@ onMounted(() => {
       <DialogContent
         class="data-[state=open]:animate-contentShow font-mono fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[650px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-background p-3 md:p-[25px] shadow focus:outline-none z-[9000]"
       >
-        <DialogClose
-          class="text-foreground hover:bg-secondary/80 hover:text-foreground  absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center focus:outline-none"
-          aria-label="Close"
-        >
-          <X class="size-4" />
-        </DialogClose>
         <DialogTitle class="text-foreground m-0 text-[17px] font-semibold">
           ExportarDB
         </DialogTitle>
@@ -80,25 +74,10 @@ onMounted(() => {
               Cerrar ventana
             </button>
           </DialogClose>
-          <!-- <div class="flex gap-2 text-xs">
-            <div
-              v-if="isSupported"
-              class="flex gap-2"
-            >
-              <button
-                @click="copy(counter.shareOptions)"
-                class="bg-secondary duration-300 text-foreground hover:bg-backgorund/80 text-xs inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-semibold leading-none focus:shadow-[0_0_0_2px] focus:outline-none"
-                :class="copied ? '!bg-primary text-white' : 'text-foreground'"
-              >
-                <span v-if="!copied">Copiar JSON</span>
-                <span v-else>Json Copiado!</span>
-              </button>
-            </div>
-            <p v-else>
-              Your browser does not support Clipboard API
-            </p>
-          </div> -->
         </div>
+        <DialogClose class="absolute top-0 size-6 flex justify-center items-center m-3 right-0 z-[999] text-foreground">
+          <X class="size-4" />
+        </DialogClose>
       </DialogContent>
     </DialogPortal>
   </DialogRoot>

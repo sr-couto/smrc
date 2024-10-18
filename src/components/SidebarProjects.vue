@@ -2,6 +2,7 @@
 import { useCounterStore } from "@/stores/counter";
 import {
   CircleX,
+  Search,
 } from "lucide-vue-next";
 import { storeToRefs } from "pinia";
 import { computed, watch, shallowRef } from "vue";
@@ -30,17 +31,17 @@ const { allItemsTodo, allItemsChecked, searchTerm, file_name } =
 storeToRefs(counter);
 
 const debounced = refDebounced(searchTerm, 300);
-// const input = shallowRef(file_name);
+const input = shallowRef(file_name);
 const sortOption = useStorage("sortItemsBy", "name");
 
 onClickOutside(target, () => {
   editing.value = false;
 });
 
-// watch(input, (v) => {
-//   if (v) counter.update_database(input.value);
-//   counter.auto_save();
-// });
+watch(input, (v) => {
+  if (v) counter.update_database(input.value);
+  counter.auto_save();
+});
 
 const results = computed(() => {
   if (!Array.isArray(allItemsTodo.value)) {
@@ -80,35 +81,38 @@ const results = computed(() => {
     <EditDatabaseTitle />
     <ButtonCreateDocument />
     <div
-      class="relative flex items-center justify-between w-full gap-0.5 p-0.5 text-xs bg-secondary/4 ring-secondary/60 focus-within:ring-secondary"
+      class="relative grid grid-cols-3 w-full gap-0.5 px-1.5  p-0.5 text-xs bg-secondary/4 ring-secondary/60 focus-within:ring-secondary"
     >
       <div
-        class="relative flex items-center justify-between w-full border-2 hover:border-primary focus-within:border-primary h-7 border-secondary"
+        class="relative flex items-center justify-between w-full h-8 col-span-2 border-2 hover:border-primary focus-within:border-primary border-secondary"
       >
+        <Search class="absolute top-0 left-0 ml-2 h-7 size-3 text-foreground/40" />
         <input
           ref="focusSearch"
           v-model="searchTerm"
           placeholder="Filtrar por título"
-          class="h-6 px-1 outline-none bg-secondary/30 placeholder:text-xs"
+          class="px-1 text-xs outline-none pl-7 h-7 bg-secondary/30 placeholder:text-xs placeholder:text-foreground/40"
         >
         <span
           v-if="!searchTerm"
-          class="flex items-center justify-center h-6 mr-0.5 text-xs w-7"
+          class="absolute top-0 right-0 flex items-center justify-center h-7 scale-90 mr-0.5 text-xs w-7"
         >
           {{ allItemsTodo?.length }}
         </span>
         <button
           v-else
-          class="absolute top-0 right-0 flex items-center justify-center gap-2 px-2 py-1 text-xs bg-secondary hover:outline-none hover:bg-secondary/90"
+          class="absolute top-0 right-0 flex items-center justify-center gap-2 px-2 text-xs font-medium scale-90 ring-1 ring-primary h-7 bg-primary hover:outline-none hover:bg-primary/90 text-primary-foreground focus-visible:ring-2 focus:outline focus:ring-foreground"
           @click="searchTerm = ''"
         >
           <span class="min-w-3">{{ results.length }}</span>
           <CircleX class="size-3" />
         </button>
       </div>
-      <SelectSort />
+      <div class="shrink-0">
+        <SelectSort />
+      </div>
     </div>
-    <div class="overflow-y-auto SidebarProjects overflow-x-hidden h-[calc(100vh-11.5rem)]">
+    <div class="overflow-y-auto pl-1 SidebarProjects overflow-x-hidden h-[calc(100vh-11.5rem)]">
       <ScrollAreaRoot
         class="w-full h-[calc(100vh-11.5rem)] rounded overflow-hidden"
         style="--scrollbar-size: 10px"

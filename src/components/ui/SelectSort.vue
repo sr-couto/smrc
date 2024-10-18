@@ -30,7 +30,7 @@ const sortOption = useStorage("sortItemsBy", "name");
 <template>
   <SelectRoot v-model="sortOption">
     <SelectTrigger
-      class="flex items-center justify-between w-24 px-1 text-xs border min-w-24 h-7 border-secondary shrink-0 bg-background text-secondary-foreground"
+      class="flex items-center justify-between w-full h-8 px-1 text-xs border min-w-24 border-secondary shrink-0 bg-background text-secondary-foreground"
       aria-label="Customise options"
     >
       <SelectValue placeholder="Seleccionar" />

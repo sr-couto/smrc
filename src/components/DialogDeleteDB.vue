@@ -30,8 +30,11 @@ watch(debounced, (v) => {
 
 function clear(){
   counter.clearDatabase();
-  showDeleteModal.value = false
-  toast.success('Base de datos eliminada')
+  setTimeout(() => {
+    toast.success('Base de datos eliminada')
+    showDeleteModal.value = false
+    counter.showSettings = false
+  }, 300);
 }
 
 onMounted(() => {
@@ -42,7 +45,7 @@ onMounted(() => {
 <template>
   <DialogRoot v-model:open="showDeleteModal">
     <DialogTrigger
-      class="flex items-center justify-center gap-2 border size-8 hover:bg-secondary/80 border-primary bg-background"
+      class="flex items-center justify-center gap-2 text-white bg-red-600 border border-red-800 size-8 hover:bg-red-600/80 border-primary hover:outline-red-800"
       aria-label="Update dimensions"
     >
       <Trash class="size-4" />
@@ -79,7 +82,7 @@ onMounted(() => {
           </DialogClose>
           <button
             @click="clear()"
-            class="bg-secondary text-foreground hover:bg-primary/80 text-xs inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-semibold leading-none focus:shadow-[0_0_0_2px] focus:outline-none"
+            class="bg-red-600 text-white hover:bg-red-600/80 text-xs inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-semibold leading-none hover:outline-none focus:outline-none"
           >
             Eliminar
           </button>

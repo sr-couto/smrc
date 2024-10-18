@@ -74,7 +74,7 @@ const toggleTour = () => {
           <ScrollAreaViewport class="w-full h-full">
             <article class="max-w-full p-3 mx-auto prose dark:prose-invert">
               <div class="grid gap-3">
-                <div class="flex-row items-start justify-between hidden gap-3 p-5 border md:flex border-secondary">
+                <div class="flex-row items-start justify-between hidden gap-3 p-3 border md:flex border-secondary">
                   <div
                     class="space-y-0.5"
                     v-auto-animate
@@ -93,7 +93,7 @@ const toggleTour = () => {
                     <PlaneTakeoff class="size-5" />
                   </button>
                 </div>
-                <div class="flex-row items-start justify-between hidden p-5 border sm:flex border-secondary">
+                <div class="flex-row items-start justify-between hidden p-3 border sm:flex border-secondary">
                   <div class="space-y-0.5">
                     <label class="text-sm font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                       Puntero del mouse </label>
@@ -115,7 +115,7 @@ const toggleTour = () => {
                     />
                   </button>
                 </div>
-                <div class="relative flex flex-row items-start justify-between p-5 border border-secondary">
+                <div class="relative flex flex-row items-start justify-between p-3 border border-secondary">
                   <div class="space-y-0.5">
                     <label class="text-sm font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"> Modo
                       de color </label>
@@ -127,8 +127,8 @@ const toggleTour = () => {
                     <ToggleTheme />
                   </div>
                 </div>
-                
-                <div class="flex flex-row items-start justify-between gap-3 p-5 border border-secondary">
+
+                <div class="flex flex-row items-start justify-between gap-3 p-3 border border-secondary">
                   <div class="space-y-0.5">
                     <label class="text-sm font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                       Generar json exportable al iniciar la aplicación.</label>
@@ -144,11 +144,14 @@ const toggleTour = () => {
                     <DatabaseZap class="size-5" />
                   </button>
                 </div>
-                <div class="flex flex-row items-start justify-between gap-3 p-5 border border-primary">
-                  <div class="space-y-0.5">
-                    <label class="text-sm font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Eliminar la base de datos </label>
-                  </div>
+                <h4 class="mt-3 mb-0 text-red-600">
+                  Atención!
+                </h4>
+                <div class="flex flex-row items-center justify-between gap-3 p-3 border border-red-600">
+                  <label
+                    class="text-sm font-medium text-red-600 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Eliminar la base de datos </label>
                   <DialogDeleteDB />
                 </div>
               </div>

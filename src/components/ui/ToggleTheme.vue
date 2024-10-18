@@ -1,5 +1,5 @@
 <script setup>
-import { useColorMode, useStorage } from "@vueuse/core";
+import { useColorMode, useStorage, useFavicon, useDark } from "@vueuse/core";
 import {
   DropdownMenuRoot,
   DropdownMenuContent,
@@ -9,7 +9,7 @@ import {
 } from "radix-vue";
 import { SunMedium, Moon } from "lucide-vue-next";
 import Tooltip from "@/components/ui/Tooltip.vue";
-import { onMounted } from "vue";
+import { computed, onMounted } from "vue";
 import { useCounterStore } from "@/stores/counter";
 const counter = useCounterStore();
 
@@ -17,6 +17,22 @@ const mode = useColorMode();
 
 const colorTheme = useStorage("theme", "theme-blue");
 
+const isDark = useDark()
+
+console.log(isDark)
+
+const favicon = computed(() => {
+  // Extract the color from the theme (e.g., "rose", "blue", etc.)
+  const theme = colorTheme.value.replace("theme-", ""); 
+
+  // Construct the favicon name based on the theme and dark mode
+  return isDark.value ? `${theme}-dark.png` : `${theme}-light.png`;
+});
+
+useFavicon(favicon, {
+  baseUrl: '/',
+  rel: 'icon',
+})
 
 const toggleColorTheme = (theme) => {
   document.body.classList.remove(colorTheme.value);

@@ -21,6 +21,7 @@ export const useCounterStore = defineStore("counter", () => {
   const shareOptions = shallowRef([]);
   const content_editable = shallowRef(true);
   const editor = shallowRef(null);
+  const showSettings = shallowRef(null);
 
   function toggleEditable() {
     content_editable.value = !content_editable.value;
@@ -96,7 +97,7 @@ export const useCounterStore = defineStore("counter", () => {
           fixed: !isFixed
         },
       });
-      toast(isFixed ? `"${item.project_data.name}" se ha desfijado` : `"${item.project_data.name}" se ha fijado`);
+      // toast(isFixed ? `"${item.project_data.name}" se ha desfijado` : `"${item.project_data.name}" se ha fijado`);
     } catch (error) {
       handleError("Error al marcar el proyecto", error);
     }
@@ -129,13 +130,11 @@ export const useCounterStore = defineStore("counter", () => {
   }
 
   async function delete_project() {
-    if (window.confirm("¿Eliminar proyecto?")) {
-      try {
-        await db.projects.delete(loaded_id.value);
-        clear_editor();
-      } catch (error) {
-        handleError("Error al eliminar el proyecto", error);
-      }
+    try {
+      await db.projects.delete(loaded_id.value);
+      clear_editor();
+    } catch (error) {
+      handleError("Error al eliminar el proyecto", error);
     }
   }
 
@@ -183,25 +182,17 @@ export const useCounterStore = defineStore("counter", () => {
 
   async function import_database(file) {
     const replace_file_name = file.name.replace(".json", "");
-    const confirmationMessage = file_name.value
-      ? `¿Desea reemplazar la DB ${file_name.value} con la información de ${replace_file_name}?`
-      : `¿Desea reemplazar la DB con la información de ${replace_file_name}?`;
-    if (window.confirm(confirmationMessage)) {
-      try {
-        await clearDatabase();
-        await importInto(db, file, {});
-        update_database(replace_file_name);
-        showImportModal.value = false
-        clear_editor();
-        searchTerm.value = "";
-        toast.success('Base de datos importada')
-      } catch (error) {
-        toast.error('Error al importar la base de datos')
-        handleError("Error al importar la base de datos", error);
-      }
-    } else {
-      console.log("Import cancel");
-      toast.warning('Importación cancelada')
+    try {
+      await clearDatabase();
+      await importInto(db, file, {});
+      update_database(replace_file_name);
+      showImportModal.value = false
+      clear_editor();
+      searchTerm.value = "";
+      toast.success('Base de datos importada')
+    } catch (error) {
+      toast.error('Error al importar la base de datos')
+      handleError("Error al importar la base de datos", error);
     }
   }
 
@@ -246,7 +237,7 @@ export const useCounterStore = defineStore("counter", () => {
   }
 
   const allItemsTodo = useObservable(
-    liveQuery(() => 
+    liveQuery(() =>
       db.projects
         .reverse()
         .toArray()
@@ -255,7 +246,7 @@ export const useCounterStore = defineStore("counter", () => {
   );
 
   const allItemsChecked = useObservable(
-    liveQuery(() => 
+    liveQuery(() =>
       db.projects
         .reverse()
         .toArray()
@@ -294,6 +285,7 @@ export const useCounterStore = defineStore("counter", () => {
     showShareModal,
     content_editable,
     toggleEditable,
+    showSettings,  
     clearDatabase
   };
 });

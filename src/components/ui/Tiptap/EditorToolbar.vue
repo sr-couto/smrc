@@ -588,8 +588,8 @@ function addIframe() {
 
 .headingSelector {
   /* grid-column: 1 / 8; */
-  @apply flex items-center !text-xs !justify-between bg-secondary/20 px-2;
-  @apply !min-w-40 !max-w-40 w-full;
+  @apply flex items-center !text-xs !justify-between bg-background px-2;
+  @apply !min-w-40 !max-w-40 w-full hover:z-10;
 }
 
 .button-group button {
@@ -598,7 +598,7 @@ function addIframe() {
 }
 
 .control-group button {
-  @apply disabled:text-foreground/30;
+  @apply disabled:text-foreground/30 disabled:pointer-events-none;
 }
 
 .button-group button.is-active {

@@ -6,7 +6,7 @@ import SplitterGroup from "./ui/SplitterGroup.vue";
 </script>
 
 <template>
-  <div class="w-full min-h-screen pl-8 lg:pl-0 bg-background ">
+  <div class="Document">
     <SplitterGroup>
       <DocumentEditor />
     </SplitterGroup>
@@ -14,3 +14,10 @@ import SplitterGroup from "./ui/SplitterGroup.vue";
     <DialogProjects />
   </div>
 </template>
+
+
+<style scoped>
+.Document {
+  @apply w-full min-h-screen pl-9 lg:pl-0 bg-background 
+}
+</style>

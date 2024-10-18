@@ -101,15 +101,16 @@ function onDrop(files) {
               >
                 Cancelar
               </AlertDialogCancel>
+              <AlertDialogCancel class="absolute top-0 size-6 flex justify-center items-center m-3 right-0 z-[999] text-foreground">
+                <X class="size-4" />
+              </AlertDialogCancel>
             </div>
           </div>
         </div>
-        <AlertDialogCancel class="fixed top-0 m-3 right-0 z-[999] text-foreground">
-          <X />
-        </AlertDialogCancel>
       </AlertDialogContent>
     </AlertDialogPortal>
   </AlertDialogRoot>
+  
 </template>
 
 <style>

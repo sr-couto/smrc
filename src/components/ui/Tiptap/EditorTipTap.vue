@@ -32,7 +32,7 @@ import TableHeader from "@tiptap/extension-table-header";
 import TableRow from "@tiptap/extension-table-row";
 import Youtube from "@tiptap/extension-youtube";
 import CodeBlockShiki from "tiptap-extension-code-block-shiki";
-import addIframe from "@/components/ui/Tiptap/addIframe";
+
 import "medium-zoom/dist/style.css";
 
 const showEditorToolbar = useStorage("editorToolbar", true);
@@ -62,7 +62,6 @@ onMounted(() => {
       StarterKit.configure({
         codeBlock: false,
       }),
-      addIframe,
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
       TextStyle.configure({ types: [ListItem.name] }),
       Image.configure({
@@ -241,13 +240,6 @@ onBeforeUnmount(() => {
   @apply bg-primary/20 break-all px-1 mx-0.5 rounded py-0.5 text-foreground ring-1 ring-primary/30 font-light text-sm;
 }
 
-.tiptap .iframe-wrapper {
-  @apply w-full h-[calc(100vh-5rem)] overflow-hidden m-0 ring-0 bg-secondary border-primary/50 relative;
-}
-
-.tiptap .iframe-wrapper iframe {
-  @apply w-full h-[calc(100vh-5rem)] bg-secondary;
-}
 
 
 
@@ -309,19 +301,15 @@ html.dark .shiki span {
   background-color: var(--purple-contrast);
 }
 
-.tiptap [data-youtube-video] {
-  @apply max-w-3xl mx-auto bg-primary/20 relative;
+.tiptap iframe {
+  @apply max-w-3xl mx-auto bg-primary/20 relative w-full h-96 aspect-video z-20;
 }
 
-.tiptap [data-youtube-video]::before {
+/* 
+.tiptap ::before {
   content: "";
   @apply absolute inset-0 bg-primary/10 mix-blend-multiply z-10 animate-pulse;
-}
-
-.tiptap [data-youtube-video] iframe {
-  @apply w-full h-64 aspect-video relative z-20;
-  /* aspect-ratio: 16/9; */
-}
+} */
 
 .tiptap table {
   border-collapse: collapse;
@@ -392,21 +380,6 @@ html.dark .shiki span {
   @apply ring-2 ring-primary;
 }
 
-.video-wrapper {
-  position: relative;
-  padding-bottom: 56.25%;
-  padding-top: 10px;
-  height: 0;
-  overflow: hidden;
-}
-
-.video-wrapper iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
 
 .tiptap li p {
   @apply m-0;
